@@ -9,6 +9,17 @@
 #include "./misc.h"
 #include <stdlib.h>
 
+#ifdef _WIN32
+
+#include <winsock2.h>
+#pragma comment(lib,"ws2_32.lib")
+
+#else
+
+#include <arpa/inet.h>
+
+#endif
+
 int is_reliable(int reliability)
 {
 	if (reliability == RELIABILITY_RELIABLE ||
@@ -57,7 +68,7 @@ int is_sequenced_or_ordered(int reliability)
 misc_frame_t get_misc_frame(binary_stream_t *stream)
 {
 	misc_frame_t frame;
-	unsigned char flag = get_unsigned_byte(stream);
+	unsigned char flags = get_unsigned_byte(stream);
 	frame.reliability = (flags & 0xf4) >> 5;
 	frame.is_fragmented = flags & 0x10;
 	frame.stream.offset = 0;

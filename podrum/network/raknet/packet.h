@@ -75,7 +75,7 @@ typedef struct {
 
 typedef struct {
 	unsigned long sequence_number;
-	misc_frame_t *frames
+	misc_frame_t *frames;
 	int frames_count;
 } packet_frame_set_t;
 
@@ -118,15 +118,11 @@ packet_open_connection_request_1_t get_packet_open_connection_request_1(binary_s
 
 packet_open_connection_reply_1_t get_packet_open_connection_reply_1(binary_stream_t *stream);
 
-packet_open_connection_request_1_t get_packet_open_connection_request_2(binary_stream_t *stream);
+packet_open_connection_request_2_t get_packet_open_connection_request_2(binary_stream_t *stream);
 
-packet_open_connection_reply_1_t get_packet_open_connection_reply_2(binary_stream_t *stream);
+packet_open_connection_reply_2_t get_packet_open_connection_reply_2(binary_stream_t *stream);
 
 packet_acknowledge_t get_packet_acknowledge(binary_stream_t *stream);
-
-packet_ack_t get_packet_ack(binary_stream_t *stream);
-
-packet_nack_t get_packet_nack(binary_stream_t *stream);
 
 packet_frame_set_t get_packet_frame_set(binary_stream_t *stream);
 
@@ -155,10 +151,6 @@ void put_packet_open_connection_request_2(packet_open_connection_request_1_t pac
 void put_packet_open_connection_reply_2(packet_open_connection_reply_1_t packet, binary_stream_t *stream);
 
 void put_packet_acknowledge(packet_acknowledge_t packet, int lost, binary_stream_t *stream);
-
-void put_packet_ack(packet_acknowledge_t packet, binary_stream_t *stream);
-
-void put_packet_nack(packet_acknowledge_t packet, binary_stream_t *stream);
 
 void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream);
 

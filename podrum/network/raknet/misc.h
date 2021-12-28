@@ -9,7 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_MISC_H
 #define PODRUM_NETWORK_RAKNET_MISC_H
 
-#include <cbinarystream.h>
+#include <cbinarystream/binary_stream.h>
 
 #define RELIABILITY_UNRELIABLE 0x00
 #define RELIABILITY_UNRELIABLE_SEQUENCED 0x01
