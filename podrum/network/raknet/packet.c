@@ -254,9 +254,72 @@ void put_packet_open_connection_reply_2(packet_open_connection_reply_2_t packet,
 	put_unsigned_byte(packet.use_encryption, stream);
 }
 
-void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream_t *stream);
+void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream_t *stream)
+{
+	// Sort out the sequence numbers
+	int temp = 0;
+	int i;
+	for (i = 0; i < packet.sequence_numbers_count; ++i) {
+		int j;
+		for (j = i + 1; j < packet.sequence_numbers_count; ++j) {
+			if (packet.sequence_numbers[i] > packet.sequence_numbers[j]) {
+				temp = packet.sequence_numbers[i];
+				packet.sequence_numbers[i] = packet.sequence_numbers[j];
+				packet.sequence_numbers[j] = temp;
+			}
+		}
+	}
+	put_unsigned_byte(opts != 0 ? ID_NACK : ID_ACK, stream);
+	binary_stream_t temp_stream;
+	temp_stream.offset = 0;
+	temp_stream.size = 0;
+	temp_stream.buffer = malloc(0);
+	int record_count = 0;
+	if (packet.sequence_numbers_count > 0) {
+		long start_index = packet.sequence_numbers[0];
+		long end_index = packet.sequence_numbers[0];
+		for (i = 1; i < packet.sequence_numbers_count; ++i) {
+			long current_index = packet.sequence_numbers[i];
+			long diff = current_index - end_index;
+			if (diff == 1) {
+				end_index = current_index;
+			} else if (diff > 1) {
+				if (start_index == end_index) {
+					put_unsigned_byte(0x01, stream);
+					put_unsigned_triad_le(start_index, stream);
+					start_index = end_index = current_index;
+				} else {
+					put_unsigned_byte(0x00, stream);
+					put_unsigned_triad_le(start_index, stream);
+					put_unsigned_triad_le(end_index, stream);
+					start_index = end_index = current_index;
+				}
+				++record_count;
+			}
+		}
+		if (start_index == end_index) {
+			put_unsigned_byte(0x01, stream);
+			put_unsigned_triad_le(start_index, stream);
+		} else {
+			put_unsigned_byte(0x00, stream);
+			put_unsigned_triad_le(start_index, stream);
+			put_unsigned_triad_le(end_index, stream);
+		}
+		++record_count;
+		put_unsigned_short_be(record_count, stream);
+		put_bytes(temp_stream.buffer, temp_stream.size, stream);
+	}
+}
 
-void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream);
+void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_FRAME_SET, stream);
+	put_unsigned_triad_le(packet.sequence_number, stream);
+	int i;
+	for (i = 0; i < packet.frames_count; ++i) {
+		put_misc_frame(packet.frames[i], stream);
+	}
+}
 
 void put_packet_connection_request(packet_connection_request_t packet, binary_stream_t *stream);
 
