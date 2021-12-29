@@ -28,6 +28,13 @@
 #define ID_CONNECTED_PING 0x01
 #define ID_CONNECTED_PONG 0x03
 
+char MAGIC[16] = {
+	0x00, 0xff, 0xff, 0x00,
+	0xfe, 0xfe, 0xfe, 0xfe,
+	0xfd, 0xfd, 0xfd, 0xfd,
+	0x12, 0x34, 0x56, 0x78
+};
+
 typedef struct {
 	unsigned long long timestamp;
 	unsigned long long guid;
@@ -136,7 +143,7 @@ packet_connected_ping_t get_packet_connected_ping(binary_stream_t *stream);
 
 packet_connected_pong_t get_packet_connected_pong(binary_stream_t *stream);
 
-void put_packet_unconnected_ping(packet_unconnected_ping_t packet, binary_stream_t *stream);
+void put_packet_unconnected_ping(packet_unconnected_ping_t packet, int opts, binary_stream_t *stream);
 
 void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream_t *stream);
 
@@ -146,11 +153,11 @@ void put_packet_open_connection_request_1(packet_open_connection_request_1_t pac
 
 void put_packet_open_connection_reply_1(packet_open_connection_reply_1_t packet, binary_stream_t *stream);
 
-void put_packet_open_connection_request_2(packet_open_connection_request_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_request_2(packet_open_connection_request_2_t packet, binary_stream_t *stream);
 
-void put_packet_open_connection_reply_2(packet_open_connection_reply_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_reply_2(packet_open_connection_reply_2_t packet, binary_stream_t *stream);
 
-void put_packet_acknowledge(packet_acknowledge_t packet, int lost, binary_stream_t *stream);
+void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream_t *stream);
 
 void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream);
 

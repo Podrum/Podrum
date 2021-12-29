@@ -7,6 +7,7 @@
  */
 
 #include "./packet.h"
+#include <string.h>
 
 packet_unconnected_ping_t get_packet_unconnected_ping(binary_stream_t *stream)
 {
@@ -142,29 +143,118 @@ packet_connection_request_t get_packet_connection_request(binary_stream_t *strea
 	return packet;
 }
 
-packet_connection_request_accepted_t get_packet_connection_request_accepted(binary_stream_t *stream);
+packet_connection_request_accepted_t get_packet_connection_request_accepted(binary_stream_t *stream)
+{
+	packet_connection_request_accepted_t packet;
+	++stream->offset; // PACKET_ID
+	packet.address = get_misc_address(stream);
+	packet.system_index = get_unsigned_short_be(stream);
+	int i;
+	for (i = 0; i < 20; ++i) {
+		packet.system_addresses[i] = get_misc_address(stream);
+	}
+	packet.request_timestamp = get_unsigned_long_be(stream);
+	packet.reply_timestamp = get_unsigned_long_be(stream);
+	return packet;
+}
 
-packet_new_incoming_connection_t get_packet_new_incoming_connection(binary_stream_t *stream);
+packet_new_incoming_connection_t get_packet_new_incoming_connection(binary_stream_t *stream)
+{
+	packet_new_incoming_connection_t packet;
+	++stream->offset; // PACKET_ID
+	packet.address = get_misc_address(stream);
+	int i;
+	for (i = 0; i < 20; ++i) {
+		packet.system_addresses[i] = get_misc_address(stream);
+	}
+	packet.request_timestamp = get_unsigned_long_be(stream);
+	packet.reply_timestamp = get_unsigned_long_be(stream);
+	return packet;
+}
 
-packet_connected_ping_t get_packet_connected_ping(binary_stream_t *stream);
+packet_connected_ping_t get_packet_connected_ping(binary_stream_t *stream)
+{
+	packet_connected_ping_t packet;
+	++stream->offset; // PACKET_ID
+	packet.timestamp = get_unsigned_long_be(stream);
+	return packet;
+}
 
-packet_connected_pong_t get_packet_connected_pong(binary_stream_t *stream);
+packet_connected_pong_t get_packet_connected_pong(binary_stream_t *stream)
+{
+	packet_connected_pong_t packet;
+	++stream->offset; // PACKET_ID
+	packet.request_timestamp = get_unsigned_long_be(stream);
+	packet.reply_timestamp = get_unsigned_long_be(stream);
+	return packet;
+}
 
-void put_packet_unconnected_ping(packet_unconnected_ping_t packet, binary_stream_t *stream);
+void put_packet_unconnected_ping(packet_unconnected_ping_t packet, int opts, binary_stream_t *stream)
+{
+	put_unsigned_byte(opts != 0 ? ID_UNCONNECTED_PING_OPEN_CONNECTIONS : ID_UNCONNECTED_PONG, stream);
+	put_unsigned_long_be(packet.timestamp, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_unsigned_long_be(packet.guid, stream);
+}
 
-void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream_t *stream);
+void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_UNCONNECTED_PONG, stream);
+	put_unsigned_long_be(packet.timestamp, stream);
+	put_unsigned_long_be(packet.guid, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_bytes(packet.message, strlen(packet.message), stream);
+}
 
-void put_packet_incompatible_protocol_version(packet_incompatible_protocol_version_t packet, binary_stream_t *stream);
+void put_packet_incompatible_protocol_version(packet_incompatible_protocol_version_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_INCOMPATIBLE_PROTOCOL_VERSION, stream);
+	put_unsigned_byte(packet.protocol_version, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_unsigned_long_be(packet.guid, stream);
+}
 
-void put_packet_open_connection_request_1(packet_open_connection_request_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_request_1(packet_open_connection_request_1_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_OPEN_CONNECTION_REQUEST_1, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_unsigned_byte(packet.protocol_version, stream);
+	int pad_bytes = packet.mtu_size - 18;
+	int i;
+	for (i = 0; i < pad_bytes; ++i) {
+		put_unsigned_byte(0x00, stream);
+	}
+}
 
-void put_packet_open_connection_reply_1(packet_open_connection_reply_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_reply_1(packet_open_connection_reply_1_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_OPEN_CONNECTION_REPLY_1, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_unsigned_long_be(packet.guid, stream);
+	put_unsigned_byte(packet.use_security, stream);
+	put_unsigned_short_be(packet.mtu_size, stream);
+}
 
-void put_packet_open_connection_request_2(packet_open_connection_request_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_request_2(packet_open_connection_request_2_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_OPEN_CONNECTION_REQUEST_2, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_misc_address(packet.address, stream);
+	put_unsigned_short_be(packet.mtu_size, stream);
+	put_unsigned_long_be(packet.guid, stream);
+}
 
-void put_packet_open_connection_reply_2(packet_open_connection_reply_1_t packet, binary_stream_t *stream);
+void put_packet_open_connection_reply_2(packet_open_connection_reply_2_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_OPEN_CONNECTION_REPLY_2, stream);
+	put_bytes(MAGIC, 16, stream);
+	put_unsigned_long_be(packet.guid, stream);
+	put_misc_address(packet.address, stream);
+	put_unsigned_short_be(packet.mtu_size, stream);
+	put_unsigned_byte(packet.use_encryption, stream);
+}
 
-void put_packet_acknowledge(packet_acknowledge_t packet, int lost, binary_stream_t *stream);
+void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream_t *stream);
 
 void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream);
 

@@ -113,7 +113,7 @@ misc_address_t get_misc_address(binary_stream_t *stream)
 	return address;
 }
 
-void set_misc_frame(misc_frame_t frame, binary_stream_t *stream)
+void put_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 {
 	put_unsigned_byte((frame.reliability << 5) | (frame.is_fragmented != 0 ? 0x10 : 0x00), stream);
 	put_unsigned_short_be(frame.stream.size << 3, stream);
@@ -139,7 +139,7 @@ void set_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 	}
 }
 
-void set_misc_address(misc_address_t address, binary_stream_t *stream)
+void put_misc_address(misc_address_t address, binary_stream_t *stream)
 {
 	put_unsigned_char(address.version, stream);
 	if (address.version == 4) {
