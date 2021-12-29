@@ -321,12 +321,47 @@ void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream)
 	}
 }
 
-void put_packet_connection_request(packet_connection_request_t packet, binary_stream_t *stream);
+void put_packet_connection_request(packet_connection_request_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_CONNECTION_REQUEST, stream);
+	put_unsigned_long_be(packet.guid, stream);
+	put_unsigned_long_be(packet.timestamp, stream);
+}
 
-void put_packet_connection_request_accepted(packet_connection_request_accepted_t packet, binary_stream_t *stream);
+void put_packet_connection_request_accepted(packet_connection_request_accepted_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_CONNECTION_REQUEST_ACCEPTED, stream);
+	put_misc_address(packet.address, stream);
+	put_unsigned_short_be(packet.system_index, stream);
+	int i;
+	for (i = 0; i < 20; ++i) {
+		put_misc_address(packet.system_addresses[i], stream);
+	}
+	put_unsigned_long_be(packet.request_timestamp, stream);
+	put_unsigned_long_be(packet.reply_timestamp, stream);
+}
 
-void put_packet_new_incoming_connection(packet_new_incoming_connection_t packet, binary_stream_t *stream);
+void put_packet_new_incoming_connection(packet_new_incoming_connection_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_NEW_INCOMING_CONNECTION, stream);
+	put_misc_address(packet.address, stream);
+	int i;
+	for (i = 0; i < 20; ++i) {
+		put_misc_address(packet.system_addresses[i], stream);
+	}
+	put_unsigned_long_be(packet.request_timestamp, stream);
+	put_unsigned_long_be(packet.reply_timestamp, stream);
+}
 
-void put_packet_connected_ping(packet_connected_ping_t packet, binary_stream_t *stream);
+void put_packet_connected_ping(packet_connected_ping_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_CONNECTED_PING, stream);
+	put_unsigned_long_be(packet.timestamp, stream);
+}
 
-void put_packet_connected_pong(packet_connected_pong_t packet, binary_stream_t *stream);
+void put_packet_connected_pong(packet_connected_pong_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_CONNECTED_PONG, stream);
+	put_unsigned_long_be(packet.request_timestamp, stream);
+	put_unsigned_long_be(packet.reply_timestamp, stream);
+}
