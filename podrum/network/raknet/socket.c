@@ -82,9 +82,16 @@ socket_data_t receive_data(int sock)
 	memset(&s_address, 0, sizeof(s_address));
 	socklen_t s_address_length = sizeof(s_address);
 	int length = recvfrom(sock, result.stream.buffer, result.stream.size, 0, (struct sockaddr *) &s_address, &s_address_length);
-	if (length < result.stream.size) {
+	if (length != -1 && length < result.stream.size) {
 		result.stream.size = length;
 		result.stream.buffer = realloc(result.stream.buffer, result.stream.size);
+	} else if (length == -1) {
+		result.stream.size = 0;
+		result.stream.buffer = realloc(result.stream.buffer, 0);
+		result.address.version = 4;
+		result.address.address = "0.0.0.0";
+		result.address.port = 0;
+		return result;
 	}
 	result.address.version = 4;
 	result.address.address = inet_ntoa(s_address.sin_addr);

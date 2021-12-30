@@ -3,8 +3,23 @@
 #include "./misc/logger.h"
 #include "./network/raknet/socket.h"
 
+#ifdef _WIN32
+
+#include <windows.h>
+
+#endif
+
 int main(int argc, char *argv[])
 {
+	#ifdef _WIN32
+
+	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
+	DWORD dw_mode = 0;
+	GetConsoleMode(handle, &dw_mode);
+	dw_mode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+	SetConsoleMode(handle, dw_mode);
+
+	#endif
 	misc_address_t address;
 	address.version = 4;
 	address.address = "0.0.0.0";
@@ -17,7 +32,7 @@ int main(int argc, char *argv[])
 		if (socket_data.stream.size > 0) {
 			int i;
 			for (i = 0; i < socket_data.stream.size; ++i) {
-				printf("0x%X ", socket_data.stream.buffer[i]);
+				printf("0x%X ", socket_data.stream.buffer[i] & 0xff);
 			}
 			free(socket_data.stream.buffer);
 			printf("\n");
