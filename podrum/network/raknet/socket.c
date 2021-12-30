@@ -23,6 +23,7 @@
 
 #include "./socket.h"
 #include <stdlib.h>
+#include <string.h>
 #include <sys/types.h>
 
 int set_nb_socket(int fd, int is_nb)

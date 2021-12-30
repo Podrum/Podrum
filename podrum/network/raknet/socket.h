@@ -19,7 +19,7 @@ typedef struct {
 
 int set_nb_socket(int fd, int is_nb);
 
-int create_socket(char *address, int port);
+int create_socket(misc_address_t address);
 
 socket_data_t receive_data(int sock);
 
