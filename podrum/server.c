@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "./misc/logger.h"
+#include "command/commandmanager.h"
 #include "./network/raknet/socket.h"
 
 #ifdef _WIN32
@@ -26,6 +27,7 @@ int main(int argc, char *argv[])
 	address.port = 19132;
 	int sock = create_socket(address);
 	socket_data_t socket_data;
+	init_commands();
 	log_info("Podrum started up!");
 	while (1) {
 		socket_data = receive_data(sock);
