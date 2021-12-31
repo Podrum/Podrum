@@ -59,6 +59,7 @@ void delete_command(char *name)
     }
 }
 
-void execute(){
-	return;
+void execute(char *name, int argc, char **argv){
+    command_t command = get_command(name);
+    command.executor(argc, argv);
 }

@@ -6,7 +6,10 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-typedef void (*exec_t)(char *args[]);
+#ifndef PODRUM_COMMAND_COMMANDMANAGER_H
+#define PODRUM_COMMAND_COMMANDMANAGER_H
+
+typedef void (*exec_t)(int argc, char **argv);
 
 typedef struct{
     char *name;
@@ -22,6 +25,13 @@ typedef struct{
 } command_map_t;
 
 void register_command(command_t command);
+
 void init_commands();
+
 command_t get_command(char *name);
+
 void delete_command(char *name);
+
+void execute(char *name, int argc, char **argv);
+
+#endif

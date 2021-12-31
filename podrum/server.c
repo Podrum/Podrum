@@ -18,7 +18,12 @@
 
 #endif
 
-int main(int argc, char *argv[])
+void cmd1executor(int argc, char **argv)
+{
+	log_info("Function called!");
+}
+
+int main(int argc, char **argv)
 {
 	#ifdef _WIN32
 
@@ -37,6 +42,12 @@ int main(int argc, char *argv[])
 	socket_data_t socket_data;
 	init_commands();
 	log_info("Podrum started up!");
+	command_t cmd1;
+	cmd1.name = "help";
+	cmd1.executor = cmd1executor;
+	register_command(cmd1);
+	char **args = malloc(0);
+	execute("help", 0, args);
 	while (1) {
 		socket_data = receive_data(sock);
 		if (socket_data.stream.size > 0) {
