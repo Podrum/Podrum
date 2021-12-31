@@ -11,6 +11,7 @@
 #include "./misc/logger.h"
 #include "command/commandmanager.h"
 #include "./network/raknet/socket.h"
+#include "./worker.h"
 
 #ifdef _WIN32
 
@@ -21,6 +22,13 @@
 void cmd1executor(int argc, char **argv)
 {
 	log_info("Function called!");
+}
+
+RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
+{
+	while (1) {
+		printf("SPAM!\n");
+	}
 }
 
 int main(int argc, char **argv)
@@ -48,6 +56,7 @@ int main(int argc, char **argv)
 	register_command(cmd1);
 	char **args = malloc(0);
 	execute("help", 0, args);
+	worker_t worker = create_worker(test);
 	while (1) {
 		socket_data = receive_data(sock);
 		if (socket_data.stream.size > 0) {
