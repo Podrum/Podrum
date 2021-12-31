@@ -11,7 +11,6 @@
 worker_t create_worker(worker_executor_t executor)
 {
 	#ifdef _WIN32
-
 	DWORD thread_id;
 
 	return CreateThread(NULL, 0, executor, NULL, 0, &thread_id);

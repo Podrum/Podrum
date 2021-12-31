@@ -29,6 +29,7 @@ RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
 	while (1) {
 		printf("SPAM!\n");
 	}
+	return 0;
 }
 
 int main(int argc, char **argv)
@@ -48,14 +49,20 @@ int main(int argc, char **argv)
 	address.port = 19132;
 	int sock = create_socket(address);
 	socket_data_t socket_data;
-	init_commands();
+	command_manager_t command_manager;
+	command_manager.commands = malloc(0);
+	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
 	command_t cmd1;
 	cmd1.name = "help";
+	cmd1.description = "help command";
+	cmd1.flags = 0;
+	cmd1.prefix = "/help";
+	cmd1.usage = "<page>";
 	cmd1.executor = cmd1executor;
-	register_command(cmd1);
+	register_command(cmd1, &command_manager);
 	char **args = malloc(0);
-	execute("help", 0, args);
+	execute("help", 0, args, &command_manager);
 	worker_t worker = create_worker(test);
 	while (1) {
 		socket_data = receive_data(sock);

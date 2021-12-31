@@ -6,32 +6,26 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
+#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "commandmanager.h"
 
-command_t *commands;
-int command_count = 0;
-
-void init_commands()
+void register_command(command_t command, command_manager_t *manager)
 {
-    commands = malloc(0);
+    ++manager->commands_count;
+    manager->commands = realloc(manager->commands, manager->commands_count * sizeof(command_t));
+    manager->commands[manager->commands_count - 1] = command;
 }
 
-void register_command(command_t command)
-{
-    command_count++;
-    commands = realloc(commands, command_count * sizeof(command_t));
-    commands[command_count - 1] = command;
-}
-
-command_t get_command(char *name)
+command_t get_command(char *name, command_manager_t *manager)
 {
     int i;
-    for (i = 0; i < command_count; ++i)
+    for (i = 0; i < manager->commands_count; ++i)
     {
-        if (commands[i].name == name)
+        if (strcmp(manager->commands[i].name, name) == 0)
         {
-            return commands[i];
+            return manager->commands[i];
         }
     }
     command_t noret;
@@ -39,27 +33,30 @@ command_t get_command(char *name)
     return noret;
 }
 
-void delete_command(char *name)
+void delete_command(char *name, command_manager_t *manager)
 {
-    if (command_count != 0){
+    if (manager->commands_count != 0){
         int i;
         command_t *temp_commands;
-        temp_commands = malloc(command_count - 1);
+        temp_commands = malloc(manager->commands_count - 1);
         int offset = 0;
-        for (i = 0; i < command_count; ++i)
+        for (i = 0; i < manager->commands_count; ++i)
         {
-            if (commands[i].name != name)
+            if (strcmp(manager->commands[i].name, name) != 0)
             {
-                temp_commands[offset] = commands[i];
+                temp_commands[offset] = manager->commands[i];
                 ++offset;
             }
         }
-        free(commands);
-        commands = temp_commands;
+        free(manager->commands);
+        manager->commands = temp_commands;
+		--manager->commands_count;
     }
 }
 
-void execute(char *name, int argc, char **argv){
-    command_t command = get_command(name);
-    command.executor(argc, argv);
+void execute(char *name, int argc, char **argv, command_manager_t *manager){
+    command_t command = get_command(name, manager);
+	if ((command.flags & 7) == 0) { // check if this command exists
+		command.executor(argc, argv);
+	}
 }
