@@ -10,5 +10,8 @@
 #define PODRUM_NETWORK_RAKNET_HANDLER_H
 
 #include "./packet.h"
+#include "./rakserver.h"
+
+binary_stream_t handle_unconneted_ping(binary_stream_t *stream, raknet_server_t *server);
 
 #endif

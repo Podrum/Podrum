@@ -8,6 +8,7 @@
 
 #include "./misc.h"
 #include <stdlib.h>
+#include <stdio.h>
 
 #ifdef _WIN32
 
@@ -141,10 +142,10 @@ void put_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 
 void put_misc_address(misc_address_t address, binary_stream_t *stream)
 {
-	put_unsigned_char(address.version, stream);
+	put_unsigned_byte(address.version, stream);
 	if (address.version == 4) {
 		int packed_address = ~inet_addr(address.address);
 		put_int_le(packed_address, stream);
-		put_unsigned_short(address.port, stream);
+		put_unsigned_short_be(address.port, stream);
 	}
 }

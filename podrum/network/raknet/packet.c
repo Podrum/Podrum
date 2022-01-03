@@ -8,6 +8,7 @@
 
 #include "./packet.h"
 #include <string.h>
+#include <stdlib.h>
 
 packet_unconnected_ping_t get_packet_unconnected_ping(binary_stream_t *stream)
 {
@@ -30,7 +31,7 @@ packet_unconnected_pong_t get_packet_unconnected_pong(binary_stream_t *stream)
 	packet.message = malloc(length + 1);
 	int i;
 	for (i = 0; i < length; ++i) {
-		packet.message[i] = get_unsigned_byte_be(stream);
+		packet.message[i] = get_unsigned_byte(stream);
 	}
 	packet.message[i] = 0x00;
 	return packet;
@@ -203,6 +204,7 @@ void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream
 	put_unsigned_long_be(packet.timestamp, stream);
 	put_unsigned_long_be(packet.guid, stream);
 	put_bytes(MAGIC, 16, stream);
+	put_short_be(strlen(packet.message), stream);
 	put_bytes(packet.message, strlen(packet.message), stream);
 }
 

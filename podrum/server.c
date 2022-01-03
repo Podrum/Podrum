@@ -10,7 +10,7 @@
 #include <stdlib.h>
 #include "./misc/logger.h"
 #include "command/commandmanager.h"
-#include "./network/raknet/socket.h"
+#include "./network/raknet/rakserver.h"
 #include "./worker.h"
 
 #ifdef _WIN32
@@ -43,12 +43,15 @@ int main(int argc, char **argv)
 	SetConsoleMode(handle, dw_mode);
 
 	#endif
-	misc_address_t address;
-	address.version = 4;
-	address.address = "0.0.0.0";
-	address.port = 19132;
-	int sock = create_socket(address);
-	socket_data_t socket_data;
+	raknet_server_t raknet_server;
+	raknet_server.address.version = 4;
+	raknet_server.address.address = "0.0.0.0";
+	raknet_server.address.port = 19132;
+	raknet_server.sock = create_socket(raknet_server.address);
+	raknet_server.connections = malloc(0);
+	raknet_server.connections_count = 0;
+	raknet_server.guid = 13253860892328930865;
+	raknet_server.message = "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	command_manager_t command_manager;
 	command_manager.commands = malloc(0);
 	command_manager.commands_count = 0;
@@ -63,17 +66,9 @@ int main(int argc, char **argv)
 	register_command(cmd1, &command_manager);
 	char **args = malloc(0);
 	execute("help", 0, args, &command_manager);
-	worker_t worker = create_worker(test);
+	//worker_t worker = create_worker(test);
 	while (1) {
-		socket_data = receive_data(sock);
-		if (socket_data.stream.size > 0) {
-			int i;
-			for (i = 0; i < socket_data.stream.size; ++i) {
-				printf("0x%X ", socket_data.stream.buffer[i] & 0xff);
-			}
-			free(socket_data.stream.buffer);
-			printf("\n");
-		}
+		handle_packet(&raknet_server);
 	}
 	return 0;
 }

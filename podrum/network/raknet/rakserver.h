@@ -6,11 +6,12 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#ifndef PODRUM_NETWORK_RAKNET_SERVER_H
-#define PODRUM_NETWORK_RAKNET_SERVER_H
+#ifndef PODRUM_NETWORK_RAKNET_RAKSERVER_H
+#define PODRUM_NETWORK_RAKNET_RAKSERVER_H
 
 #include "./misc.h"
 #include "./packet.h"
+#include "./socket.h"
 
 typedef struct {
 	unsigned short mtu_size;
@@ -55,6 +56,10 @@ typedef struct {
 	on_diconnect_notification_executor_t on_diconnect_notification_executor;
 	connection_t *connections;
 	int connections_count;
-} server_t
+	char *message;
+	int sock;
+} raknet_server_t;
+
+void handle_packet(raknet_server_t *server);
 
 #endif
