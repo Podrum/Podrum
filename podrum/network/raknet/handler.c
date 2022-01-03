@@ -94,3 +94,21 @@ binary_stream_t handle_connected_ping(binary_stream_t *stream, raknet_server_t *
 	put_packet_connected_pong(connected_pong, &output_stream);
 	return output_stream;
 }
+
+void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
+{
+	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
+	int i;
+	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
+		// do stuff
+	}
+}
+
+void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
+{
+	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
+	int i;
+	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
+		// do stuff
+	}
+}

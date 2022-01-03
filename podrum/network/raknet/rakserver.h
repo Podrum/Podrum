@@ -69,6 +69,8 @@ void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsi
 
 void remove_raknet_connection(misc_address_t address, raknet_server_t *server);
 
+connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *server);
+
 void handle_raknet_packet(raknet_server_t *server);
 
 #endif

@@ -86,6 +86,17 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 	}
 }
 
+connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *server)
+{
+	int i;
+	for (i = 0; i < server->connections_count; ++i) {
+		if ((server->connections[i].address.port == address.port) && (strcmp(server->connections[i].address.address, address.address) == 0)) {
+			return (&(server->connections[i]));
+		}
+	}
+	return NULL;
+}
+
 void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
