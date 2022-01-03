@@ -95,6 +95,7 @@ misc_frame_t get_misc_frame(binary_stream_t *stream)
 	{
 		frame.stream.buffer[i] = get_unsigned_byte(stream);
 	}
+	return frame;
 }
 
 misc_address_t get_misc_address(binary_stream_t *stream)

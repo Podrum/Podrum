@@ -60,6 +60,12 @@ typedef struct {
 	int sock;
 } raknet_server_t;
 
+char has_connection(misc_address_t address, raknet_server_t *server);
+
+void add_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server);
+
+void remove_connection(misc_address_t address, raknet_server_t *server);
+
 void handle_packet(raknet_server_t *server);
 
 #endif

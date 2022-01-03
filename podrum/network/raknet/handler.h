@@ -14,4 +14,8 @@
 
 binary_stream_t handle_unconneted_ping(binary_stream_t *stream, raknet_server_t *server);
 
+binary_stream_t handle_open_connection_request_1(binary_stream_t *stream, raknet_server_t *server);
+
+binary_stream_t handle_open_connection_request_2(binary_stream_t *stream, raknet_server_t *server, misc_address_t address);
+
 #endif
