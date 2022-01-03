@@ -8,6 +8,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "./misc/logger.h"
 #include "command/commandmanager.h"
 #include "./network/raknet/rakserver.h"
@@ -52,6 +53,7 @@ int main(int argc, char **argv)
 	raknet_server.connections_count = 0;
 	raknet_server.guid = 13253860892328930865;
 	raknet_server.message = "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
+	raknet_server.epoch = time(NULL) * 1000;
 	command_manager_t command_manager;
 	command_manager.commands = malloc(0);
 	command_manager.commands_count = 0;
@@ -68,7 +70,7 @@ int main(int argc, char **argv)
 	execute("help", 0, args, &command_manager);
 	//worker_t worker = create_worker(test);
 	while (1) {
-		handle_packet(&raknet_server);
+		handle_raknet_packet(&raknet_server);
 	}
 	return 0;
 }

@@ -12,7 +12,12 @@
 #include <stdlib.h>
 #include <time.h>
 
-char has_connection(misc_address_t address, raknet_server_t *server)
+double get_raknet_timestamp(raknet_server_t *server)
+{
+	return (time(NULL) * 1000) - server->epoch;
+}
+
+char has_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
 	int i;
 	for (i = 0; i < server->connections_count; ++i) {
@@ -23,9 +28,9 @@ char has_connection(misc_address_t address, raknet_server_t *server)
 	return 0;
 }
 
-void add_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server)
+void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server)
 {
-	if (has_connection(address, server) == 0) {
+	if (has_raknet_connection(address, server) == 0) {
 		printf("%s:%d connected!\n", address.address, address.port);
 		connection_t connection;
 		connection.ack_queue = malloc(0);
@@ -62,9 +67,9 @@ void add_connection(misc_address_t address, unsigned short mtu_size, unsigned lo
 	}
 }
 
-void remove_connection(misc_address_t address, raknet_server_t *server)
+void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
-	if (has_connection(address, server) == 1) {
+	if (has_raknet_connection(address, server) == 1) {
 		int i;
 		connection_t *connections = malloc((server->connections_count - 1) * sizeof(connection_t));
 		int connections_count = 0;
@@ -80,7 +85,7 @@ void remove_connection(misc_address_t address, raknet_server_t *server)
 	}
 }
 
-void handle_packet(raknet_server_t *server)
+void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
 	if (socket_data.stream.size > 0) {

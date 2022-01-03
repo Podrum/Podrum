@@ -58,14 +58,17 @@ typedef struct {
 	int connections_count;
 	char *message;
 	int sock;
+	double epoch;
 } raknet_server_t;
 
-char has_connection(misc_address_t address, raknet_server_t *server);
+double get_raknet_timestamp(raknet_server_t *server);
 
-void add_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server);
+char has_raknet_connection(misc_address_t address, raknet_server_t *server);
 
-void remove_connection(misc_address_t address, raknet_server_t *server);
+void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server);
 
-void handle_packet(raknet_server_t *server);
+void remove_raknet_connection(misc_address_t address, raknet_server_t *server);
+
+void handle_raknet_packet(raknet_server_t *server);
 
 #endif

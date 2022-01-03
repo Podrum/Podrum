@@ -53,6 +53,6 @@ binary_stream_t handle_open_connection_request_2(binary_stream_t *stream, raknet
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_open_connection_reply_2(open_connection_reply_2, &output_stream);
-	add_connection(address, open_connection_request_2.mtu_size, open_connection_request_2.guid, server);
+	add_raknet_connection(address, open_connection_request_2.mtu_size, open_connection_request_2.guid, server);
 	return output_stream;
 }
