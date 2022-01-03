@@ -5,3 +5,10 @@
                        If you do not you can get it from:
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
+
+#ifndef PODRUM_NETWORK_RAKNET_HANDLER_H
+#define PODRUM_NETWORK_RAKNET_HANDLER_H
+
+#include "./packet.h"
+
+#endif

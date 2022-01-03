@@ -5,3 +5,5 @@
                        If you do not you can get it from:
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
+
+#include "./server.h"

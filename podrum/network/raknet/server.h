@@ -6,6 +6,9 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
+#ifndef PODRUM_NETWORK_RAKNET_SERVER_H
+#define PODRUM_NETWORK_RAKNET_SERVER_H
+
 #include "./misc.h"
 #include "./packet.h"
 
@@ -28,6 +31,10 @@ typedef struct {
 	int ack_queue_size;
 	unsigned int *nack_queue;
 	int nack_queue_size;
+	misc_frame_t *frame_holder;
+	int frame_holder_size;
+	packet_frame_set_t *recovery_queue;
+	int recovery_queue_size;
 	unsigned long compound_id;
 	double ms;
 	double last_receive_time;
@@ -35,7 +42,9 @@ typedef struct {
 } connection_t;
 
 typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t connection);
+
 typedef void (*on_new_incomming_connection_executor_t)(connection_t connection);
+
 typedef void (*on_diconnect_notification_executor_t)(connection_t connection);
 
 typedef struct {
@@ -47,3 +56,5 @@ typedef struct {
 	connection_t *connections;
 	int connections_count;
 } server_t
+
+#endif
