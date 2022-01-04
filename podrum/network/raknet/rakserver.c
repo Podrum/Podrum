@@ -97,6 +97,71 @@ connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *ser
 	return NULL;
 }
 
+char is_in_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+{
+	int i;
+	for (i = 0; i < connection->recovery_queue_size; ++i) {
+		if (connection->recovery_queue->sequence_number == sequence_number) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *connection)
+{
+	if (is_in_raknet_recovery_queue(frame_set.sequence_number, connection) == 1) {
+		++connection->recovery_queue_size;
+		connection->recovery_queue = realloc(connection->recovery_queue, connection->recovery_queue_size * sizeof(packet_frame_set_t));
+		connection->recovery_queue[connection->recovery_queue_size - 1] = frame_set;
+	}
+}
+
+void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+{
+	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
+		int i;
+		packet_frame_set_t *recovery_queue = malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
+		int recovery_queue_size = 0;
+		for (i = 0; i < connection->recovery_queue_size; ++i) {
+			if (connection->recovery_queue->sequence_number != sequence_number) {
+				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
+				++recovery_queue_size;
+			}
+		}
+		free(connection->recovery_queue);
+		connection->recovery_queue = recovery_queue;
+		--connection->recovery_queue_size;
+	}
+}
+
+packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+{
+	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
+		int i;
+		packet_frame_set_t *recovery_queue = malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
+		int recovery_queue_size = 0;
+		packet_frame_set_t output_frame_set;
+		for (i = 0; i < connection->recovery_queue_size; ++i) {
+			if (connection->recovery_queue->sequence_number != sequence_number) {
+				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
+				++recovery_queue_size;
+			} else {
+				output_frame_set = connection->recovery_queue[i];
+			}
+		}
+		free(connection->recovery_queue);
+		connection->recovery_queue = recovery_queue;
+		--connection->recovery_queue_size;
+		return output_frame_set;
+	}
+	packet_frame_set_t output_frame_set;
+	output_frame_set.frames = NULL;
+	output_frame_set.frames_count = 0;
+	output_frame_set.sequence_number = 0;
+	return output_frame_set;
+}
+
 void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
@@ -130,6 +195,16 @@ void handle_raknet_packet(raknet_server_t *server)
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
 			memset(&output_socket_data, 0, sizeof(socket_data_t));
+		} else if ((socket_data.stream.buffer[0] & 0xff) == ID_ACK) {
+			connection_t *connection = get_raknet_connection(socket_data.address, server);
+			if (connection != NULL) {
+				handle_ack((&(socket_data.stream)), server, connection);
+			}
+		} else if ((socket_data.stream.buffer[0] & 0xff) == ID_NACK) {
+			connection_t *connection = get_raknet_connection(socket_data.address, server);
+			if (connection != NULL) {
+				handle_nack((&(socket_data.stream)), server, connection);
+			}
 		} else {
 			printf("0x%X\n", socket_data.stream.buffer[0] & 0xff);
 		}

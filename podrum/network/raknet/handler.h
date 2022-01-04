@@ -22,4 +22,8 @@ binary_stream_t handle_connection_request(binary_stream_t *stream, raknet_server
 
 binary_stream_t handle_connected_ping(binary_stream_t *stream, raknet_server_t *server);
 
+void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection);
+
+void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection);
+
 #endif

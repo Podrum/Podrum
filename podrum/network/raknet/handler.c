@@ -64,9 +64,9 @@ binary_stream_t handle_connection_request(binary_stream_t *stream, raknet_server
 	connection_request_accepted.address = address;
 	connection_request_accepted.system_index = 0;
 	misc_address_t system_address;
-	address.address = "255.255.255.255";
-	address.port = 19132;
-	address.version = 4;
+	system_address.address = "255.255.255.255";
+	system_address.port = 19132;
+	system_address.version = 4;
 	int i;
 	for (i = 0; i < 20; ++i) {
 		connection_request_accepted.system_addresses[i] = system_address;
@@ -100,7 +100,7 @@ void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *
 	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
 	int i;
 	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
-		// do stuff
+		deduct_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 	}
 }
 
@@ -109,6 +109,20 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
 	int i;
 	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
-		// do stuff
+		packet_frame_set_t frame_set = pop_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
+		if (frame_set.sequence_number != 0 && frame_set.frames_count != 0 && frame_set.frames != NULL) {
+			frame_set.sequence_number = connection->sender_sequence_number;
+			socket_data_t output_socket_data;
+			output_socket_data.stream.buffer = malloc(0);
+			output_socket_data.stream.offset = 0;
+			output_socket_data.stream.size = 0;
+			put_packet_frame_set(frame_set, ((&(output_socket_data.stream))));
+			output_socket_data.address = connection->address;
+			send_data(server->sock, output_socket_data);
+			free(output_socket_data.stream.buffer);
+			memset(&output_socket_data, 0, sizeof(socket_data_t));
+			free(frame_set.frames);
+			memset(&frame_set, 0, sizeof(packet_frame_set_t));
+		}
 	}
 }

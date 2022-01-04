@@ -71,6 +71,14 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server);
 
 connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *server);
 
+char is_in_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection);
+
+void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *connection);
+
+void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection);
+
+packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection);
+
 void handle_raknet_packet(raknet_server_t *server);
 
 #endif
