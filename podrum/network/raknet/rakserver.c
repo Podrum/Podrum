@@ -205,8 +205,11 @@ void handle_raknet_packet(raknet_server_t *server)
 			if (connection != NULL) {
 				handle_nack((&(socket_data.stream)), server, connection);
 			}
-		} else {
-			printf("0x%X\n", socket_data.stream.buffer[0] & 0xff);
+		} else if ((socket_data.stream.buffer[0] & ID_FRAME_SET) != 0) {
+			connection_t *connection = get_raknet_connection(socket_data.address, server);
+			if (connection != NULL) {
+				handle_frame_set((&(socket_data.stream)), server, connection);
+			}
 		}
 	}
 	free(socket_data.stream.buffer);

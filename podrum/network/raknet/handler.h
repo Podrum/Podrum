@@ -26,4 +26,6 @@ void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *
 
 void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection);
 
+void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection);
+
 #endif
