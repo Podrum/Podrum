@@ -260,6 +260,26 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server)
 	}
 }
 
+void send_raknet_queue(connection_t *connection, raknet_server_t *server)
+{
+	if (connection->queue.frames_count > 0) {
+		connection->queue.sequence_number = connection->sender_sequence_number;
+		++connection->sender_sequence_number;
+		append_raknet_recovery_queue(connection->queue, connection);
+		socket_data_t output_socket_data;
+		output_socket_data.stream.buffer = malloc(0);
+		output_socket_data.stream.offset = 0;
+		output_socket_data.stream.size = 0;
+		put_packet_frame_set(connection->queue, 1, ((&(output_socket_data.stream))));
+		output_socket_data.address = connection->address;
+		send_data(server->sock, output_socket_data);
+		free(output_socket_data.stream.buffer);
+		memset(&output_socket_data, 0, sizeof(socket_data_t));
+		connection->queue.frames = malloc(0); // mark
+		connection->queue.frames_count = 0;
+	}
+}
+
 void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
@@ -316,5 +336,6 @@ void handle_raknet_packet(raknet_server_t *server)
 	for (i = 0; i < server->connections_count; ++i) {
 		send_raknet_ack_queue((&(server->connections[i])), server);
 		send_raknet_nack_queue((&(server->connections[i])), server);
+		send_raknet_queue((&(server->connections[i])), server);
 	}
 }
