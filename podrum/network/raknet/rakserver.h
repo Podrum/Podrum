@@ -79,6 +79,10 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 
 packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection);
 
+void send_raknet_ack_queue(connection_t *connection, raknet_server_t *server);
+
+void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server);
+
 void handle_raknet_packet(raknet_server_t *server);
 
 #endif

@@ -127,8 +127,34 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 	}
 }
 
+void handle_frame(misc_frame_t frame, connection_t *connection)
+{
+	printf("0x%X\n", frame.stream.buffer[0] & 0xff);
+}
+
 void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
 {
 	packet_frame_set_t frame_set = get_packet_frame_set(stream);
+	deduct_raknet_nack_queue(frame_set.sequence_number, connection);
+	append_raknet_ack_queue(frame_set.sequence_number, connection);
+	unsigned long hole_size = frame_set.sequence_number - connection->receiver_sequence_number;
+	if (hole_size > 0) {
+		unsigned long sequence_number;
+		for (sequence_number = connection->receiver_sequence_number + 1; sequence_number < hole_size; ++sequence_number) {
+			append_raknet_nack_queue(sequence_number, connection);
+		}
+	}
+	connection->receiver_sequence_number = frame_set.sequence_number;
 	int i;
+	for (i = 0; i < frame_set.frames_count; ++i) {
+		if (is_reliable(frame_set.frames[i].reliability) == 0) {
+			handle_frame(frame_set.frames[i], connection);
+		} else {
+			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
+			if (hole_size == 0) {
+				handle_frame(frame_set.frames[i], connection);
+				++connection->receiver_reliable_frame_index;
+			}
+		}
+	}
 }
