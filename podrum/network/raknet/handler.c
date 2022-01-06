@@ -103,6 +103,7 @@ void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *
 	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
 		deduct_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 	}
+	free(acknowledge.sequence_numbers);
 }
 
 void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
@@ -126,6 +127,7 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 			memset(&frame_set, 0, sizeof(packet_frame_set_t));
 		}
 	}
+	free(acknowledge.sequence_numbers);
 }
 
 void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *connection);
@@ -163,19 +165,17 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		output_frame.reliability = RELIABILITY_UNRELIABLE;
 		output_frame.stream = handle_connection_request(((&(frame.stream))), server, connection->address);
 		add_to_raknet_queue(output_frame, connection, server);
-		free(frame.stream.buffer);
-		memset(&frame, 0, sizeof(misc_frame_t));
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTED_PING) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;
 		output_frame.reliability = RELIABILITY_UNRELIABLE;
 		output_frame.stream = handle_connected_ping(((&(frame.stream))), server);
 		add_to_raknet_queue(output_frame, connection, server);
-		free(frame.stream.buffer);
-		memset(&frame, 0, sizeof(misc_frame_t));
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_DISCONNECT_NOTIFICATION) {
 		disconnect_raknet_client(connection, server);
 	}
+	free(frame.stream.buffer);
+	memset(&frame, 0, sizeof(misc_frame_t));
 }
 
 void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
@@ -203,4 +203,5 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 			}
 		}
 	}
+	free(frame_set.frames);
 }
