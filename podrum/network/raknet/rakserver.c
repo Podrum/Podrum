@@ -106,7 +106,7 @@ char is_in_raknet_recovery_queue(unsigned long sequence_number, connection_t *co
 
 void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *connection)
 {
-	if (is_in_raknet_recovery_queue(frame_set.sequence_number, connection) == 1) {
+	if (is_in_raknet_recovery_queue(frame_set.sequence_number, connection) == 0) {
 		++connection->recovery_queue_size;
 		connection->recovery_queue = realloc(connection->recovery_queue, connection->recovery_queue_size * sizeof(packet_frame_set_t));
 		connection->recovery_queue[connection->recovery_queue_size - 1] = frame_set;
@@ -171,7 +171,7 @@ char is_in_raknet_ack_queue(unsigned long sequence_number, connection_t *connect
 
 void append_raknet_ack_queue(unsigned long sequence_number, connection_t *connection)
 {
-	if (is_in_raknet_ack_queue(sequence_number, connection) == 1) {
+	if (is_in_raknet_ack_queue(sequence_number, connection) == 0) {
 		++connection->ack_queue_size;
 		connection->ack_queue = realloc(connection->ack_queue, connection->ack_queue_size * sizeof(long));
 		connection->ack_queue[connection->ack_queue_size - 1] = sequence_number;
@@ -209,7 +209,7 @@ void deduct_raknet_nack_queue(unsigned long sequence_number, connection_t *conne
 
 void append_raknet_nack_queue(unsigned long sequence_number, connection_t *connection)
 {
-	if (is_in_raknet_nack_queue(sequence_number, connection) == 1) {
+	if (is_in_raknet_nack_queue(sequence_number, connection) == 0) {
 		++connection->nack_queue_size;
 		connection->nack_queue = realloc(connection->nack_queue, connection->nack_queue_size * sizeof(long));
 		connection->nack_queue[connection->nack_queue_size - 1] = sequence_number;
@@ -251,7 +251,7 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server)
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		connection->ack_queue = realloc(connection->nack_queue, 0);
+		connection->nack_queue = realloc(connection->nack_queue, 0);
 		connection->nack_queue_size = 0;
 	}
 }
@@ -312,6 +312,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 {
+	printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff);
 	if (is_ordered(frame.reliability) == 1) {
 		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
 		++connection->sender_order_channels[frame.order_channel];

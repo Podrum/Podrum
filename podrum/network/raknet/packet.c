@@ -287,25 +287,25 @@ void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream
 				end_index = current_index;
 			} else if (diff > 1) {
 				if (start_index == end_index) {
-					put_unsigned_byte(0x01, stream);
-					put_unsigned_triad_le(start_index, stream);
+					put_unsigned_byte(0x01, &temp_stream);
+					put_unsigned_triad_le(start_index, &temp_stream);
 					start_index = end_index = current_index;
 				} else {
-					put_unsigned_byte(0x00, stream);
-					put_unsigned_triad_le(start_index, stream);
-					put_unsigned_triad_le(end_index, stream);
+					put_unsigned_byte(0x00, &temp_stream);
+					put_unsigned_triad_le(start_index, &temp_stream);
+					put_unsigned_triad_le(end_index, &temp_stream);
 					start_index = end_index = current_index;
 				}
 				++record_count;
 			}
 		}
 		if (start_index == end_index) {
-			put_unsigned_byte(0x01, stream);
-			put_unsigned_triad_le(start_index, stream);
+			put_unsigned_byte(0x01, &temp_stream);
+			put_unsigned_triad_le(start_index, &temp_stream);
 		} else {
-			put_unsigned_byte(0x00, stream);
-			put_unsigned_triad_le(start_index, stream);
-			put_unsigned_triad_le(end_index, stream);
+			put_unsigned_byte(0x00, &temp_stream);
+			put_unsigned_triad_le(start_index, &temp_stream);
+			put_unsigned_triad_le(end_index, &temp_stream);
 		}
 		++record_count;
 		put_unsigned_short_be(record_count, stream);

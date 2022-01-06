@@ -127,9 +127,29 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 	}
 }
 
-void handle_frame(misc_frame_t frame, connection_t *connection)
+void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *connection)
 {
-	printf("0x%X\n", frame.stream.buffer[0] & 0xff);
+	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
+	if (frame.is_fragmented != 0) {
+		return;
+	}
+	if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTION_REQUEST) {
+		misc_frame_t output_frame;
+		output_frame.is_fragmented = 0;
+		output_frame.reliability = RELIABILITY_UNRELIABLE;
+		output_frame.stream = handle_connection_request(((&(frame.stream))), server, connection->address);
+		add_to_raknet_queue(output_frame, connection, server);
+		free(frame.stream.buffer);
+		memset(&frame, 0, sizeof(misc_frame_t));
+	} else if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTED_PING) {
+		misc_frame_t output_frame;
+		output_frame.is_fragmented = 0;
+		output_frame.reliability = RELIABILITY_UNRELIABLE;
+		output_frame.stream = handle_connected_ping(((&(frame.stream))), server);
+		add_to_raknet_queue(output_frame, connection, server);
+		free(frame.stream.buffer);
+		memset(&frame, 0, sizeof(misc_frame_t));
+	}
 }
 
 void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
@@ -148,11 +168,11 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	int i;
 	for (i = 0; i < frame_set.frames_count; ++i) {
 		if (is_reliable(frame_set.frames[i].reliability) == 0) {
-			handle_frame(frame_set.frames[i], connection);
+			handle_frame(frame_set.frames[i], server, connection);
 		} else {
 			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
 			if (hole_size == 0) {
-				handle_frame(frame_set.frames[i], connection);
+				handle_frame(frame_set.frames[i], server, connection);
 				++connection->receiver_reliable_frame_index;
 			}
 		}

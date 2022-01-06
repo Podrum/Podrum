@@ -71,18 +71,18 @@ misc_frame_t get_misc_frame(binary_stream_t *stream)
 	misc_frame_t frame;
 	unsigned char flags = get_unsigned_byte(stream);
 	frame.reliability = (flags & 0xf4) >> 5;
-	frame.is_fragmented = flags & 0x10;
+	frame.is_fragmented = (flags & 0x10) > 0;
 	frame.stream.offset = 0;
 	frame.stream.size = get_unsigned_short_be(stream) >> 3;
 	frame.stream.buffer = malloc(frame.stream.size);
 	if (is_reliable(frame.reliability) == 1) {
-		frame.reliable_frame_index = get_unsigned_triad_be(stream);
+		frame.reliable_frame_index = get_unsigned_triad_le(stream);
 	}
 	if (is_sequenced(frame.reliability) == 1) {
-		frame.sequenced_frame_index = get_unsigned_triad_be(stream);
+		frame.sequenced_frame_index = get_unsigned_triad_le(stream);
 	}
 	if (is_sequenced_or_ordered(frame.reliability) == 1) {
-		frame.ordered_frame_index = get_unsigned_triad_be(stream);
+		frame.ordered_frame_index = get_unsigned_triad_le(stream);
 		frame.order_channel = get_unsigned_byte(stream);
 	}
 	if (frame.is_fragmented != 0) {
@@ -120,13 +120,13 @@ void put_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 	put_unsigned_byte((frame.reliability << 5) | (frame.is_fragmented != 0 ? 0x10 : 0x00), stream);
 	put_unsigned_short_be(frame.stream.size << 3, stream);
 	if (is_reliable(frame.reliability) == 1) {
-		put_unsigned_triad_be(frame.reliable_frame_index, stream);
+		put_unsigned_triad_le(frame.reliable_frame_index, stream);
 	}
 	if (is_sequenced(frame.reliability) == 1) {
-		put_unsigned_triad_be(frame.sequenced_frame_index, stream);
+		put_unsigned_triad_le(frame.sequenced_frame_index, stream);
 	}
 	if (is_sequenced_or_ordered(frame.reliability) == 1) {
-		put_unsigned_triad_be(frame.ordered_frame_index, stream);
+		put_unsigned_triad_le(frame.ordered_frame_index, stream);
 		put_unsigned_byte(frame.order_channel, stream);
 	}
 	if (frame.is_fragmented != 0) {
