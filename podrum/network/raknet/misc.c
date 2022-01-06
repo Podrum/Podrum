@@ -150,3 +150,21 @@ void put_misc_address(misc_address_t address, binary_stream_t *stream)
 		put_unsigned_short_be(address.port, stream);
 	}
 }
+
+int get_frame_size(misc_frame_t frame)
+{
+	int size = 3 + frame.stream.size;
+	if (is_reliable(frame.reliability) == 1) {
+		size += 3;
+	}
+	if (is_sequenced(frame.reliability) == 1) {
+		size += 3;
+	}
+	if (is_sequenced_or_ordered(frame.reliability) == 1) {
+		size += 4;
+	}
+	if (frame.is_fragmented != 0) {
+		size += 10;
+	}
+	return size;
+}

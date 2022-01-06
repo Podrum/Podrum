@@ -270,13 +270,47 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 		output_socket_data.stream.buffer = malloc(0);
 		output_socket_data.stream.offset = 0;
 		output_socket_data.stream.size = 0;
-		put_packet_frame_set(connection->queue, 1, ((&(output_socket_data.stream))));
+		put_packet_frame_set(connection->queue, ((&(output_socket_data.stream))));
 		output_socket_data.address = connection->address;
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
 		connection->queue.frames = malloc(0); // mark
 		connection->queue.frames_count = 0;
+	}
+}
+
+void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection, raknet_server_t *server)
+{
+	if (opts != 0) {
+		packet_frame_set_t frame_set;
+		frame_set.frames = malloc(sizeof(misc_frame_t));
+		frame_set.frames_count = 1;
+		frame_set.frames[0] = frame;
+		frame_set.sequence_number = connection->sender_sequence_number;
+		++connection->sender_sequence_number;
+		append_raknet_recovery_queue(frame_set, connection);
+		socket_data_t output_socket_data;
+		output_socket_data.stream.buffer = malloc(0);
+		output_socket_data.stream.offset = 0;
+		output_socket_data.stream.size = 0;
+		put_packet_frame_set(frame_set, ((&(output_socket_data.stream))));
+		output_socket_data.address = connection->address;
+		send_data(server->sock, output_socket_data);
+		free(output_socket_data.stream.buffer);
+		memset(&output_socket_data, 0, sizeof(socket_data_t));
+	} else {
+		int size = get_frame_size(frame);
+		int i;
+		for (i = 0; i < connection->queue.frames_count; ++i) {
+			size += get_frame_size(connection->queue.frames[i]);
+		}
+		if (size >= connection->mtu_size) {
+			send_raknet_queue(connection, server);
+		}
+		++connection->queue.frames_count;
+		connection->queue.frames = realloc(connection->queue.frames, connection->queue.frames_count * sizeof(misc_frame_t));
+		connection->queue.frames[connection->queue.frames_count - 1] = frame;
 	}
 }
 

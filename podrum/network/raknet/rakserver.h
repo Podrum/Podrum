@@ -85,6 +85,8 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server);
 
 void send_raknet_queue(connection_t *connection, raknet_server_t *server);
 
+void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection, raknet_server_t *server);
+
 void handle_raknet_packet(raknet_server_t *server);
 
 #endif
