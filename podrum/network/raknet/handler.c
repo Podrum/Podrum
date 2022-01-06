@@ -29,7 +29,7 @@ binary_stream_t handle_open_connection_request_1(binary_stream_t *stream, raknet
 {
 	packet_open_connection_request_1_t open_connection_request_1 = get_packet_open_connection_request_1(stream);
 	packet_open_connection_reply_1_t open_connection_reply_1;
-	open_connection_reply_1.mtu_size = open_connection_request_1.mtu_size;
+	open_connection_reply_1.mtu_size = 28 + open_connection_request_1.mtu_size; // IP header (20) + UDP header (8) + Payload (x)
 	open_connection_reply_1.use_security = 0;
 	open_connection_reply_1.guid = server->guid;
 	binary_stream_t output_stream;

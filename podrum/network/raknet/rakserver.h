@@ -21,10 +21,6 @@ typedef struct {
 	unsigned long receiver_sequence_number;
 	unsigned long sender_reliable_frame_index;
 	unsigned long receiver_reliable_frame_index;
-	unsigned long sender_sequenced_frame_index;
-	unsigned long receiver_sequenced_frame_index;
-	unsigned long sender_ordered_frame_index;
-	unsigned long receiver_ordered_frame_index;
 	unsigned char sender_order_channels[32];
 	unsigned char sender_sequence_channels[32];
 	packet_frame_set_t queue;
@@ -86,6 +82,8 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server);
 void send_raknet_queue(connection_t *connection, raknet_server_t *server);
 
 void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection, raknet_server_t *server);
+
+void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server);
 
 void handle_raknet_packet(raknet_server_t *server);
 

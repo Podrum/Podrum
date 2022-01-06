@@ -50,18 +50,14 @@ void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsi
 		connection.queue.frames = malloc(0);
 		connection.queue.frames_count = 0;
 		connection.queue.sequence_number = 0;
-		connection.receiver_ordered_frame_index = 0;
 		connection.receiver_reliable_frame_index = 0;
 		connection.receiver_sequence_number = 0;
-		connection.receiver_sequenced_frame_index = 0;
 		connection.recovery_queue = malloc(0);
 		connection.recovery_queue_size = 0;
 		memset(connection.sender_order_channels, 0, sizeof(connection.sender_order_channels));
-		connection.sender_ordered_frame_index = 0;
 		connection.sender_reliable_frame_index = 0;
 		memset(connection.sender_sequence_channels, 0, sizeof(connection.sender_order_channels));
 		connection.sender_sequence_number = 0;
-		connection.sender_sequenced_frame_index = 0;
 		++server->connections_count;
 		server->connections = realloc(server->connections, server->connections_count * sizeof(connection_t));
 		server->connections[server->connections_count - 1] = connection;
@@ -311,6 +307,60 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 		++connection->queue.frames_count;
 		connection->queue.frames = realloc(connection->queue.frames, connection->queue.frames_count * sizeof(misc_frame_t));
 		connection->queue.frames[connection->queue.frames_count - 1] = frame;
+	}
+}
+
+void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
+{
+	if (is_ordered(frame.reliability) == 1) {
+		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
+		++connection->sender_order_channels[frame.order_channel];
+	} else if (is_sequenced(frame.reliability) == 1) {
+		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
+		frame.ordered_frame_index = connection->sender_sequence_channels[frame.order_channel];
+		++connection->sender_sequence_channels[frame.order_channel];
+	}
+	int max_size = get_frame_size(frame) - 60; 
+	if (max_size > connection->mtu_size) {
+		int frame_count = (frame.stream.size / max_size) + 1;
+		int pad_bytes = (frame_count * max_size) - frame.stream.size;
+		int i;
+		for (i = 0; i < frame_count; ++i) {
+			misc_frame_t compound_entry;
+			compound_entry.is_fragmented = 1;
+			compound_entry.reliability = frame.reliability;
+			compound_entry.compound_id = connection->compound_id;
+			compound_entry.compound_size = frame_count;
+			compound_entry.index = i;
+			compound_entry.stream.offset = 0;
+			if (i == (frame_count - 1)) {
+				compound_entry.stream.size = max_size - pad_bytes;
+			} else {
+				compound_entry.stream.size = max_size;
+			}
+			compound_entry.stream.buffer = get_bytes(compound_entry.stream.size, ((&(frame.stream))));
+			if (is_reliable(frame.reliability) == 1) {
+				compound_entry.reliable_frame_index = connection->sender_reliable_frame_index;
+				++connection->sender_reliable_frame_index;
+			}
+			if (is_sequenced_or_ordered(frame.reliability) == 1) {
+				compound_entry.ordered_frame_index = frame.ordered_frame_index;
+				compound_entry.order_channel = frame.order_channel;
+			}
+			if (is_sequenced(frame.reliability) == 1) {
+				compound_entry.sequenced_frame_index = frame.sequenced_frame_index;
+			}
+			append_raknet_frame(compound_entry, 1, connection, server);
+		}
+		++connection->compound_id;
+		free(frame.stream.buffer);
+		memset(&frame, 0, sizeof(misc_frame_t));
+	} else {
+		if (is_reliable(frame.reliability) == 1) {
+			frame.reliable_frame_index = connection->sender_reliable_frame_index;
+			++connection->sender_reliable_frame_index;
+		}
+		append_raknet_frame(frame, 0, connection, server);
 	}
 }
 
