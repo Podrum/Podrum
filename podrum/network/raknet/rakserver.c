@@ -123,6 +123,8 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 			if (connection->recovery_queue[i].sequence_number != sequence_number) {
 				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
 				++recovery_queue_size;
+			} else {
+				free(connection->recovery_queue[i].frames);
 			}
 		}
 		free(connection->recovery_queue);
@@ -363,6 +365,81 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		}
 		append_raknet_frame(frame, 0, connection, server);
 	}
+}
+
+char is_in_raknet_frame_holder(unsigned short compound_id, unsigned long index, connection_t *connection)
+{
+	int i;
+	for (i = 0; i < connection->frame_holder_size; ++i) {
+		if (connection->frame_holder[i].compound_id == compound_id && connection->frame_holder[i].index == index) {
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection)
+{
+	if (is_in_raknet_frame_holder(frame.compound_id, frame.index, connection) == 0) {
+		++connection->frame_holder_size;
+		connection->frame_holder = realloc(connection->frame_holder, connection->frame_holder_size * sizeof(misc_frame_t));
+		connection->frame_holder[connection->frame_holder_size - 1] = frame;
+	}
+}
+
+int get_raknet_compound_size(unsigned short compound_id, connection_t *connection)
+{
+	int size = 0;
+	int i;
+	for (i = 0; i < connection->frame_holder_size; ++i) {
+		if (connection->frame_holder[i].compound_id == compound_id) {
+			++size;
+		}
+	}
+	return size;
+}
+
+misc_frame_t pop_raknet_compound_entry(unsigned short compound_id, unsigned long index, connection_t *connection)
+{
+	if (is_in_raknet_frame_holder(compound_id, index, connection) == 1) {
+		misc_frame_t *frame_holder = malloc((connection->frame_holder_size - 1) * sizeof(misc_frame_t));
+		int frame_holder_size = 0;
+		misc_frame_t output_frame;
+		int i;
+		for (i = 0; i < connection->frame_holder_size; ++i) {
+			if (connection->frame_holder[i].compound_id != compound_id || connection->frame_holder[i].index != index) {
+				frame_holder[frame_holder_size] = connection->frame_holder[i];
+				++frame_holder_size;
+			} else {
+				output_frame = connection->frame_holder[i];
+			}
+		}
+		free(connection->frame_holder);
+		connection->frame_holder = frame_holder;
+		--connection->frame_holder_size;
+		return output_frame;
+	}
+	misc_frame_t frame;
+	frame.is_fragmented = 0;
+	frame.reliability = 0;
+	frame.stream.buffer = NULL;
+	frame.stream.size = 0;
+	frame.stream.offset = 0;
+	return frame;
+}
+
+void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
+{
+	misc_frame_t frame;
+	frame.is_fragmented = 0;
+	frame.reliability = 0;
+	frame.stream.buffer = malloc(1);
+	frame.stream.size = 1;
+	frame.stream.offset = 0;
+	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
+	append_raknet_frame(frame, 1, connection, server);
+	remove_raknet_connection(connection->address, server);
+	exit(0); // Temp exit when disconnect
 }
 
 void handle_raknet_packet(raknet_server_t *server)

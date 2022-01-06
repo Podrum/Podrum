@@ -3,3 +3,7 @@
 *.out
 *.so
 *.dll
+*.ilk
+*.exp
+*.pdb
+*.lib

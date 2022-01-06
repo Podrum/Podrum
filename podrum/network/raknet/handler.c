@@ -8,6 +8,7 @@
 
 #include "./handler.h"
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 binary_stream_t handle_unconneted_ping(binary_stream_t *stream, raknet_server_t *server)
@@ -127,12 +128,35 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 	}
 }
 
+void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *connection);
+
+void handle_fragmented_frame(misc_frame_t frame, raknet_server_t *server, connection_t *connection)
+{
+	append_raknet_frame_holder(frame, connection);
+	if (get_raknet_compound_size(frame.compound_id, connection) == frame.compound_size) {
+		misc_frame_t output_frame;
+		output_frame.is_fragmented = 0;
+		output_frame.stream.buffer = malloc(0);
+		output_frame.stream.offset = 0;
+		output_frame.stream.size = 0;
+		int i;
+		for (i = 0; i < frame.compound_size; ++i) {
+			misc_frame_t compound_entry = pop_raknet_compound_entry(frame.compound_id, i, connection);
+			put_bytes(compound_entry.stream.buffer, compound_entry.stream.size, ((&(output_frame.stream))));
+			free(compound_entry.stream.buffer);
+			memset(&compound_entry, 0, sizeof(misc_frame_t));
+		}
+		handle_frame(output_frame, server, connection);
+	}
+}
+
 void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *connection)
 {
-	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
 	if (frame.is_fragmented != 0) {
+		handle_fragmented_frame(frame, server, connection);
 		return;
 	}
+	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
 	if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTION_REQUEST) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;
@@ -149,6 +173,8 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		add_to_raknet_queue(output_frame, connection, server);
 		free(frame.stream.buffer);
 		memset(&frame, 0, sizeof(misc_frame_t));
+	} else if ((frame.stream.buffer[0] & 0xff) == ID_DISCONNECT_NOTIFICATION) {
+		disconnect_raknet_client(connection, server);
 	}
 }
 

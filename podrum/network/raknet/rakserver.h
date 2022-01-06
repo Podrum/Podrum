@@ -24,9 +24,9 @@ typedef struct {
 	unsigned char sender_order_channels[32];
 	unsigned char sender_sequence_channels[32];
 	packet_frame_set_t queue;
-	unsigned int *ack_queue;
+	unsigned long *ack_queue;
 	int ack_queue_size;
-	unsigned int *nack_queue;
+	unsigned long *nack_queue;
 	int nack_queue_size;
 	misc_frame_t *frame_holder;
 	int frame_holder_size;
@@ -75,6 +75,16 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 
 packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection);
 
+char is_in_raknet_ack_queue(unsigned long sequence_number, connection_t *connection);
+
+void append_raknet_ack_queue(unsigned long sequence_number, connection_t *connection);
+
+char is_in_raknet_nack_queue(unsigned long sequence_number, connection_t *connection);
+
+void deduct_raknet_nack_queue(unsigned long sequence_number, connection_t *connection);
+
+void append_raknet_nack_queue(unsigned long sequence_number, connection_t *connection);
+
 void send_raknet_ack_queue(connection_t *connection, raknet_server_t *server);
 
 void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server);
@@ -84,6 +94,16 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server);
 void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection, raknet_server_t *server);
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server);
+
+char is_in_raknet_frame_holder(unsigned short compound_id, unsigned long index, connection_t *connection);
+
+void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection);
+
+int get_raknet_compound_size(unsigned short compound_id, connection_t *connection);
+
+misc_frame_t pop_raknet_compound_entry(unsigned short compound_id, unsigned long index, connection_t *connection);
+
+void disconnect_raknet_client(connection_t *connection, raknet_server_t *server);
 
 void handle_raknet_packet(raknet_server_t *server);
 
