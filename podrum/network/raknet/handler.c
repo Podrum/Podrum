@@ -44,6 +44,7 @@ binary_stream_t handle_open_connection_request_1(binary_stream_t *stream, raknet
 binary_stream_t handle_open_connection_request_2(binary_stream_t *stream, raknet_server_t *server, misc_address_t address)
 {
 	packet_open_connection_request_2_t open_connection_request_2 = get_packet_open_connection_request_2(stream);
+	free(open_connection_request_2.address.address);
 	packet_open_connection_reply_2_t open_connection_reply_2;
 	open_connection_reply_2.address = address;
 	open_connection_reply_2.mtu_size = open_connection_request_2.mtu_size;
@@ -200,6 +201,8 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 			if (hole_size == 0) {
 				handle_frame(frame_set.frames[i], server, connection);
 				++connection->receiver_reliable_frame_index;
+			} else {
+				free(frame_set.frames[i].stream.buffer); // Kick out of the memory unused frames
 			}
 		}
 	}
