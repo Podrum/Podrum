@@ -310,6 +310,7 @@ void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream
 		++record_count;
 		put_unsigned_short_be(record_count, stream);
 		put_bytes(temp_stream.buffer, temp_stream.size, stream);
+		free(temp_stream.buffer);
 	}
 }
 
