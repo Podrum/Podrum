@@ -123,6 +123,7 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
 		int i;
+		
 		packet_frame_set_t *recovery_queue = malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
 		int recovery_queue_size = 0;
 		for (i = 0; i < connection->recovery_queue_size; ++i) {
@@ -130,6 +131,10 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
 				++recovery_queue_size;
 			} else {
+				int ii;
+				for (ii = 0; ii < connection->recovery_queue[i].frames_count; ++ii) {
+					free(connection->recovery_queue[i].frames[ii].stream.buffer);
+				}
 				free(connection->recovery_queue[i].frames);
 			}
 		}
