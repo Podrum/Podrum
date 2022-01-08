@@ -76,9 +76,20 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 				++connections_count;
 			} else {
 				free(server->connections[i].ack_queue);
-				free(server->connections[i].frame_holder);
 				free(server->connections[i].nack_queue);
+				int ii;
+				for (ii = 0; ii < server->connections[i].frame_holder_size; ++ii) {
+					free(server->connections[i].frame_holder[ii].stream.buffer);
+				}
+				free(server->connections[i].frame_holder);
 				free(server->connections[i].queue.frames);
+				for (ii = 0; ii < server->connections[i].recovery_queue_size; ++ii) {
+					int iii;
+					for (iii = 0; iii < server->connections[i].recovery_queue[ii].frames_count; ++iii) {
+						free(server->connections[i].recovery_queue[ii].frames[iii].stream.buffer);
+					}
+					free(server->connections[i].recovery_queue[ii].frames);
+				}
 				free(server->connections[i].recovery_queue);
 			}
 		}
@@ -308,7 +319,6 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		free(frame_set.frames);
 	} else {
 		int size = get_frame_size(frame);
 		int i;
@@ -450,7 +460,6 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.offset = 0;
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
 	append_raknet_frame(frame, 1, connection, server);
-	free(frame.stream.buffer);
 	remove_raknet_connection(connection->address, server);
 	exit(0); // Temp exit when disconnect
 }
