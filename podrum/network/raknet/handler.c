@@ -159,7 +159,7 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		handle_fragmented_frame(frame, server, connection);
 		return;
 	}
-	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
+//	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
 	if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTION_REQUEST) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;
@@ -174,6 +174,10 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		add_to_raknet_queue(output_frame, connection, server);
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_DISCONNECT_NOTIFICATION) {
 		disconnect_raknet_client(connection, server);
+	} else if ((frame.stream.buffer[0] & 0xff) == ID_NEW_INCOMING_CONNECTION) {
+		server->on_new_incoming_connection_executor(connection);
+	} else {
+		server->on_frame_executor(frame, connection);
 	}
 	free(frame.stream.buffer);
 	memset(&frame, 0, sizeof(misc_frame_t));
@@ -194,6 +198,9 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	connection->receiver_sequence_number = frame_set.sequence_number;
 	int i;
 	for (i = 0; i < frame_set.frames_count; ++i) {
+		if (connection->is_disconnected != 0) {
+			break;
+		}
 		if (is_reliable(frame_set.frames[i].reliability) == 0) {
 			handle_frame(frame_set.frames[i], server, connection);
 		} else {
@@ -207,4 +214,7 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 		}
 	}
 	free(frame_set.frames);
+	if (connection->is_disconnected != 0) {
+		remove_raknet_connection(connection->address, server);
+	}
 }

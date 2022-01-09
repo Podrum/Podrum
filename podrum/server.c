@@ -33,6 +33,29 @@ RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
 	return 0;
 }
 
+void on_nic(connection_t *connection) {
+	int size = snprintf(NULL, 0, "%s:%d connected!", connection->address.address, connection->address.port);
+	char *out = malloc(size + 1);
+	sprintf(out, "%s:%d connected!", connection->address.address, connection->address.port);
+	out[size] = 0x00;
+	log_info(out);
+	free(out);
+}
+
+
+void on_dn(misc_address_t address) {
+	int size = snprintf(NULL, 0, "%s:%d disconnected.", address.address, address.port);
+	char *out = malloc(size + 1);
+	sprintf(out, "%s:%d disconnected.", address.address, address.port);
+	out[size] = 0x00;
+	log_info(out);
+	free(out);
+}
+
+void on_f(misc_frame_t frame, connection_t *connection) {
+	printf("0x%X\n", frame.stream.buffer[0]);
+};
+
 int main(int argc, char **argv)
 {
 	#ifdef _WIN32
@@ -54,6 +77,9 @@ int main(int argc, char **argv)
 	raknet_server.guid = 13253860892328930865;
 	raknet_server.message = "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	raknet_server.epoch = time(NULL) * 1000;
+	raknet_server.on_disconnect_notification_executor = on_dn;
+	raknet_server.on_frame_executor = on_f;
+	raknet_server.on_new_incoming_connection_executor = on_nic;
 	command_manager_t command_manager;
 	command_manager.commands = malloc(0);
 	command_manager.commands_count = 0;

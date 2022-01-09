@@ -36,20 +36,21 @@ typedef struct {
 	double ms;
 	double last_receive_time;
 	double last_ping_time;
+	char is_disconnected;
 } connection_t;
 
-typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t connection);
+typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t *connection);
 
-typedef void (*on_new_incomming_connection_executor_t)(connection_t connection);
+typedef void (*on_new_incoming_connection_executor_t)(connection_t *connection);
 
-typedef void (*on_diconnect_notification_executor_t)(connection_t connection);
+typedef void (*on_disconnect_notification_executor_t)(misc_address_t address);
 
 typedef struct {
 	unsigned long long guid;
 	misc_address_t address;
 	on_frame_executor_t on_frame_executor;
-	on_new_incomming_connection_executor_t on_new_incomming_connection_executor;
-	on_diconnect_notification_executor_t on_diconnect_notification_executor;
+	on_new_incoming_connection_executor_t on_new_incoming_connection_executor;
+	on_disconnect_notification_executor_t on_disconnect_notification_executor;
 	connection_t *connections;
 	int connections_count;
 	char *message;

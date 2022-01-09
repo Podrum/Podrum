@@ -32,7 +32,6 @@ char has_raknet_connection(misc_address_t address, raknet_server_t *server)
 void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server)
 {
 	if (has_raknet_connection(address, server) == 0) {
-		printf("%s:%d connected!\n", address.address, address.port);
 		connection_t connection;
 		connection.ack_queue = malloc(0);
 		connection.ack_queue_size = 0;
@@ -58,6 +57,7 @@ void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsi
 		connection.sender_reliable_frame_index = 0;
 		memset(connection.sender_sequence_channels, 0, sizeof(connection.sender_order_channels));
 		connection.sender_sequence_number = 0;
+		connection.is_disconnected = 0;
 		++server->connections_count;
 		server->connections = realloc(server->connections, server->connections_count * sizeof(connection_t));
 		server->connections[server->connections_count - 1] = connection;
@@ -134,7 +134,6 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
 		int i;
-		
 		packet_frame_set_t *recovery_queue = malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
 		int recovery_queue_size = 0;
 		for (i = 0; i < connection->recovery_queue_size; ++i) {
@@ -336,7 +335,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 {
-	printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff);
+	//printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff);
 	if (is_ordered(frame.reliability) == 1) {
 		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
 		++connection->sender_order_channels[frame.order_channel];
@@ -452,6 +451,7 @@ misc_frame_t pop_raknet_compound_entry(unsigned short compound_id, unsigned long
 
 void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 {
+	server->on_disconnect_notification_executor(connection->address);
 	misc_frame_t frame;
 	frame.is_fragmented = 0;
 	frame.reliability = 0;
@@ -460,8 +460,8 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.offset = 0;
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
 	append_raknet_frame(frame, 1, connection, server);
-	remove_raknet_connection(connection->address, server);
-	exit(0); // Temp exit when disconnect
+	connection->is_disconnected = 1;
+	//exit(0); // Just for testing
 }
 
 void handle_raknet_packet(raknet_server_t *server)
