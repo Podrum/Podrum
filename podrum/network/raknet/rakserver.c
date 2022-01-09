@@ -57,7 +57,6 @@ void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsi
 		connection.sender_reliable_frame_index = 0;
 		memset(connection.sender_sequence_channels, 0, sizeof(connection.sender_order_channels));
 		connection.sender_sequence_number = 0;
-		connection.is_disconnected = 0;
 		++server->connections_count;
 		server->connections = realloc(server->connections, server->connections_count * sizeof(connection_t));
 		server->connections[server->connections_count - 1] = connection;
@@ -460,7 +459,7 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.offset = 0;
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
 	append_raknet_frame(frame, 1, connection, server);
-	connection->is_disconnected = 1;
+	remove_raknet_connection(connection->address, server);
 	//exit(0); // Just for testing
 }
 

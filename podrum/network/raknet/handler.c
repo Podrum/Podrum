@@ -185,6 +185,7 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 
 void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
 {
+	misc_address_t address = connection->address;
 	packet_frame_set_t frame_set = get_packet_frame_set(stream);
 	deduct_raknet_nack_queue(frame_set.sequence_number, connection);
 	append_raknet_ack_queue(frame_set.sequence_number, connection);
@@ -198,7 +199,7 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	connection->receiver_sequence_number = frame_set.sequence_number;
 	int i;
 	for (i = 0; i < frame_set.frames_count; ++i) {
-		if (connection->is_disconnected != 0) {
+		if (has_raknet_connection(address, server) == 0) {
 			break;
 		}
 		if (is_reliable(frame_set.frames[i].reliability) == 0) {
@@ -207,6 +208,9 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
 			if (hole_size == 0) {
 				handle_frame(frame_set.frames[i], server, connection);
+				if (has_raknet_connection(address, server) == 0) {
+					break;
+				}
 				++connection->receiver_reliable_frame_index;
 			} else {
 				free(frame_set.frames[i].stream.buffer); // Kick out of the memory unused frames
@@ -214,7 +218,4 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 		}
 	}
 	free(frame_set.frames);
-	if (connection->is_disconnected != 0) {
-		remove_raknet_connection(connection->address, server);
-	}
 }

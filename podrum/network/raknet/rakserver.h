@@ -36,7 +36,6 @@ typedef struct {
 	double ms;
 	double last_receive_time;
 	double last_ping_time;
-	char is_disconnected;
 } connection_t;
 
 typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t *connection);
