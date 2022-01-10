@@ -1,0 +1,31 @@
+#include "./mcpackets.h"
+#include <czlibhelper/zlib_helper.h>
+#include <stdlib.h>
+
+packet_game_t get_packet_game(binary_stream_t *stream)
+{
+	packet_game_t game;
+	game.streams = malloc(0);
+	game.streams_count = 0;
+	stream->offset += stream->size;
+	zlib_buf_t in;
+	in.data = (Bytef *) (stream->buffer + 1);
+	in.size = stream->size - 1;
+	zlib_buf_t out;
+	zlib_decode(in, &out, ZLIB_DEFLATE_MODE);
+	binary_stream_t data_stream;
+	data_stream.buffer = (char *) out.data;
+	data_stream.size = out.size;
+	data_stream.offset = 0;
+	while (data_stream.offset < data_stream.size) {
+		binary_stream_t entry_stream;
+		entry_stream.size = get_var_int(&data_stream);
+		entry_stream.buffer = get_bytes(entry_stream.size, &data_stream);
+		entry_stream.offset = 0;
+		++game.streams_count;
+		game.streams = realloc(game.streams, game.streams_count * sizeof(binary_stream_t));
+		game.streams[game.streams_count - 1] = entry_stream;
+	}
+	free(data_stream.buffer);
+	return game;
+}

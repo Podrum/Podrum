@@ -13,6 +13,7 @@
 #include "command/commandmanager.h"
 #include "./network/raknet/rakserver.h"
 #include "./worker.h"
+#include "./network/minecraft/mcpackets.h"
 
 #ifdef _WIN32
 
@@ -54,6 +55,13 @@ void on_dn(misc_address_t address) {
 
 void on_f(misc_frame_t frame, connection_t *connection) {
 	printf("0x%X\n", frame.stream.buffer[0]);
+	if ((frame.stream.buffer[0] & 0xFF) == ID_GAME) {
+		packet_game_t game = get_packet_game(((&(frame.stream))));
+		int i;
+		for (i = 0; i < game.streams_count; ++i) {
+			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0]);
+		}
+	}
 };
 
 int main(int argc, char **argv)
