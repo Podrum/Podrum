@@ -6,10 +6,10 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#ifndef PODRUM_NETWORK_RAKNET_HANDLER_H
-#define PODRUM_NETWORK_RAKNET_HANDLER_H
+#ifndef PODRUM_NETWORK_RAKNET_RAKHANDLER_H
+#define PODRUM_NETWORK_RAKNET_RAKHANDLER_H
 
-#include "./packet.h"
+#include "./rakpacket.h"
 #include "./rakserver.h"
 
 binary_stream_t handle_unconneted_ping(binary_stream_t *stream, raknet_server_t *server);

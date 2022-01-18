@@ -9,8 +9,8 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKSERVER_H
 #define PODRUM_NETWORK_RAKNET_RAKSERVER_H
 
-#include "./misc.h"
-#include "./packet.h"
+#include "./rakmisc.h"
+#include "./rakpacket.h"
 #include "./socket.h"
 
 typedef struct {

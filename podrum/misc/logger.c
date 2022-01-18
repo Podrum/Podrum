@@ -23,40 +23,40 @@ void log_generic(char *message, char *type_name, char *type_color)
 
 void log_info(char *message)
 {
-	log_generic(message, "INFO", TEXTFORMAT_BLUE);
+	log_generic(message, (char *) "INFO", TEXTFORMAT_BLUE);
 }
 
 void log_warning(char *message)
 {
-	log_generic(message, "WARNING", TEXTFORMAT_YELLOW);
+	log_generic(message, (char *) "WARNING", TEXTFORMAT_YELLOW);
 }
 
 void log_error(char *message)
 {
-	log_generic(message, "ERROR", TEXTFORMAT_RED);
+	log_generic(message, (char *) "ERROR", TEXTFORMAT_RED);
 }
 
 void log_success(char *message)
 {
-	log_generic(message, "SUCCESS", TEXTFORMAT_GREEN);
+	log_generic(message, (char *) "SUCCESS", TEXTFORMAT_GREEN);
 }
 
 void log_emergency(char *message)
 {
-	log_generic(message, "EMERGENCY", TEXTFORMAT_GOLD);
+	log_generic(message, (char *) "EMERGENCY", TEXTFORMAT_GOLD);
 }
 
 void log_notice(char *message)
 {
-	log_generic(message, "NOTICE", TEXTFORMAT_AQUA);
+	log_generic(message, (char *) "NOTICE", TEXTFORMAT_AQUA);
 }
 
 void log_critical(char *message)
 {
-	log_generic(message, "CRITICAL", TEXTFORMAT_DARK_RED);
+	log_generic(message, (char *) "CRITICAL", TEXTFORMAT_DARK_RED);
 }
 
 void log_debug(char *message)
 {
-	log_generic(message, "DEBUG", TEXTFORMAT_GRAY);
+	log_generic(message, (char *) "DEBUG", TEXTFORMAT_GRAY);
 }

@@ -5,7 +5,7 @@
 packet_game_t get_packet_game(binary_stream_t *stream)
 {
 	packet_game_t game;
-	game.streams = malloc(0);
+	game.streams = (binary_stream_t *) malloc(0);
 	game.streams_count = 0;
 	stream->offset += stream->size;
 	zlib_buf_t in;
@@ -23,7 +23,7 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 		entry_stream.buffer = get_bytes(entry_stream.size, &data_stream);
 		entry_stream.offset = 0;
 		++game.streams_count;
-		game.streams = realloc(game.streams, game.streams_count * sizeof(binary_stream_t));
+		game.streams = (binary_stream_t *) realloc(game.streams, game.streams_count * sizeof(binary_stream_t));
 		game.streams[game.streams_count - 1] = entry_stream;
 	}
 	free(data_stream.buffer);

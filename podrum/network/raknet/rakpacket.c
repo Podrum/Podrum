@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./packet.h"
+#include "./rakpacket.h"
 #include <string.h>
 #include <stdlib.h>
 
@@ -28,7 +28,7 @@ packet_unconnected_pong_t get_packet_unconnected_pong(binary_stream_t *stream)
 	packet.guid = get_unsigned_long_be(stream);
 	stream->offset += 16; // MAGIC
 	unsigned short length = get_unsigned_short_be(stream);
-	packet.message = malloc(length + 1);
+	packet.message = (char *) malloc(length + 1);
 	int i;
 	for (i = 0; i < length; ++i) {
 		packet.message[i] = get_unsigned_byte(stream);
@@ -93,7 +93,7 @@ packet_acknowledge_t get_packet_acknowledge(binary_stream_t *stream)
 	packet_acknowledge_t packet;
 	++stream->offset; // PACKET_ID
 	packet.sequence_numbers_count = 0;
-	packet.sequence_numbers = malloc(0);
+	packet.sequence_numbers = (unsigned long *) malloc(0);
 	unsigned short record_count = get_unsigned_short_be(stream);
 	int i;
 	unsigned char is_single;
@@ -103,12 +103,12 @@ packet_acknowledge_t get_packet_acknowledge(binary_stream_t *stream)
 		is_single = get_unsigned_byte(stream);
 		if (is_single != 0) {
 			++packet.sequence_numbers_count;
-			packet.sequence_numbers = realloc(packet.sequence_numbers, packet.sequence_numbers_count * sizeof(long));
+			packet.sequence_numbers = (unsigned long *) realloc(packet.sequence_numbers, packet.sequence_numbers_count * sizeof(long));
 		 	packet.sequence_numbers[packet.sequence_numbers_count - 1] = get_unsigned_triad_le(stream);
 		} else {
 			index = get_unsigned_triad_le(stream);
 			end_index = get_unsigned_triad_le(stream);
-			packet.sequence_numbers = realloc(packet.sequence_numbers, (packet.sequence_numbers_count + (end_index - index + 1)) * sizeof(long));
+			packet.sequence_numbers = (unsigned long *) realloc(packet.sequence_numbers, (packet.sequence_numbers_count + (end_index - index + 1)) * sizeof(long));
 			while (index <= end_index) {
 				packet.sequence_numbers[packet.sequence_numbers_count] = index;
 				++packet.sequence_numbers_count;
@@ -125,11 +125,11 @@ packet_frame_set_t get_packet_frame_set(binary_stream_t *stream)
 	++stream->offset; // PACKET_ID
 	packet.sequence_number = get_unsigned_triad_le(stream);
 	packet.frames_count = 0;
-	packet.frames = malloc(0);
+	packet.frames = (misc_frame_t *) malloc(0);
 	while (stream->offset < stream->size)
 	{
 		++packet.frames_count;
-		packet.frames = realloc(packet.frames, packet.frames_count * sizeof(misc_frame_t));
+		packet.frames = (misc_frame_t *) realloc(packet.frames, packet.frames_count * sizeof(misc_frame_t));
 		packet.frames[packet.frames_count - 1] = get_misc_frame(stream);
 	}
 	return packet;
@@ -275,7 +275,7 @@ void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream
 	binary_stream_t temp_stream;
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
-	temp_stream.buffer = malloc(0);
+	temp_stream.buffer = (char *) malloc(0);
 	int record_count = 0;
 	if (packet.sequence_numbers_count > 0) {
 		long start_index = packet.sequence_numbers[0];

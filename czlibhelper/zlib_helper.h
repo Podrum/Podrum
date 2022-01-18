@@ -7,7 +7,7 @@
 #ifndef ZLIB_HELPER
 #define ZLIB_HELPER
 
-#include <zlib.h>
+#include <miniz/miniz.h> /* Use miniz cause its more portable than zlib */
 
 #define ZLIB_DEFLATE_MODE 0
 #define ZLIB_RAW_MODE 1

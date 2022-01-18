@@ -11,7 +11,7 @@ int zlib_decode(zlib_buf_t in, zlib_buf_t *out, int mode)
 {
 	int status;
 	int len = in.size;
-	Bytef *uncomp = malloc(len);
+	Bytef *uncomp = (Bytef *) malloc(len);
 	uLong half_len = in.size / 2;
 
 	if (in.size == 0) {
@@ -40,7 +40,7 @@ int zlib_decode(zlib_buf_t in, zlib_buf_t *out, int mode)
 	do {
 		if (stream.total_out >= len) {
 			len += half_len;
-			uncomp = realloc(uncomp, len);
+			uncomp = (Bytef *) realloc(uncomp, len);
 		}
 		stream.next_out = (uncomp + stream.total_out);
 		stream.avail_out = len - stream.total_out;
@@ -52,7 +52,7 @@ int zlib_decode(zlib_buf_t in, zlib_buf_t *out, int mode)
 	}
 
 	out->size = stream.total_out;
-	out->data = malloc(stream.total_out);
+	out->data = (Bytef *) malloc(stream.total_out);
 
 	int i;
 	for (i = 0; i < stream.total_out; ++i) {
@@ -68,7 +68,7 @@ int zlib_encode(zlib_buf_t in, zlib_buf_t *out, int level, int mode)
 {
 	int status;
 	out->size = compressBound(in.size);
-	out->data = malloc(out->size);
+	out->data = (Bytef *) malloc(out->size);
 
 	z_stream stream;
 	stream.next_in = in.data;

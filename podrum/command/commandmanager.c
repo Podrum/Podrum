@@ -14,7 +14,7 @@
 void register_command(command_t command, command_manager_t *manager)
 {
     ++manager->commands_count;
-    manager->commands = realloc(manager->commands, manager->commands_count * sizeof(command_t));
+    manager->commands = (command_t *) realloc(manager->commands, manager->commands_count * sizeof(command_t));
     manager->commands[manager->commands_count - 1] = command;
 }
 
@@ -37,8 +37,7 @@ void delete_command(char *name, command_manager_t *manager)
 {
     if (manager->commands_count != 0){
         int i;
-        command_t *temp_commands;
-        temp_commands = malloc(manager->commands_count - 1);
+        command_t *temp_commands = (command_t *) malloc((manager->commands_count - 1) * sizeof(command_t));
         int offset = 0;
         for (i = 0; i < manager->commands_count; ++i)
         {
