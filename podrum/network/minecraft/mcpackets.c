@@ -29,3 +29,25 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 	free(data_stream.buffer);
 	return game;
 }
+
+void put_packet_game(packet_game_t packet, binary_stream_t *stream)
+{
+	binary_stream_t temp_stream;
+	temp_stream.buffer = (char *) malloc(0);
+	temp_stream.offset = 0;
+	temp_stream.size = 0;
+	int i;
+	for (i = 0; i < packet.streams_count; ++i)
+	{
+		put_var_int(packet.streams[i].size, stream);
+		put_bytes(packet.streams[i].buffer, packet.streams[i].size, &temp_stream);
+	}
+	zlib_buf_t in;
+	in.data = (Bytef *) temp_stream.buffer;
+	in.size = temp_stream.size;
+	zlib_buf_t out;
+	zlib_encode(in, &out, 7, ZLIB_DEFLATE_MODE);
+	free(temp_stream.buffer);
+	put_bytes((char *) out.data, (int) out.size, stream);
+	free(out.data);
+}
