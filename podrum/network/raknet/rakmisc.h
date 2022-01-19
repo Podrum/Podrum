@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKMISC_H
 #define PODRUM_NETWORK_RAKNET_RAKMISC_H
 
+#include <stdint.h>
 #include <cbinarystream/binary_stream.h>
 
 #define RELIABILITY_UNRELIABLE 0x00
@@ -23,19 +24,19 @@
 typedef struct {
 	unsigned char version;
 	char *address;
-	unsigned short port;
+	uint16_t port;
 } misc_address_t;
 
 typedef struct {
 	unsigned char reliability;
 	unsigned char is_fragmented;
-	unsigned long reliable_frame_index;
-	unsigned long sequenced_frame_index;
-	unsigned long ordered_frame_index;
+	uint32_t reliable_frame_index;
+	uint32_t sequenced_frame_index;
+	uint32_t ordered_frame_index;
 	unsigned char order_channel;
-	unsigned long compound_size;
-	unsigned short compound_id;
-	unsigned long index;
+	uint32_t compound_size;
+	uint16_t compound_id;
+	uint32_t index;
 	binary_stream_t stream;
 } misc_frame_t;
 

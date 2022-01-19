@@ -16,7 +16,7 @@ typedef struct {
     char *description;
     char *usage;
     char *prefix;
-    unsigned char flags; // 1 = Error flag
+    unsigned char flags; /* 1 = Error flag */
     command_executor_t executor;
 } command_t;
 

@@ -29,7 +29,7 @@ command_t get_command(char *name, command_manager_t *manager)
         }
     }
     command_t noret;
-    noret.flags |= 1 << 0; // Set error flag
+    noret.flags |= 1 << 0; /* Set error flag */
     return noret;
 }
 
@@ -55,7 +55,7 @@ void delete_command(char *name, command_manager_t *manager)
 
 void execute(char *name, int argc, char **argv, command_manager_t *manager){
     command_t command = get_command(name, manager);
-	if ((command.flags & 7) == 0) { // check if this command exists
+	if ((command.flags & 7) == 0) { /* check if this command exists */
 		command.executor(argc, argv);
 	}
 }

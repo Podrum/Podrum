@@ -30,7 +30,7 @@ binary_stream_t handle_open_connection_request_1(binary_stream_t *stream, raknet
 {
 	packet_open_connection_request_1_t open_connection_request_1 = get_packet_open_connection_request_1(stream);
 	packet_open_connection_reply_1_t open_connection_reply_1;
-	open_connection_reply_1.mtu_size = 28 + open_connection_request_1.mtu_size; // IP header (20) + UDP header (8) + Payload (x)
+	open_connection_reply_1.mtu_size = 28 + open_connection_request_1.mtu_size; /* IP header (20) + UDP header (8) + Payload (x) */
 	open_connection_reply_1.use_security = 0;
 	open_connection_reply_1.guid = server->guid;
 	binary_stream_t output_stream;
@@ -159,7 +159,7 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		handle_fragmented_frame(frame, server, connection);
 		return;
 	}
-//	printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff);
+	/* printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff); */
 	if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTION_REQUEST) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;
@@ -189,9 +189,9 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	packet_frame_set_t frame_set = get_packet_frame_set(stream);
 	deduct_raknet_nack_queue(frame_set.sequence_number, connection);
 	append_raknet_ack_queue(frame_set.sequence_number, connection);
-	unsigned long hole_size = frame_set.sequence_number - connection->receiver_sequence_number;
+	uint32_t hole_size = frame_set.sequence_number - connection->receiver_sequence_number;
 	if (hole_size > 0) {
-		unsigned long sequence_number;
+		uint32_t sequence_number;
 		for (sequence_number = connection->receiver_sequence_number + 1; sequence_number < hole_size; ++sequence_number) {
 			append_raknet_nack_queue(sequence_number, connection);
 		}
@@ -213,7 +213,7 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 				}
 				++connection->receiver_reliable_frame_index;
 			} else {
-				free(frame_set.frames[i].stream.buffer); // Kick out of the memory unused frames
+				free(frame_set.frames[i].stream.buffer); /* Kick out of the memory unused frames */
 			}
 		}
 	}

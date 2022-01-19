@@ -29,11 +29,11 @@ char has_raknet_connection(misc_address_t address, raknet_server_t *server)
 	return 0;
 }
 
-void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsigned long long guid, raknet_server_t *server)
+void add_raknet_connection(misc_address_t address, uint16_t mtu_size, uint64_t guid, raknet_server_t *server)
 {
 	if (has_raknet_connection(address, server) == 0) {
 		connection_t connection;
-		connection.ack_queue = (unsigned long *) malloc(0);
+		connection.ack_queue = (uint32_t *) malloc(0);
 		connection.ack_queue_size = 0;
 		connection.address = address;
 		connection.compound_id = 0;
@@ -44,7 +44,7 @@ void add_raknet_connection(misc_address_t address, unsigned short mtu_size, unsi
 		connection.last_receive_time = time(NULL);
 		connection.ms = 0;
 		connection.mtu_size = mtu_size;
-		connection.nack_queue = (unsigned long *) malloc(0);
+		connection.nack_queue = (uint32_t *) malloc(0);
 		connection.nack_queue_size = 0;
 		connection.queue.frames = (misc_frame_t *) malloc(0);
 		connection.queue.frames_count = 0;
@@ -109,7 +109,7 @@ connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *ser
 	return NULL;
 }
 
-char is_in_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+char is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	int i;
 	for (i = 0; i < connection->recovery_queue_size; ++i) {
@@ -129,7 +129,7 @@ void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *co
 	}
 }
 
-void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+void deduct_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
 		int i;
@@ -153,7 +153,7 @@ void deduct_raknet_recovery_queue(unsigned long sequence_number, connection_t *c
 	}
 }
 
-packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, connection_t *connection)
+packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
 		int i;
@@ -180,7 +180,7 @@ packet_frame_set_t pop_raknet_recovery_queue(unsigned long sequence_number, conn
 	return output_frame_set;
 }
 
-char is_in_raknet_ack_queue(unsigned long sequence_number, connection_t *connection)
+char is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	int i;
 	for (i = 0; i < connection->ack_queue_size; ++i) {
@@ -191,16 +191,16 @@ char is_in_raknet_ack_queue(unsigned long sequence_number, connection_t *connect
 	return 0;
 }
 
-void append_raknet_ack_queue(unsigned long sequence_number, connection_t *connection)
+void append_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_ack_queue(sequence_number, connection) == 0) {
 		++connection->ack_queue_size;
-		connection->ack_queue = (unsigned long *) realloc(connection->ack_queue, connection->ack_queue_size * sizeof(long));
+		connection->ack_queue = (uint32_t *) realloc(connection->ack_queue, connection->ack_queue_size * sizeof(uint32_t));
 		connection->ack_queue[connection->ack_queue_size - 1] = sequence_number;
 	}
 }
 
-char is_in_raknet_nack_queue(unsigned long sequence_number, connection_t *connection)
+char is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	int i;
 	for (i = 0; i < connection->nack_queue_size; ++i) {
@@ -211,11 +211,11 @@ char is_in_raknet_nack_queue(unsigned long sequence_number, connection_t *connec
 	return 0;
 }
 
-void deduct_raknet_nack_queue(unsigned long sequence_number, connection_t *connection)
+void deduct_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_nack_queue(sequence_number, connection) == 1) {
 		int i;
-		unsigned long *nack_queue = (unsigned long *) malloc((connection->nack_queue_size - 1) * sizeof(long));
+		uint32_t *nack_queue = (uint32_t *) malloc((connection->nack_queue_size - 1) * sizeof(uint32_t));
 		int nack_queue_size = 0;
 		for (i = 0; i < connection->nack_queue_size; ++i) {
 			if (connection->nack_queue[i] != sequence_number) {
@@ -229,11 +229,11 @@ void deduct_raknet_nack_queue(unsigned long sequence_number, connection_t *conne
 	}
 }
 
-void append_raknet_nack_queue(unsigned long sequence_number, connection_t *connection)
+void append_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_nack_queue(sequence_number, connection) == 0) {
 		++connection->nack_queue_size;
-		connection->nack_queue = (unsigned long *) realloc(connection->nack_queue, connection->nack_queue_size * sizeof(long));
+		connection->nack_queue = (uint32_t *) realloc(connection->nack_queue, connection->nack_queue_size * sizeof(uint32_t));
 		connection->nack_queue[connection->nack_queue_size - 1] = sequence_number;
 	}
 }
@@ -253,7 +253,7 @@ void send_raknet_ack_queue(connection_t *connection, raknet_server_t *server)
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		connection->ack_queue = (unsigned long *) realloc(connection->ack_queue, 0);
+		connection->ack_queue = (uint32_t *) realloc(connection->ack_queue, 0);
 		connection->ack_queue_size = 0;
 	}
 }
@@ -273,7 +273,7 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server)
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		connection->nack_queue = (unsigned long *) realloc(connection->nack_queue, 0);
+		connection->nack_queue = (uint32_t *) realloc(connection->nack_queue, 0);
 		connection->nack_queue_size = 0;
 	}
 }
@@ -293,7 +293,7 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		connection->queue.frames = (misc_frame_t *) malloc(0); // mark
+		connection->queue.frames = (misc_frame_t *) malloc(0); /* mark */
 		connection->queue.frames_count = 0;
 	}
 }
@@ -334,7 +334,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 {
-	//printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff);
+	/* printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff); */
 	if (is_ordered(frame.reliability) == 1) {
 		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
 		++connection->sender_order_channels[frame.order_channel];
@@ -387,7 +387,7 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 	}
 }
 
-char is_in_raknet_frame_holder(unsigned short compound_id, unsigned long index, connection_t *connection)
+char is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection)
 {
 	int i;
 	for (i = 0; i < connection->frame_holder_size; ++i) {
@@ -407,7 +407,7 @@ void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection)
 	}
 }
 
-int get_raknet_compound_size(unsigned short compound_id, connection_t *connection)
+int get_raknet_compound_size(uint16_t compound_id, connection_t *connection)
 {
 	int size = 0;
 	int i;
@@ -419,7 +419,7 @@ int get_raknet_compound_size(unsigned short compound_id, connection_t *connectio
 	return size;
 }
 
-misc_frame_t pop_raknet_compound_entry(unsigned short compound_id, unsigned long index, connection_t *connection)
+misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, connection_t *connection)
 {
 	if (is_in_raknet_frame_holder(compound_id, index, connection) == 1) {
 		misc_frame_t *frame_holder = (misc_frame_t *) malloc((connection->frame_holder_size - 1) * sizeof(misc_frame_t));
@@ -460,7 +460,7 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
 	append_raknet_frame(frame, 1, connection, server);
 	remove_raknet_connection(connection->address, server);
-	//exit(0); // Just for testing
+	/* exit(0); */
 }
 
 void handle_raknet_packet(raknet_server_t *server)

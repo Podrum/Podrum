@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKPACKET_H
 #define PODRUM_NETWORK_RAKNET_RAKPACKET_H
 
+#include <stdint.h>
 #include "./rakmisc.h"
 
 #define ID_UNCONNECTED_PING 0x01
@@ -32,83 +33,83 @@
 #define MAGIC (char *) "\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78"
 
 typedef struct {
-	unsigned long long timestamp;
-	unsigned long long guid;
+	uint64_t timestamp;
+	uint64_t guid;
 } packet_unconnected_ping_t;
 
 typedef struct {
-	unsigned long long timestamp;
-	unsigned long long guid;
+	uint64_t timestamp;
+	uint64_t guid;
 	char *message;
 } packet_unconnected_pong_t;
 
 typedef struct {
 	unsigned char protocol_version;
-	unsigned long long guid;
+	uint64_t guid;
 } packet_incompatible_protocol_version_t;
 
 typedef struct {
 	unsigned char protocol_version;
-	unsigned short mtu_size;
+	uint16_t mtu_size;
 } packet_open_connection_request_1_t;
 
 typedef struct {
-	unsigned long long guid;
+	uint64_t guid;
 	unsigned char use_security;
-	unsigned short mtu_size;
+	uint16_t mtu_size;
 } packet_open_connection_reply_1_t;
 
 typedef struct {
 	misc_address_t address;
-	unsigned short mtu_size;
-	unsigned long long guid;
+	uint16_t mtu_size;
+	uint64_t guid;
 } packet_open_connection_request_2_t;
 
 typedef struct {
-	unsigned long long guid;
+	uint64_t guid;
 	misc_address_t address;
-	unsigned short mtu_size;
+	uint16_t mtu_size;
 	unsigned char use_encryption;
 } packet_open_connection_reply_2_t;
 
 typedef struct {
-	unsigned long *sequence_numbers;
-	unsigned short sequence_numbers_count;
+	uint32_t *sequence_numbers;
+	uint16_t sequence_numbers_count;
 } packet_acknowledge_t;
 
 typedef struct {
-	unsigned long sequence_number;
+	uint32_t sequence_number;
 	misc_frame_t *frames;
 	int frames_count;
 } packet_frame_set_t;
 
 typedef struct {
-	unsigned long long guid;
-	unsigned long long timestamp;
+	uint64_t guid;
+	uint64_t timestamp;
 } packet_connection_request_t;
 
 typedef struct {
 	misc_address_t address;
-	unsigned short system_index;
+	uint16_t system_index;
 	misc_address_t system_addresses[20];
-	unsigned long long request_timestamp;
-	unsigned long long reply_timestamp;
+	uint64_t request_timestamp;
+	uint64_t reply_timestamp;
 } packet_connection_request_accepted_t;
 
 typedef struct {
 	misc_address_t address;
 	misc_address_t system_addresses[20];
-	unsigned long long request_timestamp;
-	unsigned long long reply_timestamp;
+	uint64_t request_timestamp;
+	uint64_t reply_timestamp;
 } packet_new_incoming_connection_t;
 
 typedef struct {
-	unsigned long long timestamp;
+	uint64_t timestamp;
 } packet_connected_ping_t;
 
 typedef struct {
-	unsigned long long request_timestamp;
-	unsigned long long reply_timestamp;
+	uint64_t request_timestamp;
+	uint64_t reply_timestamp;
 } packet_connected_pong_t;
 
 packet_unconnected_ping_t get_packet_unconnected_ping(binary_stream_t *stream);

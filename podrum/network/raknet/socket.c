@@ -33,7 +33,7 @@ int set_nb_socket(int fd, int is_nb)
 	}
 	#ifdef _WIN32
 
-	unsigned long mode = is_nb;
+	u_long mode = is_nb;
 	return (ioctlsocket(fd, FIONBIO, &mode) == 0);
 
 	#else

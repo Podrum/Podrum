@@ -102,7 +102,7 @@ int main(int argc, char **argv)
 	register_command(cmd1, &command_manager);
 	char **args = (char **) malloc(0);
 	execute((char *) "help", 0, args, &command_manager);
-	//worker_t worker = create_worker(test);
+	/* worker_t worker = create_worker(test); */
 	while (1) {
 		handle_raknet_packet(&raknet_server);
 	}
