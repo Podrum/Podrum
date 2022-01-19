@@ -8,14 +8,15 @@
 #define BINARY_STREAM_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 typedef struct {
 	char *buffer;
-	int size;
-	int offset;
+	size_t size;
+	size_t offset;
 } binary_stream_t;
 
-char *get_bytes(int count, binary_stream_t *stream);
+char *get_bytes(size_t count, binary_stream_t *stream);
 
 char *get_remaining_bytes(binary_stream_t *stream);
 
@@ -71,7 +72,7 @@ double get_double_le(binary_stream_t *stream);
 
 double get_double_be(binary_stream_t *stream);
 
-void put_bytes(char *data, int size, binary_stream_t *stream);
+void put_bytes(char *data, size_t size, binary_stream_t *stream);
 
 void put_unsigned_byte(unsigned char value, binary_stream_t *stream);
 

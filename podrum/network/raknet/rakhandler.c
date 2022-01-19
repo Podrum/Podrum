@@ -177,7 +177,7 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_NEW_INCOMING_CONNECTION) {
 		server->on_new_incoming_connection_executor(connection);
 	} else {
-		server->on_frame_executor(frame, connection);
+		server->on_frame_executor(frame, connection, server);
 	}
 	free(frame.stream.buffer);
 	memset(&frame, 0, sizeof(misc_frame_t));

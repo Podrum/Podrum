@@ -5,13 +5,12 @@
  */
 
 #include "binary_stream.h"
-#include <stdlib.h>
 #include <string.h>
 
-char *get_bytes(int count, binary_stream_t *stream)
+char *get_bytes(size_t count, binary_stream_t *stream)
 {
 	char *result = (char *) malloc(count * sizeof(char));
-	int i;
+	size_t i;
 	for (i = 0; i < count; ++i) {
 		result[i] = stream->buffer[stream->offset];
 		++stream->offset;
@@ -265,9 +264,9 @@ double get_double_be(binary_stream_t *stream)
 	return f;
 }
 
-void put_bytes(char *data, int size, binary_stream_t *stream)
+void put_bytes(char *data, size_t size, binary_stream_t *stream)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < size; ++i) {
 		stream->buffer = (char *) realloc(stream->buffer, (stream->size + 1) * sizeof(char));
 		stream->buffer[stream->size] = data[i];

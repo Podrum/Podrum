@@ -40,13 +40,17 @@ typedef struct {
 	double last_ping_time;
 } connection_t;
 
-typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t *connection);
+struct _raknet_server;
+
+typedef struct _raknet_server raknet_server_t;
+
+typedef void (*on_frame_executor_t)(misc_frame_t frame, connection_t *connection, raknet_server_t *server);
 
 typedef void (*on_new_incoming_connection_executor_t)(connection_t *connection);
 
 typedef void (*on_disconnect_notification_executor_t)(misc_address_t address);
 
-typedef struct {
+struct _raknet_server {
 	uint64_t guid;
 	misc_address_t address;
 	on_frame_executor_t on_frame_executor;
@@ -57,7 +61,7 @@ typedef struct {
 	char *message;
 	int sock;
 	double epoch;
-} raknet_server_t;
+};
 
 double get_raknet_timestamp(raknet_server_t *server);
 

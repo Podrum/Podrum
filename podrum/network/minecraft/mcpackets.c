@@ -1,3 +1,11 @@
+/*
+                   Podrum R3 Copyright MFDGaming & PodrumTeam
+                 This file is licensed under the GPLv2 license.
+              To use this file you must own a copy of the license.
+                       If you do not you can get it from:
+            http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
+ */
+
 #include "./mcpackets.h"
 #include <czlibhelper/zlib_helper.h>
 #include <stdlib.h>
@@ -30,6 +38,25 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 	return game;
 }
 
+packet_login_t get_packet_login(binary_stream_t *stream)
+{
+	++stream->offset;
+	packet_login_t login;
+	login.protocol_version = get_int_be(stream);
+	binary_stream_t temp_stream = get_misc_byte_array_var_int(stream);
+	login.tokens = get_misc_login_tokens(&temp_stream);
+	free(temp_stream.buffer);
+	return login;
+}
+
+packet_play_status_t get_packet_play_status(binary_stream_t *stream)
+{
+	++stream->offset;
+	packet_play_status_t play_status;
+	play_status.status = get_int_be(stream);
+	return play_status;
+}
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
 	binary_stream_t temp_stream;
@@ -39,7 +66,7 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 	int i;
 	for (i = 0; i < packet.streams_count; ++i)
 	{
-		put_var_int(packet.streams[i].size, stream);
+		put_var_int(packet.streams[i].size, &temp_stream);
 		put_bytes(packet.streams[i].buffer, packet.streams[i].size, &temp_stream);
 	}
 	zlib_buf_t in;
@@ -48,6 +75,26 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 	zlib_buf_t out;
 	zlib_encode(in, &out, 7, ZLIB_DEFLATE_MODE);
 	free(temp_stream.buffer);
-	put_bytes((char *) out.data, (int) out.size, stream);
+	put_unsigned_byte(ID_GAME, stream);
+	put_bytes((char *) out.data, (size_t) out.size, stream);
 	free(out.data);
+}
+
+void put_packet_login(packet_login_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_LOGIN, stream);
+	put_int_be(packet.protocol_version, stream);
+	binary_stream_t temp_stream;
+	temp_stream.buffer = (char *) malloc(0);
+	temp_stream.offset = 0;
+	temp_stream.size = 0;
+	put_misc_login_tokens(packet.tokens, &temp_stream);
+	put_misc_byte_array_var_int(temp_stream, stream);
+	free(temp_stream.buffer);
+}
+
+void put_packet_play_status(packet_play_status_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_PLAY_STATUS, stream);
+	put_int_be(packet.status, stream);
 }

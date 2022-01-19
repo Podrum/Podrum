@@ -53,16 +53,39 @@ void on_dn(misc_address_t address) {
 	free(out);
 }
 
-void on_f(misc_frame_t frame, connection_t *connection) {
-	printf("0x%X\n", frame.stream.buffer[0]);
+void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server) {
+	printf("0x%X\n", frame.stream.buffer[0] & 0xFF);
 	if ((frame.stream.buffer[0] & 0xFF) == ID_GAME) {
 		packet_game_t game = get_packet_game(((&(frame.stream))));
 		int i;
 		for (i = 0; i < game.streams_count; ++i) {
-			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0]);
+			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff);
+			if ((game.streams[i].buffer[0] & 0xFF) == ID_LOGIN) {
+				packet_login_t login = get_packet_login(((&(game.streams[i]))));
+				printf("Tryed to connect with protocol %d\n", login.protocol_version);
+				free(login.tokens.client);
+				free(login.tokens.identity);
+				packet_game_t out_game;
+				out_game.streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+				out_game.streams_count = 1;
+				out_game.streams[0].buffer = (char *) malloc(0);
+				out_game.streams[0].size = 0;
+				out_game.streams[0].offset = 0;
+				packet_play_status_t play_status;
+				play_status.status = PLAY_STATUS_LOGIN_SUCCESS;
+				put_packet_play_status(play_status, ((&(out_game.streams[0]))));
+				misc_frame_t out_frame;
+				out_frame.is_fragmented = 0;
+				out_frame.reliability = RELIABILITY_UNRELIABLE;
+				out_frame.stream.buffer = (char *) malloc(0);
+				out_frame.stream.offset = 0;
+				out_frame.stream.size = 0;
+				put_packet_game(out_game, ((&(out_frame.stream))));
+				add_to_raknet_queue(out_frame, connection, server);
+			}
 		}
 	}
-};
+}
 
 int main(int argc, char **argv)
 {
