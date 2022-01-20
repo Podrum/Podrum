@@ -57,6 +57,40 @@ packet_play_status_t get_packet_play_status(binary_stream_t *stream)
 	return play_status;
 }
 
+packet_resource_packs_info_t get_packet_resource_packs_info(binary_stream_t *stream)
+{
+	++stream->offset;
+	packet_resource_packs_info_t resource_packs_info;
+	resource_packs_info.must_accept = get_unsigned_byte(stream);
+	resource_packs_info.has_scripts = get_unsigned_byte(stream);
+	resource_packs_info.force_server_packs = get_unsigned_byte(stream);
+	resource_packs_info.behavior_packs = get_misc_behavior_pack_infos(stream);
+	resource_packs_info.texture_packs = get_misc_texture_pack_infos(stream);
+	return resource_packs_info;
+}
+
+packet_resource_pack_stack_t get_packet_resource_pack_stack(binary_stream_t *stream)
+{
+	++stream->offset;
+	packet_resource_pack_stack_t resource_pack_stack;
+	resource_pack_stack.must_accept = get_unsigned_byte(stream);
+	resource_pack_stack.behavior_packs = get_misc_resource_pack_id_versions(stream);
+	resource_pack_stack.resource_packs = get_misc_resource_pack_id_versions(stream);
+	resource_pack_stack.game_version = get_misc_string_var_int(stream);
+	resource_pack_stack.experiments = get_misc_experiments(stream);
+	resource_pack_stack.experiments_previously_used = get_unsigned_byte(stream);
+	return resource_pack_stack;
+}
+
+packet_resource_pack_client_response_t get_packet_resource_pack_client_response(binary_stream_t *stream)
+{
+	++stream->offset;
+	packet_resource_pack_client_response_t resource_pack_client_response;
+	resource_pack_client_response.response_status = get_unsigned_byte(stream);
+	resource_pack_client_response.resource_pack_ids = get_misc_resource_pack_ids(stream);
+	return resource_pack_client_response;
+}
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
 	binary_stream_t temp_stream;
@@ -97,4 +131,32 @@ void put_packet_play_status(packet_play_status_t packet, binary_stream_t *stream
 {
 	put_unsigned_byte(ID_PLAY_STATUS, stream);
 	put_int_be(packet.status, stream);
+}
+
+void put_packet_resource_packs_info(packet_resource_packs_info_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_RESOURCE_PACKS_INFO, stream);
+	put_unsigned_byte(packet.must_accept, stream);
+	put_unsigned_byte(packet.has_scripts, stream);
+	put_unsigned_byte(packet.force_server_packs, stream);
+	put_misc_behavior_pack_infos(packet.behavior_packs, stream);
+	put_misc_texture_pack_infos(packet.texture_packs, stream);
+}
+
+void put_packet_resource_pack_stack(packet_resource_pack_stack_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_RESOURCE_PACK_STACK, stream);
+	put_unsigned_byte(packet.must_accept, stream);
+	put_misc_resource_pack_id_versions(packet.behavior_packs, stream);
+	put_misc_resource_pack_id_versions(packet.resource_packs, stream);
+	put_misc_string_var_int(packet.game_version, stream);
+	put_misc_experiments(packet.experiments, stream);
+	put_unsigned_byte(packet.experiments_previously_used, stream);
+}
+
+void put_packet_resource_pack_client_response(packet_resource_pack_client_response_t packet, binary_stream_t *stream)
+{
+	put_unsigned_byte(ID_RESOURCE_PACK_CLIENT_RESPONSE, stream);
+	put_unsigned_byte(packet.response_status, stream);
+	put_misc_resource_pack_ids(packet.resource_pack_ids, stream);
 }

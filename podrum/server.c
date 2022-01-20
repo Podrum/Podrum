@@ -51,6 +51,7 @@ void on_dn(misc_address_t address) {
 	out[size] = 0x00;
 	log_info(out);
 	free(out);
+	exit(0);
 }
 
 void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server) {
@@ -66,14 +67,24 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				free(login.tokens.client);
 				free(login.tokens.identity);
 				packet_game_t out_game;
-				out_game.streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-				out_game.streams_count = 1;
+				out_game.streams_count = 2;
+				out_game.streams = (binary_stream_t *) malloc(out_game.streams_count * sizeof(binary_stream_t));
 				out_game.streams[0].buffer = (char *) malloc(0);
 				out_game.streams[0].size = 0;
 				out_game.streams[0].offset = 0;
+				out_game.streams[1].buffer = (char *) malloc(0);
+				out_game.streams[1].size = 0;
+				out_game.streams[1].offset = 0;
 				packet_play_status_t play_status;
 				play_status.status = PLAY_STATUS_LOGIN_SUCCESS;
 				put_packet_play_status(play_status, ((&(out_game.streams[0]))));
+				packet_resource_packs_info_t resource_packs_info;
+				resource_packs_info.must_accept = 0;
+				resource_packs_info.has_scripts = 0;
+				resource_packs_info.force_server_packs = 0;
+				resource_packs_info.behavior_packs.size = 0;
+				resource_packs_info.texture_packs.size = 0;
+				put_packet_resource_packs_info(resource_packs_info, ((&(out_game.streams[1]))));
 				misc_frame_t out_frame;
 				out_frame.is_fragmented = 0;
 				out_frame.reliability = RELIABILITY_UNRELIABLE;
@@ -81,9 +92,48 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				out_frame.stream.offset = 0;
 				out_frame.stream.size = 0;
 				put_packet_game(out_game, ((&(out_frame.stream))));
+				free(out_game.streams[0].buffer);
+				free(out_game.streams[1].buffer);
+				free(out_game.streams);
 				add_to_raknet_queue(out_frame, connection, server);
+			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_RESOURCE_PACK_CLIENT_RESPONSE) {
+				packet_resource_pack_client_response_t resource_pack_client_response = get_packet_resource_pack_client_response(((&(game.streams[i]))));
+				printf("RESOURCE PACKS RESONSE: %d\n", resource_pack_client_response.response_status);
+				if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_NONE || resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS) {
+					packet_game_t out_game;
+					out_game.streams_count = 1;
+					out_game.streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+					out_game.streams[0].buffer = (char *) malloc(0);
+					out_game.streams[0].size = 0;
+					out_game.streams[0].offset = 0;
+					packet_resource_pack_stack_t resource_pack_stack;
+					resource_pack_stack.must_accept = 0;
+					resource_pack_stack.behavior_packs.size = 0;
+					resource_pack_stack.resource_packs.size = 0;
+					resource_pack_stack.game_version = GAME_VERSION;
+					resource_pack_stack.experiments.size = 0;
+					resource_pack_stack.experiments_previously_used = 0;
+					put_packet_resource_pack_stack(resource_pack_stack, ((&(out_game.streams[0]))));
+					misc_frame_t out_frame;
+					out_frame.is_fragmented = 0;
+					out_frame.reliability = RELIABILITY_UNRELIABLE;
+					out_frame.stream.buffer = (char *) malloc(0);
+					out_frame.stream.offset = 0;
+					out_frame.stream.size = 0;
+					put_packet_game(out_game, ((&(out_frame.stream))));
+					free(out_game.streams[0].buffer);
+					free(out_game.streams);
+					add_to_raknet_queue(out_frame, connection, server);
+				}
+				int16_t ii;
+				for (ii = 0; ii < resource_pack_client_response.resource_pack_ids.size; ++ii) {
+					free(resource_pack_client_response.resource_pack_ids.ids[i]);
+				}
+				free(resource_pack_client_response.resource_pack_ids.ids);
 			}
+			free(game.streams[i].buffer);
 		}
+		free(game.streams);
 	}
 }
 

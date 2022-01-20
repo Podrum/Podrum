@@ -32,7 +32,12 @@ typedef struct {
 	char *sub_pack_name;
 	char *content_identity;
 	char has_scripts;
-} misc_behaviour_pack_info_t;
+} misc_behavior_pack_info_t;
+
+typedef struct {
+	misc_behavior_pack_info_t *infos;
+	int16_t size;
+} misc_behavior_pack_infos_t;
 
 typedef struct {
 	char *uuid;
@@ -46,15 +51,35 @@ typedef struct {
 } misc_texture_pack_info_t;
 
 typedef struct {
+	misc_texture_pack_info_t *infos;
+	int16_t size;
+} misc_texture_pack_infos_t;
+
+typedef struct {
 	char *uuid;
 	char *version;
 	char *name;
 } misc_resource_pack_id_version_t;
 
 typedef struct {
+	misc_resource_pack_id_version_t *id_versions;
+	uint32_t size;
+} misc_resource_pack_id_versions_t;
+
+typedef struct {
+	char **ids;
+	int16_t size;
+} misc_resource_pack_ids_t;
+
+typedef struct {
 	char *name;
 	char enabled;
 } misc_experiment_t;
+
+typedef struct {
+	misc_experiment_t *entries;
+	int32_t size;
+} misc_experiments_t;
 
 typedef union {
 	char boolean;
@@ -118,6 +143,18 @@ binary_stream_t get_misc_byte_array_short_le(binary_stream_t *stream);
 
 misc_login_tokens_t get_misc_login_tokens(binary_stream_t *stream);
 
+misc_behavior_pack_infos_t get_misc_behavior_pack_infos(binary_stream_t *stream);
+
+misc_texture_pack_infos_t get_misc_texture_pack_infos(binary_stream_t *stream);
+
+misc_resource_pack_id_versions_t get_misc_resource_pack_id_versions(binary_stream_t *stream);
+
+misc_resource_pack_ids_t get_misc_resource_pack_ids(binary_stream_t *stream);
+
+misc_experiment_t get_misc_experiment(binary_stream_t *stream);
+
+misc_experiments_t get_misc_experiments(binary_stream_t *stream);
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream);
 
 void put_misc_string_int_le(char *value, binary_stream_t *stream);
@@ -129,5 +166,17 @@ void put_misc_byte_array_signed_var_int(binary_stream_t value, binary_stream_t *
 void put_misc_byte_array_short_le(binary_stream_t value, binary_stream_t *stream);
 
 void put_misc_login_tokens(misc_login_tokens_t value, binary_stream_t *stream);
+
+void put_misc_behavior_pack_infos(misc_behavior_pack_infos_t value, binary_stream_t *stream);
+
+void put_misc_texture_pack_infos(misc_texture_pack_infos_t value, binary_stream_t *stream);
+
+void put_misc_resource_pack_id_versions(misc_resource_pack_id_versions_t value, binary_stream_t *stream);
+
+void put_misc_resource_pack_ids(misc_resource_pack_ids_t value, binary_stream_t *stream);
+
+void put_misc_experiment(misc_experiment_t value, binary_stream_t *stream);
+
+void put_misc_experiments(misc_experiments_t value, binary_stream_t *stream);
 
 #endif

@@ -8,6 +8,7 @@
 
 #include "./mcmisc.h"
 #include <stdlib.h>
+#include <string.h>
 
 char *get_misc_string_var_int(binary_stream_t *stream)
 {
@@ -68,20 +69,194 @@ misc_login_tokens_t get_misc_login_tokens(binary_stream_t *stream)
 	return login_tokens;
 }
 
+misc_behavior_pack_infos_t get_misc_behavior_pack_infos(binary_stream_t *stream)
+{
+	misc_behavior_pack_infos_t behavior_pack_infos;
+	behavior_pack_infos.size = get_short_le(stream);
+	behavior_pack_infos.infos = (misc_behavior_pack_info_t *) malloc(behavior_pack_infos.size * sizeof(misc_behavior_pack_info_t));
+	int16_t i;
+	for (i = 0; i < behavior_pack_infos.size; ++i) {
+		misc_behavior_pack_info_t behavior_pack_info;
+		behavior_pack_info.uuid = get_misc_string_var_int(stream);
+		behavior_pack_info.version = get_misc_string_var_int(stream);
+		behavior_pack_info.size = get_unsigned_long_le(stream);
+		behavior_pack_info.content_key = get_misc_string_var_int(stream);
+		behavior_pack_info.sub_pack_name = get_misc_string_var_int(stream);
+		behavior_pack_info.content_identity = get_misc_string_var_int(stream);
+		behavior_pack_info.has_scripts = get_unsigned_byte(stream);
+		behavior_pack_infos.infos[i] = behavior_pack_info;
+	}
+	return behavior_pack_infos;
+}
+
+misc_texture_pack_infos_t get_misc_texture_pack_infos(binary_stream_t *stream)
+{
+	misc_texture_pack_infos_t texture_pack_infos;
+	texture_pack_infos.size = get_short_le(stream);
+	texture_pack_infos.infos = (misc_texture_pack_info_t *) malloc(texture_pack_infos.size * sizeof(misc_texture_pack_info_t));
+	int16_t i;
+	for (i = 0; i < texture_pack_infos.size; ++i) {
+		misc_texture_pack_info_t texture_pack_info;
+		texture_pack_info.uuid = get_misc_string_var_int(stream);
+		texture_pack_info.version = get_misc_string_var_int(stream);
+		texture_pack_info.size = get_unsigned_long_le(stream);
+		texture_pack_info.content_key = get_misc_string_var_int(stream);
+		texture_pack_info.sub_pack_name = get_misc_string_var_int(stream);
+		texture_pack_info.content_identity = get_misc_string_var_int(stream);
+		texture_pack_info.has_scripts = get_unsigned_byte(stream);
+		texture_pack_info.rtx_enabled = get_unsigned_byte(stream);
+		texture_pack_infos.infos[i] = texture_pack_info;
+	}
+	return texture_pack_infos;
+}
+
+misc_resource_pack_id_versions_t get_misc_resource_pack_id_versions(binary_stream_t *stream)
+{
+	misc_resource_pack_id_versions_t resource_pack_id_versions;
+	resource_pack_id_versions.size = get_var_int(stream);
+	resource_pack_id_versions.id_versions = (misc_resource_pack_id_version_t *) malloc(resource_pack_id_versions.size * sizeof(misc_resource_pack_id_version_t));
+	uint32_t i;
+	for (i = 0; i < resource_pack_id_versions.size; ++i) {
+		misc_resource_pack_id_version_t resource_pack_id_version;
+		resource_pack_id_version.uuid = get_misc_string_var_int(stream);
+		resource_pack_id_version.version = get_misc_string_var_int(stream);
+		resource_pack_id_version.name = get_misc_string_var_int(stream);
+		resource_pack_id_versions.id_versions[i] = resource_pack_id_version;
+	}
+	return resource_pack_id_versions;
+}
+
+misc_resource_pack_ids_t get_misc_resource_pack_ids(binary_stream_t *stream)
+{
+	misc_resource_pack_ids_t resource_pack_ids;
+	resource_pack_ids.size = get_short_le(stream);
+	resource_pack_ids.ids = (char **) malloc(resource_pack_ids.size * sizeof(char *));
+	int16_t i;
+	for (i = 0; i < resource_pack_ids.size; ++i) {
+		resource_pack_ids.ids[i] = get_misc_string_var_int(stream);
+	}
+	return resource_pack_ids;
+}
+
+misc_experiment_t get_misc_experiment(binary_stream_t *stream)
+{
+	misc_experiment_t experiment;
+	experiment.name = get_misc_string_var_int(stream);
+	experiment.enabled = get_unsigned_byte(stream);
+	return experiment;
+}
+
+misc_experiments_t get_misc_experiments(binary_stream_t *stream) {
+	misc_experiments_t experiments;
+	experiments.size = get_int_le(stream);
+	experiments.entries = (misc_experiment_t *) malloc(experiments.size * sizeof(misc_experiment_t));
+	int32_t i;
+	for (i = 0; i < experiments.size; ++i) {
+		experiments.entries[i] = get_misc_experiment(stream);
+	}
+	return experiments;
+}
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream)
-{}
+{
+	int length = strlen(value);
+	put_var_int(length & 0xffffffff, stream);
+	put_bytes(value, length, stream);
+}
 
 void put_misc_string_int_le(char *value, binary_stream_t *stream)
-{}
+{
+	int length = strlen(value);
+	put_int_le(length, stream);
+	put_bytes(value, length, stream);
+}
 
 void put_misc_byte_array_var_int(binary_stream_t value, binary_stream_t *stream)
-{}
+{
+	put_var_int(value.size, stream);
+	put_bytes(value.buffer, value.size, stream);
+}
 
 void put_misc_byte_array_signed_var_int(binary_stream_t value, binary_stream_t *stream)
-{}
+{
+	put_signed_var_int(value.size, stream);
+	put_bytes(value.buffer, value.size, stream);
+}
 
 void put_misc_byte_array_short_le(binary_stream_t value, binary_stream_t *stream)
-{}
+{
+	put_short_le(value.size, stream);
+	put_bytes(value.buffer, value.size, stream);
+}
 
 void put_misc_login_tokens(misc_login_tokens_t value, binary_stream_t *stream)
-{}
+{
+	put_misc_string_int_le(value.identity, stream);
+	put_misc_string_int_le(value.client, stream);
+}
+
+void put_misc_behavior_pack_infos(misc_behavior_pack_infos_t value, binary_stream_t *stream)
+{
+	put_short_le(value.size, stream);
+	int16_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.infos[i].uuid, stream);
+		put_misc_string_var_int(value.infos[i].version, stream);
+		put_unsigned_long_le(value.infos[i].size, stream);
+		put_misc_string_var_int(value.infos[i].content_key, stream);
+		put_misc_string_var_int(value.infos[i].sub_pack_name, stream);
+		put_misc_string_var_int(value.infos[i].content_identity, stream);
+		put_unsigned_byte(value.infos[i].has_scripts, stream);
+	}
+}
+
+void put_misc_texture_pack_infos(misc_texture_pack_infos_t value, binary_stream_t *stream)
+{
+	put_short_le(value.size, stream);
+	int16_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.infos[i].uuid, stream);
+		put_misc_string_var_int(value.infos[i].version, stream);
+		put_unsigned_long_le(value.infos[i].size, stream);
+		put_misc_string_var_int(value.infos[i].content_key, stream);
+		put_misc_string_var_int(value.infos[i].sub_pack_name, stream);
+		put_misc_string_var_int(value.infos[i].content_identity, stream);
+		put_unsigned_byte(value.infos[i].has_scripts, stream);
+		put_unsigned_byte(value.infos[i].rtx_enabled, stream);
+	}
+}
+
+void put_misc_resource_pack_id_versions(misc_resource_pack_id_versions_t value, binary_stream_t *stream)
+{
+	put_var_int(value.size, stream);
+	uint32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.id_versions[i].uuid, stream);
+		put_misc_string_var_int(value.id_versions[i].version, stream);
+		put_misc_string_var_int(value.id_versions[i].name, stream);
+	}
+}
+
+void put_misc_resource_pack_ids(misc_resource_pack_ids_t value, binary_stream_t *stream)
+{
+	put_short_le(value.size, stream);
+	uint32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.ids[i], stream);
+	}
+}
+
+void put_misc_experiment(misc_experiment_t value, binary_stream_t *stream)
+{
+	put_misc_string_var_int(value.name, stream);
+	put_unsigned_byte(value.enabled, stream);
+}
+
+void put_misc_experiments(misc_experiments_t value, binary_stream_t *stream)
+{
+	put_int_le(value.size, stream);
+	int32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_experiment(value.entries[i], stream);
+	}
+}
