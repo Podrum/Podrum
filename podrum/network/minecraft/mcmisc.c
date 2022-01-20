@@ -7,12 +7,13 @@
  */
 
 #include "./mcmisc.h"
+#include <stdlib.h>
 
 char *get_misc_string_var_int(binary_stream_t *stream)
 {
 	uint32_t size = get_var_int(stream);
 	char *output = (char *) malloc(size + 1);
-	int i;
+	uint32_t i;
 	for (i = 0; i < size; ++i) {
 		output[i] = (char) get_unsigned_byte(stream);
 	}
@@ -24,7 +25,7 @@ char *get_misc_string_int_le(binary_stream_t *stream)
 {
 	int32_t size = get_int_le(stream);
 	char *output = (char *) malloc(size + 1);
-	int i;
+	int32_t i;
 	for (i = 0; i < size; ++i) {
 		output[i] = (char) get_unsigned_byte(stream);
 	}

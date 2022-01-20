@@ -9,6 +9,8 @@
 #ifndef PODRUM_COMMAND_COMMANDMANAGER_H
 #define PODRUM_COMMAND_COMMANDMANAGER_H
 
+#include <stdlib.h>
+
 typedef void (*command_executor_t)(int argc, char **argv);
 
 typedef struct {
@@ -22,12 +24,8 @@ typedef struct {
 
 typedef struct {
 	command_t *commands;
-	int commands_count;
+	size_t commands_count;
 } command_manager_t;
-
-typedef struct{
-    int lenght;
-} command_map_t;
 
 void register_command(command_t command, command_manager_t *manager);
 

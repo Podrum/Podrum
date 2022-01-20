@@ -80,7 +80,7 @@ typedef struct {
 typedef struct {
 	uint32_t sequence_number;
 	misc_frame_t *frames;
-	int frames_count;
+	size_t frames_count;
 } packet_frame_set_t;
 
 typedef struct {

@@ -7,7 +7,6 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 #include "commandmanager.h"
 
@@ -20,7 +19,7 @@ void register_command(command_t command, command_manager_t *manager)
 
 command_t get_command(char *name, command_manager_t *manager)
 {
-    int i;
+    size_t i;
     for (i = 0; i < manager->commands_count; ++i)
     {
         if (strcmp(manager->commands[i].name, name) == 0)
@@ -36,9 +35,9 @@ command_t get_command(char *name, command_manager_t *manager)
 void delete_command(char *name, command_manager_t *manager)
 {
     if (manager->commands_count != 0){
-        int i;
+        size_t i;
         command_t *temp_commands = (command_t *) malloc((manager->commands_count - 1) * sizeof(command_t));
-        int offset = 0;
+        size_t offset = 0;
         for (i = 0; i < manager->commands_count; ++i)
         {
             if (strcmp(manager->commands[i].name, name) != 0)

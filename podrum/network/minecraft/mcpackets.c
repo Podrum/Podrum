@@ -63,7 +63,7 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 	temp_stream.buffer = (char *) malloc(0);
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
-	int i;
+	size_t i;
 	for (i = 0; i < packet.streams_count; ++i)
 	{
 		put_var_int(packet.streams[i].size, &temp_stream);

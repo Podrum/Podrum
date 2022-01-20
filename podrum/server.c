@@ -57,7 +57,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 	printf("0x%X\n", frame.stream.buffer[0] & 0xFF);
 	if ((frame.stream.buffer[0] & 0xFF) == ID_GAME) {
 		packet_game_t game = get_packet_game(((&(frame.stream))));
-		int i;
+		size_t i;
 		for (i = 0; i < game.streams_count; ++i) {
 			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff);
 			if ((game.streams[i].buffer[0] & 0xFF) == ID_LOGIN) {

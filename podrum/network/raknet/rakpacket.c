@@ -29,7 +29,7 @@ packet_unconnected_pong_t get_packet_unconnected_pong(binary_stream_t *stream)
 	stream->offset += 16; /* MAGIC */
 	uint16_t length = get_unsigned_short_be(stream);
 	packet.message = (char *) malloc(length + 1);
-	int i;
+	uint16_t i;
 	for (i = 0; i < length; ++i) {
 		packet.message[i] = get_unsigned_byte(stream);
 	}
@@ -95,10 +95,10 @@ packet_acknowledge_t get_packet_acknowledge(binary_stream_t *stream)
 	packet.sequence_numbers_count = 0;
 	packet.sequence_numbers = (uint32_t *) malloc(0);
 	uint16_t record_count = get_unsigned_short_be(stream);
-	int i;
+	uint16_t i;
 	unsigned char is_single;
-	int index;
-	int end_index;
+	uint32_t index;
+	uint32_t end_index;
 	for (i = 0; i < record_count; ++i) {
 		is_single = get_unsigned_byte(stream);
 		if (is_single != 0) {
@@ -221,8 +221,8 @@ void put_packet_open_connection_request_1(packet_open_connection_request_1_t pac
 	put_unsigned_byte(ID_OPEN_CONNECTION_REQUEST_1, stream);
 	put_bytes(MAGIC, 16, stream);
 	put_unsigned_byte(packet.protocol_version, stream);
-	int pad_bytes = packet.mtu_size - 18;
-	int i;
+	uint16_t pad_bytes = packet.mtu_size - 18;
+	uint16_t i;
 	for (i = 0; i < pad_bytes; ++i) {
 		put_unsigned_byte(0x00, stream);
 	}
@@ -259,10 +259,10 @@ void put_packet_open_connection_reply_2(packet_open_connection_reply_2_t packet,
 void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream_t *stream)
 {
 	/* Sort out the sequence numbers */
-	int temp = 0;
-	int i;
+	uint32_t temp = 0;
+	uint16_t i;
 	for (i = 0; i < packet.sequence_numbers_count; ++i) {
-		int j;
+		uint16_t j;
 		for (j = i + 1; j < packet.sequence_numbers_count; ++j) {
 			if (packet.sequence_numbers[i] > packet.sequence_numbers[j]) {
 				temp = packet.sequence_numbers[i];
@@ -276,7 +276,7 @@ void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
 	temp_stream.buffer = (char *) malloc(0);
-	int record_count = 0;
+	uint16_t record_count = 0;
 	if (packet.sequence_numbers_count > 0) {
 		uint32_t start_index = packet.sequence_numbers[0];
 		uint32_t end_index = packet.sequence_numbers[0];
@@ -318,7 +318,7 @@ void put_packet_frame_set(packet_frame_set_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_FRAME_SET, stream);
 	put_unsigned_triad_le(packet.sequence_number, stream);
-	int i;
+	size_t i;
 	for (i = 0; i < packet.frames_count; ++i) {
 		put_misc_frame(packet.frames[i], stream);
 	}

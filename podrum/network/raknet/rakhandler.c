@@ -100,7 +100,7 @@ binary_stream_t handle_connected_ping(binary_stream_t *stream, raknet_server_t *
 void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
 {
 	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
-	int i;
+	uint16_t i;
 	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
 		deduct_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 	}
@@ -110,7 +110,7 @@ void handle_ack(binary_stream_t *stream, raknet_server_t *server, connection_t *
 void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
 {
 	packet_acknowledge_t acknowledge = get_packet_acknowledge(stream);
-	int i;
+	uint16_t i;
 	for (i = 0; i < acknowledge.sequence_numbers_count; ++i) {
 		packet_frame_set_t frame_set = pop_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 		if (frame_set.sequence_number != 0 && frame_set.frames_count != 0 && frame_set.frames != NULL) {
@@ -142,7 +142,7 @@ void handle_fragmented_frame(misc_frame_t frame, raknet_server_t *server, connec
 		output_frame.stream.buffer = (char *) malloc(0);
 		output_frame.stream.offset = 0;
 		output_frame.stream.size = 0;
-		int i;
+		size_t i;
 		for (i = 0; i < frame.compound_size; ++i) {
 			misc_frame_t compound_entry = pop_raknet_compound_entry(frame.compound_id, i, connection);
 			put_bytes(compound_entry.stream.buffer, compound_entry.stream.size, ((&(output_frame.stream))));
@@ -197,7 +197,7 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 		}
 	}
 	connection->receiver_sequence_number = frame_set.sequence_number;
-	int i;
+	size_t i;
 	for (i = 0; i < frame_set.frames_count; ++i) {
 		if (has_raknet_connection(address, server) == 0) {
 			break;

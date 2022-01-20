@@ -10,6 +10,7 @@
 #define PODRUM_NETWORK_MINECRAFT_MCPACKETS_H
 
 #include <cbinarystream/binary_stream.h>
+#include <stdlib.h>
 #include "./mcmisc.h"
 
 #define ID_GAME 0xFE
@@ -27,7 +28,7 @@
 
 typedef struct {
 	binary_stream_t *streams;
-	int streams_count;
+	size_t streams_count;
 } packet_game_t;
 
 typedef struct {

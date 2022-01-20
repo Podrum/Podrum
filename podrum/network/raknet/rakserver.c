@@ -9,7 +9,6 @@
 #include "./rakserver.h"
 #include "./rakhandler.h"
 #include <string.h>
-#include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
 
@@ -20,7 +19,7 @@ double get_raknet_timestamp(raknet_server_t *server)
 
 char has_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < server->connections_count; ++i) {
 		if ((server->connections[i].address.port == address.port) && (strcmp(server->connections[i].address.address, address.address) == 0)) {
 			return 1;
@@ -66,9 +65,9 @@ void add_raknet_connection(misc_address_t address, uint16_t mtu_size, uint64_t g
 void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
 	if (has_raknet_connection(address, server) == 1) {
-		int i;
+		size_t i;
 		connection_t *connections = (connection_t *) malloc((server->connections_count - 1) * sizeof(connection_t));
-		int connections_count = 0;
+		size_t connections_count = 0;
 		for (i = 0; i < server->connections_count; ++i) {
 			if ((server->connections[i].address.port != address.port) || (strcmp(server->connections[i].address.address, address.address) != 0)) {
 				connections[connections_count] = server->connections[i];
@@ -76,14 +75,14 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 			} else {
 				free(server->connections[i].ack_queue);
 				free(server->connections[i].nack_queue);
-				int ii;
+				size_t ii;
 				for (ii = 0; ii < server->connections[i].frame_holder_size; ++ii) {
 					free(server->connections[i].frame_holder[ii].stream.buffer);
 				}
 				free(server->connections[i].frame_holder);
 				free(server->connections[i].queue.frames);
 				for (ii = 0; ii < server->connections[i].recovery_queue_size; ++ii) {
-					int iii;
+					size_t iii;
 					for (iii = 0; iii < server->connections[i].recovery_queue[ii].frames_count; ++iii) {
 						free(server->connections[i].recovery_queue[ii].frames[iii].stream.buffer);
 					}
@@ -100,7 +99,7 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 
 connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < server->connections_count; ++i) {
 		if ((server->connections[i].address.port == address.port) && (strcmp(server->connections[i].address.address, address.address) == 0)) {
 			return (&(server->connections[i]));
@@ -111,7 +110,7 @@ connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *ser
 
 char is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < connection->recovery_queue_size; ++i) {
 		if (connection->recovery_queue[i].sequence_number == sequence_number) {
 			return 1;
@@ -132,15 +131,15 @@ void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *co
 void deduct_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
-		int i;
+		size_t i;
 		packet_frame_set_t *recovery_queue = (packet_frame_set_t *) malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
-		int recovery_queue_size = 0;
+		size_t recovery_queue_size = 0;
 		for (i = 0; i < connection->recovery_queue_size; ++i) {
 			if (connection->recovery_queue[i].sequence_number != sequence_number) {
 				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
 				++recovery_queue_size;
 			} else {
-				int ii;
+				size_t ii;
 				for (ii = 0; ii < connection->recovery_queue[i].frames_count; ++ii) {
 					free(connection->recovery_queue[i].frames[ii].stream.buffer);
 				}
@@ -156,9 +155,9 @@ void deduct_raknet_recovery_queue(uint32_t sequence_number, connection_t *connec
 packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_recovery_queue(sequence_number, connection) == 1) {
-		int i;
+		size_t i;
 		packet_frame_set_t *recovery_queue = (packet_frame_set_t *) malloc((connection->recovery_queue_size - 1) * sizeof(packet_frame_set_t));
-		int recovery_queue_size = 0;
+		size_t recovery_queue_size = 0;
 		packet_frame_set_t output_frame_set;
 		for (i = 0; i < connection->recovery_queue_size; ++i) {
 			if (connection->recovery_queue->sequence_number != sequence_number) {
@@ -182,7 +181,7 @@ packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connectio
 
 char is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 {
-	int i;
+	uint16_t i;
 	for (i = 0; i < connection->ack_queue_size; ++i) {
 		if (connection->ack_queue[i] == sequence_number) {
 			return 1;
@@ -202,7 +201,7 @@ void append_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 
 char is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
-	int i;
+	uint16_t i;
 	for (i = 0; i < connection->nack_queue_size; ++i) {
 		if (connection->nack_queue[i] == sequence_number) {
 			return 1;
@@ -214,9 +213,9 @@ char is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 void deduct_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	if (is_in_raknet_nack_queue(sequence_number, connection) == 1) {
-		int i;
+		uint16_t i;
 		uint32_t *nack_queue = (uint32_t *) malloc((connection->nack_queue_size - 1) * sizeof(uint32_t));
-		int nack_queue_size = 0;
+		uint16_t nack_queue_size = 0;
 		for (i = 0; i < connection->nack_queue_size; ++i) {
 			if (connection->nack_queue[i] != sequence_number) {
 				nack_queue[nack_queue_size] = connection->nack_queue[i];
@@ -293,7 +292,7 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
-		connection->queue.frames = (misc_frame_t *) malloc(0); /* mark */
+		connection->queue.frames = (misc_frame_t *) malloc(0);
 		connection->queue.frames_count = 0;
 	}
 }
@@ -318,8 +317,8 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 		free(output_socket_data.stream.buffer);
 		memset(&output_socket_data, 0, sizeof(socket_data_t));
 	} else {
-		int size = get_frame_size(frame);
-		int i;
+		size_t size = get_frame_size(frame);
+		size_t i;
 		for (i = 0; i < connection->queue.frames_count; ++i) {
 			size += get_frame_size(connection->queue.frames[i]);
 		}
@@ -334,7 +333,6 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 {
-	/* printf("<- 0x%X\n", frame.stream.buffer[0] & 0xff); */
 	if (is_ordered(frame.reliability) == 1) {
 		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
 		++connection->sender_order_channels[frame.order_channel];
@@ -343,11 +341,11 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		frame.ordered_frame_index = connection->sender_sequence_channels[frame.order_channel];
 		++connection->sender_sequence_channels[frame.order_channel];
 	}
-	int max_size = get_frame_size(frame) - 60; 
+	uint16_t max_size = get_frame_size(frame) - 60; 
 	if (max_size > connection->mtu_size) {
-		int frame_count = (frame.stream.size / max_size) + 1;
-		int pad_bytes = (frame_count * max_size) - frame.stream.size;
-		int i;
+		size_t frame_count = (frame.stream.size / max_size) + 1;
+		size_t pad_bytes = (frame_count * max_size) - frame.stream.size;
+		size_t i;
 		for (i = 0; i < frame_count; ++i) {
 			misc_frame_t compound_entry;
 			compound_entry.is_fragmented = 1;
@@ -389,7 +387,7 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 
 char is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection)
 {
-	int i;
+	size_t i;
 	for (i = 0; i < connection->frame_holder_size; ++i) {
 		if (connection->frame_holder[i].compound_id == compound_id && connection->frame_holder[i].index == index) {
 			return 1;
@@ -407,10 +405,10 @@ void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection)
 	}
 }
 
-int get_raknet_compound_size(uint16_t compound_id, connection_t *connection)
+size_t get_raknet_compound_size(uint16_t compound_id, connection_t *connection)
 {
-	int size = 0;
-	int i;
+	size_t size = 0;
+	size_t i;
 	for (i = 0; i < connection->frame_holder_size; ++i) {
 		if (connection->frame_holder[i].compound_id == compound_id) {
 			++size;
@@ -423,9 +421,9 @@ misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, con
 {
 	if (is_in_raknet_frame_holder(compound_id, index, connection) == 1) {
 		misc_frame_t *frame_holder = (misc_frame_t *) malloc((connection->frame_holder_size - 1) * sizeof(misc_frame_t));
-		int frame_holder_size = 0;
+		size_t frame_holder_size = 0;
 		misc_frame_t output_frame;
-		int i;
+		size_t i;
 		for (i = 0; i < connection->frame_holder_size; ++i) {
 			if (connection->frame_holder[i].compound_id != compound_id || connection->frame_holder[i].index != index) {
 				frame_holder[frame_holder_size] = connection->frame_holder[i];
@@ -460,20 +458,12 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
 	append_raknet_frame(frame, 1, connection, server);
 	remove_raknet_connection(connection->address, server);
-	/* exit(0); */
 }
 
 void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
 	if (socket_data.stream.size > 0) {
-		/* Just a debug thing
-			int i;
-			for (i = 0; i < socket_data.stream.size; ++i) {
-				printf("0x%X ", socket_data.stream.buffer[i] & 0xff);
-			}
-			printf("\n");
-		*/
 		if ((socket_data.stream.buffer[0] & 0xff) == ID_UNCONNECTED_PING)
 		{
 			socket_data_t output_socket_data;
@@ -515,7 +505,7 @@ void handle_raknet_packet(raknet_server_t *server)
 	}
 	free(socket_data.stream.buffer);
 	memset(&socket_data, 0, sizeof(socket_data_t));
-	int i;
+	size_t i;
 	for (i = 0; i < server->connections_count; ++i) {
 		send_raknet_ack_queue((&(server->connections[i])), server);
 		send_raknet_nack_queue((&(server->connections[i])), server);

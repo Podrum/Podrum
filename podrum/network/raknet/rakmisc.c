@@ -90,7 +90,7 @@ misc_frame_t get_misc_frame(binary_stream_t *stream)
 		frame.compound_id = get_unsigned_short_be(stream);
 		frame.index = get_unsigned_int_be(stream);
 	}
-	int i;
+	size_t i;
 	for (i = 0; i < frame.stream.size; ++i)
 	{
 		frame.stream.buffer[i] = get_unsigned_byte(stream);
@@ -107,8 +107,9 @@ misc_address_t get_misc_address(binary_stream_t *stream)
 		unsigned char part_2 = ~get_unsigned_byte(stream) & 0xff;
 		unsigned char part_3 = ~get_unsigned_byte(stream) & 0xff;
 		unsigned char part_4 = ~get_unsigned_byte(stream) & 0xff;
-		unsigned int size = snprintf(NULL, 0, "%d.%d.%d.%d", part_1, part_2, part_3, part_4);
+		int size = snprintf(NULL, 0, "%d.%d.%d.%d", part_1, part_2, part_3, part_4);
 		address.address = (char *) malloc(size + 1);
+		address.address[size] = 0x00;
 		sprintf(address.address, "%d.%d.%d.%d", part_1, part_2, part_3, part_4);
 		address.port = get_unsigned_short_be(stream);
 	}
@@ -134,7 +135,7 @@ void put_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 		put_unsigned_short_be(frame.compound_id, stream);
 		put_unsigned_int_be(frame.index, stream);
 	}
-	int i;
+	size_t i;
 	for (i = 0; i < frame.stream.size; ++i)
 	{
 		put_unsigned_byte(frame.stream.buffer[i], stream);
@@ -151,9 +152,9 @@ void put_misc_address(misc_address_t address, binary_stream_t *stream)
 	}
 }
 
-int get_frame_size(misc_frame_t frame)
+size_t get_frame_size(misc_frame_t frame)
 {
-	int size = 3 + frame.stream.size;
+	size_t size = 3 + frame.stream.size;
 	if (is_reliable(frame.reliability) == 1) {
 		size += 3;
 	}

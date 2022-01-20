@@ -10,6 +10,7 @@
 #define PODRUM_NETWORK_RAKNET_RAKSERVER_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #include "./rakmisc.h"
 #include "./rakpacket.h"
@@ -27,13 +28,13 @@ typedef struct {
 	unsigned char sender_sequence_channels[32];
 	packet_frame_set_t queue;
 	uint32_t *ack_queue;
-	int ack_queue_size;
+	uint16_t ack_queue_size;
 	uint32_t *nack_queue;
-	int nack_queue_size;
+	uint16_t nack_queue_size;
 	misc_frame_t *frame_holder;
-	int frame_holder_size;
+	size_t frame_holder_size;
 	packet_frame_set_t *recovery_queue;
-	int recovery_queue_size;
+	size_t recovery_queue_size;
 	uint32_t compound_id;
 	double ms;
 	double last_receive_time;
@@ -57,7 +58,7 @@ struct _raknet_server {
 	on_new_incoming_connection_executor_t on_new_incoming_connection_executor;
 	on_disconnect_notification_executor_t on_disconnect_notification_executor;
 	connection_t *connections;
-	int connections_count;
+	size_t connections_count;
 	char *message;
 	int sock;
 	double epoch;
@@ -105,7 +106,7 @@ char is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_
 
 void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection);
 
-int get_raknet_compound_size(uint16_t compound_id, connection_t *connection);
+size_t get_raknet_compound_size(uint16_t compound_id, connection_t *connection);
 
 misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, connection_t *connection);
 

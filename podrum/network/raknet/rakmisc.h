@@ -56,6 +56,6 @@ void put_misc_frame(misc_frame_t frame, binary_stream_t *stream);
 
 void put_misc_address(misc_address_t address, binary_stream_t *stream);
 
-int get_frame_size(misc_frame_t frame);
+size_t get_frame_size(misc_frame_t frame);
 
 #endif
