@@ -21,6 +21,9 @@
 
 #endif
 
+#define CODE_NAME (char *) "Titanium"
+#define API_VERSION (char *) "1.0.0-alpha1"
+
 void cmd1executor(int argc, char **argv)
 {
 	log_info((char *) "Function called!");

@@ -95,6 +95,11 @@ typedef struct {
 } misc_game_rule_t;
 
 typedef struct {
+	misc_game_rule_t *entries;
+	uint32_t size;
+} misc_game_rules_t;
+
+typedef struct {
 	char *button_name;
 	char *link_uri;
 } misc_education_shared_resource_uri_t;
@@ -106,9 +111,19 @@ typedef struct {
 } misc_item_state_t;
 
 typedef struct {
+	misc_item_state_t *entries;
+	uint32_t size;
+} misc_item_states_t;
+
+typedef struct {
 	char *name;
 	binary_stream_t *nbt_stream;
 } misc_block_property_t;
+
+typedef struct {
+	misc_block_property_t *entries;
+	uint32_t size;
+} misc_block_properties_t;
 
 typedef struct {
 	uint16_t with_nbt;

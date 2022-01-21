@@ -7,3 +7,4 @@
 *.exp
 *.pdb
 *.lib
+.vscode/settings.json

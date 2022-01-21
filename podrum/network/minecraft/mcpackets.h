@@ -15,6 +15,7 @@
 
 #define GAME_VERSION (char *) "1.18.2"
 #define GAME_PROTOCOL_VERSION 475
+#define GAME_ENGINE (char *) "Podrum"
 
 #define ID_GAME 0xFE
 #define ID_LOGIN 0x01
@@ -74,6 +75,76 @@ typedef struct {
 	unsigned char response_status;
 	misc_resource_pack_ids_t resource_pack_ids;
 } packet_resource_pack_client_response_t;
+
+typedef struct {
+	int64_t entity_id;
+	uint64_t runtime_entity_id;
+	int32_t player_gamemode;
+	float player_x;
+	float player_y;
+	float player_z;
+	float pitch;
+	float yaw;
+	int32_t seed;
+	int16_t biome_type;
+	char biome_name;
+	int32_t dimension;
+	int32_t generator;
+	int32_t world_gamemode;
+	int32_t difficulty;
+	int32_t spawn_x;
+	uint32_t spawn_y;
+	int32_t spawn_z;
+	char achievements_disabled;
+	int32_t day_cycle_stop_time;
+	int32_t edu_offer;
+	char edu_features_enabled;
+	char *edu_product_uuid;
+	float rain_level;
+	float lightning_level;
+	char has_confirmed_platform_locked_content;
+	char is_multiplayer;
+	char broadcast_to_lan;
+	uint32_t xbox_live_broadcast_mode;
+	uint32_t platform_broadcast_mode;
+	char enable_commands;
+	char is_texturepacks_required;
+	misc_game_rules_t gamerules;
+	misc_experiments_t experiments;
+	char experiments_previously_used;
+	char bonus_chest;
+	char map_enabled;
+	int32_t permission_level;
+	int32_t server_chunk_tick_range;
+	char has_locked_behavior_pack;
+	char has_locked_resource_pack;
+	char is_from_locked_world_template;
+	char msa_gamertags_only;
+	char is_from_world_template;
+	char is_world_template_option_locked;
+	char only_spawn_v1_villagers;
+	char *game_version;
+	int32_t limited_world_width;
+	int32_t limited_world_length;
+	char is_new_nether;
+	misc_education_shared_resource_uri_t edu_resource_uri;
+	char experimental_gameplay_override;
+	char *level_id;
+	char *world_name;
+	char *premium_world_template_id;
+	char is_trial;
+	int32_t movement_authority;
+	int32_t rewind_history_size;
+	char server_authoritative_block_breaking;
+	int64_t current_tick;
+	int32_t enchantment_seed;
+	misc_block_properties_t block_properties;
+	misc_item_states_t itemstates;
+	char *multiplayer_correlation_id;
+	char server_authoritative_inventory;
+	char *engine;
+	uint64_t block_pallete_checksum;
+} packet_start_game_t;
 
 packet_game_t get_packet_game(binary_stream_t *stream);
 
