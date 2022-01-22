@@ -10,6 +10,7 @@
 #define PODRUM_MISC_JSON_H
 
 #include <stdint.h>
+#include <stdlib.h>
 
 #define JSON_OBJECT 0
 #define JSON_ARRAY 1
@@ -21,7 +22,7 @@
 
 typedef struct {
 	char *json;
-	int offset;;
+	int offset;
 } json_input_t;
 
 union _json_multi;
