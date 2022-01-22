@@ -19,31 +19,29 @@
 #define JSON_BOOL 5
 #define JSON_NULL 6
 
-union _multi_json;
+typedef struct {
+	char *json;
+	int offset;;
+} json_input_t;
 
-typedef union _multi_json multi_json_t;
+union _json_multi;
+
+typedef union _json_multi json_multi_t;
 
 typedef struct {
-	multi_json_t value;
-	char type;
-} json_member_t;
-
-typedef struct {
-	char *name;
-	json_member_t member;
-} json_key_t;
-
-typedef struct {
-	json_key_t *members;
-	multi_json_t *size;
+	char **keys;
+	json_multi_t *members;
+	char *types;
+	size_t size;
 } json_object_t;
 
 typedef struct {
-	json_member_t *members;
-	multi_json_t *size;
+	json_multi_t *members;
+	char *types;
+	size_t size;
 } json_array_t;
 
-union _multi_json {
+union _json_multi {
 	json_object_t json_object;
 	json_array_t json_array;
 	char *json_string;

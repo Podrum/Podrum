@@ -11,40 +11,6 @@
 
 char *some_json = "{\"test\" : \"hii\"}";
 
-void test() {
-	int i;
-	int open_brace_count = 0;
-	int open_bracket_count = 0;
-	int open_quotes_count = 0;
-	int ignore = 0;
-	int esc_code_size = 0;
-	for (i = 0; i < strlen(some_json); ++i) {
-		switch (some_json[i]) {
-		case '{':
-			++open_brace_count;
-			break;
-		case '}':
-			--open_brace_count;
-			break;
-		case '[':
-			++open_bracket_count;
-			break;
-		case ']':
-			--open_bracket_count;
-			break;
-		case '\"':
-			if (ignore == 0) {
-				if (open_quotes_count == 0) {
-					open_quotes_count = 1;
-				} else {
-					open_quotes_count = 0;
-				}
-			} else {
-				ignore = 1;
-			}
-			break;
-		case 'n':
-			break;
-		}
-	}
+void parse_json_object(json_input_t *json_input)
+{
 }
