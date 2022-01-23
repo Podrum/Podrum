@@ -15,6 +15,7 @@
 #include "./network/raknet/rakserver.h"
 #include "./worker.h"
 #include "./network/minecraft/mcpackets.h"
+#include "./misc/json.h"
 
 #ifdef _WIN32
 
@@ -143,6 +144,10 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
+	json_input_t my_json_string;
+	my_json_string.json = (char *) "\"Hi :)! Working json strings \\uD83D\\uDC4D!\"";
+	my_json_string.offset = 0;
+	log_info(parse_json_string(&my_json_string));
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);

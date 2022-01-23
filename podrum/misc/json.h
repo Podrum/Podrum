@@ -52,4 +52,6 @@ union _json_multi {
 	void *json_null;
 };
 
+char *parse_json_string(json_input_t *json_input);
+
 #endif
