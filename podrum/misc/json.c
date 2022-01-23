@@ -67,12 +67,66 @@ char hextobin(char hex)
 
 void parse_json_string(json_input_t *json_input)
 {
-	char *out = (char *) malloc(0);
-	int out_len = 0;
+	char *out = (char *) malloc(1);
+	int out_len = 1;
 	char is_esc_code = 0;
 	if (json_input->json[json_input->offset] == '"') {
+		++json_input->offset;
 		while (json_input->json[json_input->offset] != '"') {
-			if (is_esc_code) {}
+			if (is_esc_code) {
+				switch (json_input->json[json_input->offset]) {
+				case 'n':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\n';
+					++json_input->offset;
+					break;
+				case '\\':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\\';
+					++json_input->offset;
+					break;
+				case '"':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '"';
+					++json_input->offset;
+					break;
+				case '/':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '/';
+					++json_input->offset;
+					break;
+				case 'b':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\b';
+					++json_input->offset;
+					break;
+				case 'r':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\r';
+					++json_input->offset;
+					break;
+				case 't':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\t';
+					++json_input->offset;
+					break;
+				case 'f':
+					++out_len;
+					out = (char *) realloc(out, out_len);
+					out[out_len - 1] = '\f';
+					++json_input->offset;
+					break;
+				case 'u':
+					break;
+				}
+			}
 		}
 	}
 }
