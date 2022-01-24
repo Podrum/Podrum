@@ -53,7 +53,7 @@ char hextobin(char hex)
 	case 'f':
 		return 0x0F;
 	}
-	return -1;
+	return 0xff; /* Use 0xff as an error code */
 }
 
 char *parse_json_string(json_input_t *json_input)
@@ -125,7 +125,7 @@ char *parse_json_string(json_input_t *json_input)
 							hextobin(json_input->json[json_input->offset++]),
 							hextobin(json_input->json[json_input->offset++])
 						};
-						if (parts_v1[0] != -1 && parts_v1[1] != -1 && parts_v1[2] != -1 && parts_v1[3] != -1) {
+						if (parts_v1[0] != 0xff && parts_v1[1] != 0xff && parts_v1[2] != 0xff && parts_v1[3] != 0xff) {
 							uint32_t uni_v1 = (((parts_v1[0] << 4) | parts_v1[1]) << 8) | ((parts_v1[2] << 4) | parts_v1[3]);
 							if ((len - json_input->offset) > 5) {
 								if (uni_v1 >= 0xd800 && uni_v1 <= 0xdbff && json_input->json[json_input->offset++] == '\\' && json_input->json[json_input->offset++] == 'u') {
@@ -135,7 +135,7 @@ char *parse_json_string(json_input_t *json_input)
 										hextobin(json_input->json[json_input->offset++]),
 										hextobin(json_input->json[json_input->offset++])
 									};
-									if (parts_v2[0] != -1 && parts_v2[1] != -1 && parts_v2[2] != -1 && parts_v2[3] != -1) {
+									if (parts_v2[0] != 0xff && parts_v2[1] != 0xff && parts_v2[2] != 0xff && parts_v2[3] != 0xff) {
 										uint16_t uni_v2 = (((parts_v2[0] << 4) | parts_v2[1]) << 8) | ((parts_v2[2] << 4) | parts_v2[3]);
 										if (uni_v2 >= 0xdc00 && uni_v2 <= 0xdfff) {
 											uni_v1 = 0x10000 + (((uni_v1 - 0xd800) << 10) | (uni_v2 - 0xdc00));
@@ -253,7 +253,7 @@ char parse_json_bool(json_input_t *json_input)
 			return 0;
 		}
 	}
-	return -1;
+	return 2;
 }
 
 char parse_json_null(json_input_t *json_input)
@@ -269,7 +269,7 @@ char parse_json_null(json_input_t *json_input)
 			return 1;
 		}
 	}
-	return -1;
+	return 2;
 }
 
 json_number_t parse_json_number(json_input_t *json_input)
@@ -363,9 +363,9 @@ json_array_t parse_json_array(json_input_t *json_input)
 					char *json_string = parse_json_string(json_input);
 					if (json_string == NULL) {
 						char json_null = parse_json_null(json_input);
-						if (json_null == -1) {
+						if (json_null == 2) {
 							char json_bool = parse_json_bool(json_input);
-							if (json_bool == -1) {
+							if (json_bool == 2) {
 								json_number_t json_number = parse_json_number(json_input);
 								if (json_number.type == JSON_NUMBER_NAN) {
 									json_object_t nested_json_object = parse_json_object(json_input);
@@ -489,9 +489,9 @@ json_object_t parse_json_object(json_input_t *json_input)
 					char *json_string = parse_json_string(json_input);
 					if (json_string == NULL) {
 						char json_null = parse_json_null(json_input);
-						if (json_null == -1) {
+						if (json_null == 2) {
 							char json_bool = parse_json_bool(json_input);
-							if (json_bool == -1) {
+							if (json_bool == 2) {
 								json_number_t json_number = parse_json_number(json_input);
 								if (json_number.type == JSON_NUMBER_NAN) {
 									json_object_t nested_json_object = parse_json_object(json_input);
