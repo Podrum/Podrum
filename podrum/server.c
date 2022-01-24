@@ -144,10 +144,37 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
-	json_input_t my_json_string;
-	my_json_string.json = (char *) "\"Hi :)! Working json strings \\uD83D\\uDC4D!\"";
-	my_json_string.offset = 0;
-	log_info(parse_json_string(&my_json_string));
+	json_input_t my_json_object;
+	my_json_object.json = (char *) "{\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [{\"ayy\": 8}, 3]]}}";
+	my_json_object.offset = 0;
+	json_object_t json_object = parse_json_object(&my_json_object);
+	log_info(json_object.keys[0]);
+	printf("%ld\n", json_object.members[0].json_number.number.int_number);
+	log_info(json_object.keys[1]);
+	printf("%lf\n", json_object.members[1].json_number.number.float_number);
+	log_info(json_object.keys[2]);
+	printf("%s\n", json_object.members[2].json_string);
+	log_info(json_object.keys[3]);
+	printf("%p\n", json_object.members[3].json_null);
+	log_info(json_object.keys[4]);
+	printf("%d\n", json_object.members[4].json_bool);
+	log_info(json_object.keys[5]);
+	printf("%d\n", json_object.members[5].json_bool);
+	log_info(json_object.keys[6]);
+	json_object_t json_object2 = json_object.members[6].json_object;
+	log_info(json_object2.keys[0]);
+	log_info(json_object2.members[0].json_string);
+	log_info(json_object2.keys[1]);
+	json_array_t json_array = json_object2.members[1].json_array;
+	printf("%ld\n", json_array.members[0].json_number.number.int_number);
+	printf("%ld\n", json_array.members[1].json_number.number.int_number);
+	printf("%ld\n", json_array.members[2].json_number.number.int_number);
+	json_array_t json_array2 = json_array.members[3].json_array;
+	json_object_t json_object3 = json_array2.members[0].json_object;
+	log_info(json_object3.keys[0]);
+	printf("%ld\n", json_object3.members[0].json_number.number.int_number);
+	printf("%ld\n", json_array2.members[1].json_number.number.int_number);
+
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);

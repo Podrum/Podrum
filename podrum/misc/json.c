@@ -9,6 +9,7 @@
 #include "./json.h"
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 char hextobin(char hex)
 {
@@ -216,23 +217,345 @@ char *parse_json_string(json_input_t *json_input)
 				++json_input->offset;
 			}
 		}
+		++json_input->offset;
+		++out_len;
+		out = (char *) realloc(out, out_len);
+		out[out_len - 1] = 0;
+		return out;
 	}
-	++out_len;
-	out = (char *) realloc(out, out_len);
-	out[out_len - 1] = 0;
-	return out;
+	return NULL;
 }
 
-void parse_json_object(json_input_t *json_input)
+char parse_json_bool(json_input_t *json_input)
 {
-	if (json_input->json[json_input->offset] == '{') {
+	int len = strlen(json_input->json);
+	if ((len - json_input->offset) > 3) {
+		if (
+			json_input->json[json_input->offset] == 't' &&
+			json_input->json[json_input->offset + 1] == 'r' &&
+			json_input->json[json_input->offset + 2] == 'u' &&
+			json_input->json[json_input->offset + 3] == 'e'
+		) {
+			json_input->offset += 4;
+			return 1;
+		}
+	}
+	if ((len - json_input->offset) > 4) {
+		if (
+			json_input->json[json_input->offset] == 'f' &&
+			json_input->json[json_input->offset + 1] == 'a' &&
+			json_input->json[json_input->offset + 2] == 'l' &&
+			json_input->json[json_input->offset + 3] == 's' &&
+			json_input->json[json_input->offset + 4] == 'e'
+		) {
+			json_input->offset += 5;
+			return 0;
+		}
+	}
+	return -1;
+}
+
+char parse_json_null(json_input_t *json_input)
+{
+	if ((strlen(json_input->json) - json_input->offset) > 3) {
+		if (
+			json_input->json[json_input->offset] == 'n' &&
+			json_input->json[json_input->offset + 1] == 'u' &&
+			json_input->json[json_input->offset + 2] == 'l' &&
+			json_input->json[json_input->offset + 3] == 'l'
+		) {
+			json_input->offset += 4;
+			return 1;
+		}
+	}
+	return -1;
+}
+
+json_number_t parse_json_number(json_input_t *json_input)
+{
+	json_number_t number;
+	number.type = JSON_NUMBER_INT;
+	size_t size = 0;
+	char *sr_number = (char *) malloc(0);
+	char is_first = 1;
+	char expect_digit = 0;
+	char once = 0;
+	while (json_input->offset < strlen(json_input->json)) {
+		if (is_first == 1) {
+			if (isdigit(json_input->json[json_input->offset])) {
+				++size;
+				sr_number = (char *) realloc(sr_number, size);
+				sr_number[size - 1] = json_input->json[json_input->offset];
+				++json_input->offset;
+				is_first = 0;
+			} else {
+				number.type = JSON_NUMBER_NAN;
+				return number;
+			}
+		} else {
+			if (isdigit(json_input->json[json_input->offset])) {
+				++size;
+				sr_number = (char *) realloc(sr_number, size);
+				sr_number[size - 1] = json_input->json[json_input->offset];
+				++json_input->offset;
+				if (expect_digit == 1) {
+					expect_digit = 0;
+				}
+			} else {
+				if (expect_digit == 1) {
+					perror("Expects digit");
+					exit(0);
+				}
+				if (json_input->json[json_input->offset] == '.' && once == 0) {
+					expect_digit = 1;
+					once = 1;
+					number.type = JSON_NUMBER_FLOAT;
+					++size;
+					sr_number = (char *) realloc(sr_number, size);
+					sr_number[size - 1] = json_input->json[json_input->offset];
+					++json_input->offset;
+				} else if (
+					json_input->json[json_input->offset] == '\x20' ||
+					json_input->json[json_input->offset] == ',' ||
+					json_input->json[json_input->offset] == ']' ||
+					json_input->json[json_input->offset] == '}'
+				) {
+					++size;
+					sr_number = (char *) realloc(sr_number, size);
+					sr_number[size - 1] = 0;
+					if (number.type == JSON_NUMBER_INT) {
+						number.number.int_number = atoll(sr_number);
+					} else if (number.type == JSON_NUMBER_FLOAT) {
+						number.number.float_number = atof(sr_number);
+					}
+					return number;
+				} else {
+					perror("Unexpected character");
+					exit(0);
+				}
+			}
+		}
+	}
+	perror("Unexpected EOF");
+	exit(0);
+}
+
+json_array_t parse_json_array(json_input_t *json_input)
+{
+	json_array_t json_array;
+	json_array.members = (json_multi_t *) malloc(0);
+	json_array.types = (char *) malloc(0);
+	json_array.size = 0;
+	json_array.noret = 0;
+	if (json_input->json[json_input->offset] == '[') {
 		++json_input->offset;
-		while (json_input->json[json_input->offset] != '}') {
-			if (json_input->json[json_input->offset] == '{') {
-				parse_json_object(json_input);
+		char expect_member = 1;
+		char expect_seporator = 0;
+		while (json_input->json[json_input->offset] != ']') {
+			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n') {
+				if (expect_member == 1) {
+					char *json_string = parse_json_string(json_input);
+					if (json_string == NULL) {
+						char json_null = parse_json_null(json_input);
+						if (json_null == -1) {
+							char json_bool = parse_json_bool(json_input);
+							if (json_bool == -1) {
+								json_number_t json_number = parse_json_number(json_input);
+								if (json_number.type == JSON_NUMBER_NAN) {
+									json_object_t nested_json_object = parse_json_object(json_input);
+									if (nested_json_object.noret == 1) {
+										json_array_t nested_json_array = parse_json_array(json_input);
+										if (nested_json_array.noret == 1) {
+											perror("Invalid member");
+											exit(0);
+										} else {
+											++json_array.size;
+											json_multi_t json_multi;
+											json_multi.json_array = nested_json_array;
+											json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+											json_array.types = (char *) realloc(json_array.types, json_array.size);
+											json_array.members[json_array.size - 1] = json_multi;
+											json_array.types[json_array.size - 1] = JSON_ARRAY;
+										}
+									} else {
+										++json_array.size;
+										json_multi_t json_multi;
+										json_multi.json_object = nested_json_object;
+										json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+										json_array.types = (char *) realloc(json_array.types, json_array.size);
+										json_array.members[json_array.size - 1] = json_multi;
+										json_array.types[json_array.size - 1] = JSON_OBJECT;
+									}
+								} else {
+									++json_array.size;
+									json_multi_t json_multi;
+									json_multi.json_number = json_number;
+									json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+									json_array.types = (char *) realloc(json_array.types, json_array.size);
+									json_array.members[json_array.size - 1] = json_multi;
+									json_array.types[json_array.size - 1] = JSON_NUMBER;
+								}
+							} else {
+								++json_array.size;
+								json_multi_t json_multi;
+								json_multi.json_bool = json_bool;
+								json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+								json_array.types = (char *) realloc(json_array.types, json_array.size);
+								json_array.members[json_array.size - 1] = json_multi;
+								json_array.types[json_array.size - 1] = JSON_BOOL;
+							}
+						} else {
+							++json_array.size;
+							json_multi_t json_multi;
+							json_multi.json_null = NULL;
+							json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+							json_array.types = (char *) realloc(json_array.types, json_array.size);
+							json_array.members[json_array.size - 1] = json_multi;
+							json_array.types[json_array.size - 1] = JSON_NULL;
+						}
+					} else {
+						++json_array.size;
+						json_multi_t json_multi;
+						json_multi.json_string = json_string;
+						json_array.members = (json_multi_t *) realloc(json_array.members, json_array.size * sizeof(json_multi_t));
+						json_array.types = (char *) realloc(json_array.types, json_array.size);
+						json_array.members[json_array.size - 1] = json_multi;
+						json_array.types[json_array.size - 1] = JSON_STRING;
+					}
+					expect_member = 0;
+					expect_seporator = 1;
+				} else if (json_input->json[json_input->offset] == ',' && expect_seporator == 1) {
+					expect_seporator = 0;
+					expect_member = 1;
+					++json_input->offset;
+				} else {
+					perror("Unexpected character");
+					exit(0);
+				}
 			} else {
 				++json_input->offset;
 			}
 		}
+		++json_input->offset;
+		return json_array;
+	} else {
+		json_array.noret = 1;
+		return json_array;
+	}
+}
+
+json_object_t parse_json_object(json_input_t *json_input)
+{
+	json_object_t json_object;
+	json_object.keys = (char **) malloc(0);
+	json_object.members = (json_multi_t *) malloc(0);
+	json_object.types = (char *) malloc(0);
+	json_object.size = 0;
+	json_object.noret = 0;
+	if (json_input->json[json_input->offset] == '{') {
+		++json_input->offset;
+		char expect_key = 1;
+		char expect_colon = 0;
+		char expect_member = 0;
+		char expect_seporator = 0;
+		while (json_input->json[json_input->offset] != '}') {
+			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n') {
+				if (expect_key == 1) {
+					char *key = parse_json_string(json_input);
+					if (key == NULL) {
+						perror("Expected string");
+						exit(0);
+					}
+					++json_object.size;
+					json_object.keys = (char **) realloc(json_object.keys, json_object.size * sizeof(char *));
+					json_object.keys[json_object.size - 1] = key;
+					expect_key = 0;
+					expect_colon = 1;
+				} else if (json_input->json[json_input->offset] == ':' && expect_colon == 1) {
+					expect_colon = 0;
+					expect_member = 1;
+					++json_input->offset;
+				} else if (expect_member == 1) {
+					char *json_string = parse_json_string(json_input);
+					if (json_string == NULL) {
+						char json_null = parse_json_null(json_input);
+						if (json_null == -1) {
+							char json_bool = parse_json_bool(json_input);
+							if (json_bool == -1) {
+								json_number_t json_number = parse_json_number(json_input);
+								if (json_number.type == JSON_NUMBER_NAN) {
+									json_object_t nested_json_object = parse_json_object(json_input);
+									if (nested_json_object.noret == 1) {
+										json_array_t nested_json_array = parse_json_array(json_input);
+										if (nested_json_array.noret == 1) {
+											perror("Invalid member");
+											exit(0);
+										} else {
+											json_multi_t json_multi;
+											json_multi.json_array = nested_json_array;
+											json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+											json_object.types = (char *) realloc(json_object.types, json_object.size);
+											json_object.members[json_object.size - 1] = json_multi;
+											json_object.types[json_object.size - 1] = JSON_ARRAY;
+										}
+									} else {
+										json_multi_t json_multi;
+										json_multi.json_object = nested_json_object;
+										json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+										json_object.types = (char *) realloc(json_object.types, json_object.size);
+										json_object.members[json_object.size - 1] = json_multi;
+										json_object.types[json_object.size - 1] = JSON_OBJECT;
+									}
+								} else {
+									json_multi_t json_multi;
+									json_multi.json_number = json_number;
+									json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+									json_object.types = (char *) realloc(json_object.types, json_object.size);
+									json_object.members[json_object.size - 1] = json_multi;
+									json_object.types[json_object.size - 1] = JSON_NUMBER;
+								}
+							} else {
+								json_multi_t json_multi;
+								json_multi.json_bool = json_bool;
+								json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+								json_object.types = (char *) realloc(json_object.types, json_object.size);
+								json_object.members[json_object.size - 1] = json_multi;
+								json_object.types[json_object.size - 1] = JSON_BOOL;
+							}
+						} else {
+							json_multi_t json_multi;
+							json_multi.json_null = NULL;
+							json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+							json_object.types = (char *) realloc(json_object.types, json_object.size);
+							json_object.members[json_object.size - 1] = json_multi;
+							json_object.types[json_object.size - 1] = JSON_NULL;
+						}
+					} else {
+						json_multi_t json_multi;
+						json_multi.json_string = json_string;
+						json_object.members = (json_multi_t *) realloc(json_object.members, json_object.size * sizeof(json_multi_t));
+						json_object.types = (char *) realloc(json_object.types, json_object.size);
+						json_object.members[json_object.size - 1] = json_multi;
+						json_object.types[json_object.size - 1] = JSON_STRING;
+					}
+					expect_member = 0;
+					expect_seporator = 1;
+				} else if (json_input->json[json_input->offset] == ',' && expect_seporator == 1) {
+					expect_seporator = 0;
+					expect_key = 1;
+					++json_input->offset;
+				} else {
+					perror("Unexpected character");
+					exit(0);
+				}
+			} else {
+				++json_input->offset;
+			}
+		}
+		++json_input->offset;
+		return json_object;
+	} else {
+		json_object.noret = 1;
+		return json_object;
 	}
 }
