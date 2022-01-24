@@ -223,6 +223,7 @@ char *parse_json_string(json_input_t *json_input)
 		out[out_len - 1] = 0;
 		return out;
 	}
+	free(out);
 	return NULL;
 }
 
@@ -290,6 +291,7 @@ json_number_t parse_json_number(json_input_t *json_input)
 				is_first = 0;
 			} else {
 				number.type = JSON_NUMBER_NAN;
+				free(sr_number);
 				return number;
 			}
 		} else {
@@ -303,6 +305,7 @@ json_number_t parse_json_number(json_input_t *json_input)
 				}
 			} else {
 				if (expect_digit == 1) {
+					free(sr_number);
 					perror("Expects digit");
 					exit(0);
 				}
@@ -328,14 +331,17 @@ json_number_t parse_json_number(json_input_t *json_input)
 					} else if (number.type == JSON_NUMBER_FLOAT) {
 						number.number.float_number = atof(sr_number);
 					}
+					free(sr_number);
 					return number;
 				} else {
+					free(sr_number);
 					perror("Unexpected character");
 					exit(0);
 				}
 			}
 		}
 	}
+	free(sr_number);
 	perror("Unexpected EOF");
 	exit(0);
 }
@@ -366,6 +372,7 @@ json_array_t parse_json_array(json_input_t *json_input)
 									if (nested_json_object.noret == 1) {
 										json_array_t nested_json_array = parse_json_array(json_input);
 										if (nested_json_array.noret == 1) {
+											destroy_json_array(json_array);
 											perror("Invalid member");
 											exit(0);
 										} else {
@@ -429,6 +436,7 @@ json_array_t parse_json_array(json_input_t *json_input)
 					expect_member = 1;
 					++json_input->offset;
 				} else {
+					destroy_json_array(json_array);
 					perror("Unexpected character");
 					exit(0);
 				}
@@ -439,6 +447,7 @@ json_array_t parse_json_array(json_input_t *json_input)
 		++json_input->offset;
 		return json_array;
 	} else {
+		destroy_json_array(json_array);
 		json_array.noret = 1;
 		return json_array;
 	}
@@ -463,6 +472,7 @@ json_object_t parse_json_object(json_input_t *json_input)
 				if (expect_key == 1) {
 					char *key = parse_json_string(json_input);
 					if (key == NULL) {
+						destroy_json_object(json_object);
 						perror("Expected string");
 						exit(0);
 					}
@@ -488,6 +498,7 @@ json_object_t parse_json_object(json_input_t *json_input)
 									if (nested_json_object.noret == 1) {
 										json_array_t nested_json_array = parse_json_array(json_input);
 										if (nested_json_array.noret == 1) {
+											destroy_json_object(json_object);
 											perror("Invalid member");
 											exit(0);
 										} else {
@@ -545,6 +556,7 @@ json_object_t parse_json_object(json_input_t *json_input)
 					expect_key = 1;
 					++json_input->offset;
 				} else {
+					destroy_json_object(json_object);
 					perror("Unexpected character");
 					exit(0);
 				}
@@ -555,7 +567,48 @@ json_object_t parse_json_object(json_input_t *json_input)
 		++json_input->offset;
 		return json_object;
 	} else {
+		destroy_json_object(json_object);
 		json_object.noret = 1;
 		return json_object;
 	}
+}
+
+void destroy_json_array(json_array_t json_array) {
+	size_t i;
+	for (i = 0; i < json_array.size; ++i) {
+		switch (json_array.types[i]) {
+		case JSON_STRING:
+			free(json_array.members[i].json_string);
+			break;
+		case JSON_OBJECT:
+			destroy_json_object(json_array.members[i].json_object);
+			break;
+		case JSON_ARRAY:
+			destroy_json_array(json_array.members[i].json_array);
+			break;
+		}
+	}
+	free(json_array.types);
+	free(json_array.members);
+}
+
+void destroy_json_object(json_object_t json_object) {
+	size_t i;
+	for (i = 0; i < json_object.size; ++i) {
+		switch (json_object.types[i]) {
+		case JSON_STRING:
+			free(json_object.members[i].json_string);
+			break;
+		case JSON_OBJECT:
+			destroy_json_object(json_object.members[i].json_object);
+			break;
+		case JSON_ARRAY:
+			destroy_json_array(json_object.members[i].json_array);
+			break;
+		}
+		free(json_object.keys[i]);
+	}
+	free(json_object.keys);
+	free(json_object.types);
+	free(json_object.members);
 }

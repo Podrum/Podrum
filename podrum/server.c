@@ -175,6 +175,8 @@ int main(int argc, char **argv)
 	printf("%ld\n", json_object3.members[0].json_number.number.int_number);
 	printf("%ld\n", json_array2.members[1].json_number.number.int_number);
 
+	destroy_json_object(json_object);
+
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);

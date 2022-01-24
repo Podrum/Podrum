@@ -78,4 +78,8 @@ json_array_t parse_json_array(json_input_t *json_input);
 
 json_object_t parse_json_object(json_input_t *json_input);
 
+void destroy_json_array(json_array_t json_array);
+
+void destroy_json_object(json_object_t json_object);
+
 #endif
