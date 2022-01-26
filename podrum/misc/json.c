@@ -141,6 +141,7 @@ char *parse_json_string(json_input_t *json_input)
 											uni_v1 = 0x10000 + (((uni_v1 - 0xd800) << 10) | (uni_v2 - 0xdc00));
 										}
 									} else {
+										free(out);
 										perror("Invalid hexcode");
 										exit(0);
 									}
@@ -172,21 +173,25 @@ char *parse_json_string(json_input_t *json_input)
 								out[out_len - 3] = (char) (((uni_v1 >> 12) & 0x3F) | 0x80);
 								out[out_len - 2] = (char) (((uni_v1 >> 6) & 0x3F) | 0x80);
 								out[out_len - 1] = (char) (((uni_v1 >> 0) & 0x3F) | 0x80);
-							} else { 
+							} else {
+								free(out);
 								perror("Invalid unicode character");
 								exit(0);
 							}
 						} else {
+							free(out);
 							perror("Invalid hexcode");
 							exit(0);
 						}
 					} else {
+						free(out);
 						perror("Unexpected EOF");
 						exit(0);
 					}
 					break;
 				}
 				default:
+					free(out);
 					perror("Invalid escape code");
 					exit(0);
 					break;
@@ -202,6 +207,7 @@ char *parse_json_string(json_input_t *json_input)
 				case '\t':
 				case '\v':
 				case '\?':
+					free(out);
 					perror("Invalid escape code");
 					exit(0);
 				case '\\':
