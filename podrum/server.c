@@ -16,6 +16,7 @@
 #include "./worker.h"
 #include "./network/minecraft/mcpackets.h"
 #include "./misc/json.h"
+#include "./misc/base64.h"
 
 #ifdef _WIN32
 
@@ -23,12 +24,12 @@
 
 #endif
 
-#define CODE_NAME (char *) "Titanium"
-#define API_VERSION (char *) "1.0.0-alpha1"
+#define CODE_NAME "Titanium"
+#define API_VERSION "1.0.0-alpha1"
 
 void cmd1executor(int argc, char **argv)
 {
-	log_info((char *) "Function called!");
+	log_info("Function called!");
 }
 
 RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
@@ -144,8 +145,9 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
+	printf("%s\n", base64_encode("M", 1));
 	json_input_t my_json_object;
-	my_json_object.json = (char *) "{\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [{\"ayy\": 8}, 3]]}}";
+	my_json_object.json = "{\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [{\"ayy\": 8}, 3]]}}";
 	my_json_object.offset = 0;
 	json_object_t json_object = parse_json_object(&my_json_object);
 	log_info(json_object.keys[0]);
@@ -188,13 +190,13 @@ int main(int argc, char **argv)
 	#endif
 	raknet_server_t raknet_server;
 	raknet_server.address.version = 4;
-	raknet_server.address.address = (char *) "0.0.0.0";
+	raknet_server.address.address = "0.0.0.0";
 	raknet_server.address.port = 19132;
 	raknet_server.sock = create_socket(raknet_server.address);
 	raknet_server.connections = (connection_t *) malloc(0);
 	raknet_server.connections_count = 0;
 	raknet_server.guid = 1325386089232893086;
-	raknet_server.message = (char *) "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
+	raknet_server.message = "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	raknet_server.epoch = time(NULL) * 1000;
 	raknet_server.on_disconnect_notification_executor = on_dn;
 	raknet_server.on_frame_executor = on_f;
@@ -202,17 +204,17 @@ int main(int argc, char **argv)
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
-	log_info((char *) "Podrum started up!");
+	log_info("Podrum started up!");
 	command_t cmd1;
-	cmd1.name = (char *) "help";
-	cmd1.description = (char *) "help command";
+	cmd1.name = "help";
+	cmd1.description = "help command";
 	cmd1.flags = 0;
-	cmd1.prefix = (char *) "/help";
-	cmd1.usage = (char *) "<page>";
+	cmd1.prefix = "/help";
+	cmd1.usage = "<page>";
 	cmd1.executor = cmd1executor;
 	register_command(cmd1, &command_manager);
 	char **args = (char **) malloc(0);
-	execute((char *) "help", 0, args, &command_manager);
+	execute("help", 0, args, &command_manager);
 	/* worker_t worker = create_worker(test); */
 	while (1) {
 		handle_raknet_packet(&raknet_server);

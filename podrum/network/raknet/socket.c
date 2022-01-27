@@ -89,7 +89,7 @@ socket_data_t receive_data(int sock)
 		result.stream.size = 0;
 		result.stream.buffer = (char *) realloc(result.stream.buffer, 0);
 		result.address.version = 4;
-		result.address.address = (char *) "0.0.0.0";
+		result.address.address = "0.0.0.0";
 		result.address.port = 0;
 		return result;
 	}

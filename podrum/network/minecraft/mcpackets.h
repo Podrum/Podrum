@@ -13,9 +13,9 @@
 #include <stdlib.h>
 #include "./mcmisc.h"
 
-#define GAME_VERSION (char *) "1.18.2"
+#define GAME_VERSION "1.18.2"
 #define GAME_PROTOCOL_VERSION 475
-#define GAME_ENGINE (char *) "Podrum"
+#define GAME_ENGINE "Podrum"
 
 #define ID_GAME 0xFE
 #define ID_LOGIN 0x01

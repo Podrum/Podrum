@@ -66,7 +66,7 @@ binary_stream_t handle_connection_request(binary_stream_t *stream, raknet_server
 	connection_request_accepted.address = address;
 	connection_request_accepted.system_index = 0;
 	misc_address_t system_address;
-	system_address.address = (char *) "255.255.255.255";
+	system_address.address = "255.255.255.255";
 	system_address.port = 19132;
 	system_address.version = 4;
 	int i;
