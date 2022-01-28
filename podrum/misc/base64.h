@@ -10,9 +10,12 @@
 #define PODRUM_MISC_BASE64_H
 
 #include <stdlib.h>
+#include <cbinarystream/binary_stream.h>
 
 #define BASE64_TABLE "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
-char *base64_encode(char *data, size_t size);
+binary_stream_t base64_decode(char *base64_string);
+
+char *base64_encode(binary_stream_t stream);
 
 #endif

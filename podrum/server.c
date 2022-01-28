@@ -145,7 +145,18 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
-	printf("%s\n", base64_encode("M", 1));
+	binary_stream_t stream;
+	stream.buffer = "Man";
+	stream.size = 3;
+	char *b64 = base64_encode(stream);
+	printf("%s\n", b64);
+	binary_stream_t stream2 = base64_decode("TWFu");
+	int i;
+	for (i = 0; i < stream2.size; ++i) {
+		printf("%c", stream2.buffer[i]);
+	}
+	printf("\n");
+	printf("%ld\n", stream2.size);
 	json_input_t my_json_object;
 	my_json_object.json = "{\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [{\"ayy\": 8}, 3]]}}";
 	my_json_object.offset = 0;
