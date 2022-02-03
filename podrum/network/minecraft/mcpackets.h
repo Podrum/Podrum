@@ -24,6 +24,8 @@
 #define ID_RESOURCE_PACK_STACK 0x07
 #define ID_RESOURCE_PACK_CLIENT_RESPONSE 0x08
 #define ID_START_GAME 0x0b
+#define ID_BIOME_DEFINITION_LIST 0x7a
+#define ID_CREATIVE_CONTENT 0x91
 
 #define PLAY_STATUS_LOGIN_SUCCESS 0
 #define PLAY_STATUS_FAILED_CLIENT 1
@@ -87,7 +89,7 @@ typedef struct {
 	float yaw;
 	int32_t seed;
 	int16_t biome_type;
-	char biome_name;
+	char *biome_name;
 	int32_t dimension;
 	int32_t generator;
 	int32_t world_gamemode;
@@ -108,7 +110,7 @@ typedef struct {
 	uint32_t xbox_live_broadcast_mode;
 	uint32_t platform_broadcast_mode;
 	char enable_commands;
-	char is_texturepacks_required;
+	char are_texture_packs_required;
 	misc_game_rules_t gamerules;
 	misc_experiments_t experiments;
 	char experiments_previously_used;
@@ -117,7 +119,7 @@ typedef struct {
 	int32_t permission_level;
 	int32_t server_chunk_tick_range;
 	char has_locked_behavior_pack;
-	char has_locked_resource_pack;
+	char has_locked_texture_pack;
 	char is_from_locked_world_template;
 	char msa_gamertags_only;
 	char is_from_world_template;
@@ -146,6 +148,16 @@ typedef struct {
 	uint64_t block_pallete_checksum;
 } packet_start_game_t;
 
+typedef struct {
+	binary_stream_t stream;
+} packet_biome_definition_list_t;
+
+typedef struct {
+	uint32_t size;
+	uint32_t *entry_ids;
+	misc_item_t *items;
+} packet_creative_content_t;
+
 packet_game_t get_packet_game(binary_stream_t *stream);
 
 packet_login_t get_packet_login(binary_stream_t *stream);
@@ -158,6 +170,12 @@ packet_resource_pack_stack_t get_packet_resource_pack_stack(binary_stream_t *str
 
 packet_resource_pack_client_response_t get_packet_resource_pack_client_response(binary_stream_t *stream);
 
+packet_start_game_t get_packet_start_game(binary_stream_t *stream);
+
+packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t *stream);
+
+packet_creative_content_t get_packet_creative_content(binary_stream_t *stream);
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream);
 
 void put_packet_login(packet_login_t packet, binary_stream_t *stream);
@@ -169,5 +187,11 @@ void put_packet_resource_packs_info(packet_resource_packs_info_t packet, binary_
 void put_packet_resource_pack_stack(packet_resource_pack_stack_t packet, binary_stream_t *stream);
 
 void put_packet_resource_pack_client_response(packet_resource_pack_client_response_t packet, binary_stream_t *stream);
+
+void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream);
+
+void put_packet_biome_definition_list(packet_biome_definition_list_t packet, binary_stream_t *stream);
+
+void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream);
 
 #endif

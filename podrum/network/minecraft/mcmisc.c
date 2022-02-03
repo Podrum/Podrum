@@ -165,13 +165,13 @@ misc_game_rule_t get_misc_game_rule(binary_stream_t *stream)
 	game_rule.type = get_var_int(stream);
 	switch (game_rule.type) {
 	case GAME_RULE_BOOLEAN:
-		game_rule.boolean = get_unsigned_byte(stream);
+		game_rule.value.boolean = get_unsigned_byte(stream);
 		break;
 	case GAME_RULE_SIGNED_VAR_INT:
-		game_rule.signed_var_int = get_signed_var_int(stream);
+		game_rule.value.signed_var_int = get_signed_var_int(stream);
 		break;
 	case GAME_RULE_FLOAT_LE:
-		game_rule.float_le = get_float_le(stream);
+		game_rule.value.float_le = get_float_le(stream);
 		break;
 	}
 	return game_rule;
@@ -181,12 +181,20 @@ misc_game_rules_t get_misc_game_rules(binary_stream_t *stream)
 {
 	misc_game_rules_t game_rules;
 	game_rules.size = get_var_int(stream);
-	game_rules.entries = (misc_game_rule_t *) malloc(game_rules.entries, sizeof(misc_game_rule_t) * game_rules.size);
+	game_rules.entries = (misc_game_rule_t *) malloc(sizeof(misc_game_rule_t) * game_rules.size);
 	uint32_t i;
 	for (i = 0; i < game_rules.size; ++i) {
 		game_rules.entries[i] = get_misc_game_rule(stream);
 	}
 	return game_rules;
+}
+
+misc_education_shared_resource_uri_t get_misc_education_shared_resource_uri(binary_stream_t *stream)
+{
+	misc_education_shared_resource_uri_t education_shared_resource_uri;
+	education_shared_resource_uri.button_name = get_misc_string_var_int(stream);
+	education_shared_resource_uri.link_uri = get_misc_string_var_int(stream);
+	return education_shared_resource_uri;
 }
 
 void put_misc_string_var_int(char *value, binary_stream_t *stream)
@@ -291,4 +299,37 @@ void put_misc_experiments(misc_experiments_t value, binary_stream_t *stream)
 	for (i = 0; i < value.size; ++i) {
 		put_misc_experiment(value.entries[i], stream);
 	}
+}
+
+void put_misc_game_rule(misc_game_rule_t value, binary_stream_t *stream)
+{
+	put_misc_string_var_int(value.name, stream);
+	put_unsigned_byte(value.editable, stream);
+	put_var_int(value.type, stream);
+	switch (value.type) {
+	case GAME_RULE_BOOLEAN:
+		put_unsigned_byte(value.value.boolean, stream);
+		break;
+	case GAME_RULE_SIGNED_VAR_INT:
+		put_signed_var_int(value.value.signed_var_int, stream);
+		break;
+	case GAME_RULE_FLOAT_LE:
+		put_float_le(value.value.float_le, stream);
+		break;
+	}
+}
+
+void put_misc_game_rules(misc_game_rules_t value, binary_stream_t *stream)
+{
+	put_var_int(value.size, stream);
+	uint32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_game_rule(value.entries[i], stream);
+	}
+}
+
+void put_misc_education_shared_resource_uri(misc_education_shared_resource_uri_t value, binary_stream_t *stream)
+{
+	put_misc_string_var_int(value.button_name, stream);
+	put_misc_string_var_int(value.link_uri, stream);
 }

@@ -40,7 +40,7 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 
 packet_login_t get_packet_login(binary_stream_t *stream)
 {
-	++stream->offset;
+	get_var_int(stream); /* Packet ID */
 	packet_login_t login;
 	login.protocol_version = get_int_be(stream);
 	binary_stream_t temp_stream = get_misc_byte_array_var_int(stream);
@@ -51,7 +51,7 @@ packet_login_t get_packet_login(binary_stream_t *stream)
 
 packet_play_status_t get_packet_play_status(binary_stream_t *stream)
 {
-	++stream->offset;
+	get_var_int(stream); /* Packet ID */
 	packet_play_status_t play_status;
 	play_status.status = get_int_be(stream);
 	return play_status;
@@ -59,7 +59,7 @@ packet_play_status_t get_packet_play_status(binary_stream_t *stream)
 
 packet_resource_packs_info_t get_packet_resource_packs_info(binary_stream_t *stream)
 {
-	++stream->offset;
+	get_var_int(stream); /* Packet ID */
 	packet_resource_packs_info_t resource_packs_info;
 	resource_packs_info.must_accept = get_unsigned_byte(stream);
 	resource_packs_info.has_scripts = get_unsigned_byte(stream);
@@ -71,7 +71,7 @@ packet_resource_packs_info_t get_packet_resource_packs_info(binary_stream_t *str
 
 packet_resource_pack_stack_t get_packet_resource_pack_stack(binary_stream_t *stream)
 {
-	++stream->offset;
+	get_var_int(stream); /* Packet ID */
 	packet_resource_pack_stack_t resource_pack_stack;
 	resource_pack_stack.must_accept = get_unsigned_byte(stream);
 	resource_pack_stack.behavior_packs = get_misc_resource_pack_id_versions(stream);
@@ -84,12 +84,21 @@ packet_resource_pack_stack_t get_packet_resource_pack_stack(binary_stream_t *str
 
 packet_resource_pack_client_response_t get_packet_resource_pack_client_response(binary_stream_t *stream)
 {
-	++stream->offset;
+	get_var_int(stream); /* Packet ID */
 	packet_resource_pack_client_response_t resource_pack_client_response;
 	resource_pack_client_response.response_status = get_unsigned_byte(stream);
 	resource_pack_client_response.resource_pack_ids = get_misc_resource_pack_ids(stream);
 	return resource_pack_client_response;
 }
+
+packet_start_game_t get_packet_start_game(binary_stream_t *stream)
+{}
+
+packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t *stream)
+{}
+
+packet_creative_content_t get_packet_creative_content(binary_stream_t *stream)
+{}
 
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
@@ -116,7 +125,7 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 
 void put_packet_login(packet_login_t packet, binary_stream_t *stream)
 {
-	put_unsigned_byte(ID_LOGIN, stream);
+	put_var_int(ID_LOGIN, stream);
 	put_int_be(packet.protocol_version, stream);
 	binary_stream_t temp_stream;
 	temp_stream.buffer = (char *) malloc(0);
@@ -129,13 +138,13 @@ void put_packet_login(packet_login_t packet, binary_stream_t *stream)
 
 void put_packet_play_status(packet_play_status_t packet, binary_stream_t *stream)
 {
-	put_unsigned_byte(ID_PLAY_STATUS, stream);
+	put_var_int(ID_PLAY_STATUS, stream);
 	put_int_be(packet.status, stream);
 }
 
 void put_packet_resource_packs_info(packet_resource_packs_info_t packet, binary_stream_t *stream)
 {
-	put_unsigned_byte(ID_RESOURCE_PACKS_INFO, stream);
+	put_var_int(ID_RESOURCE_PACKS_INFO, stream);
 	put_unsigned_byte(packet.must_accept, stream);
 	put_unsigned_byte(packet.has_scripts, stream);
 	put_unsigned_byte(packet.force_server_packs, stream);
@@ -145,7 +154,7 @@ void put_packet_resource_packs_info(packet_resource_packs_info_t packet, binary_
 
 void put_packet_resource_pack_stack(packet_resource_pack_stack_t packet, binary_stream_t *stream)
 {
-	put_unsigned_byte(ID_RESOURCE_PACK_STACK, stream);
+	put_var_int(ID_RESOURCE_PACK_STACK, stream);
 	put_unsigned_byte(packet.must_accept, stream);
 	put_misc_resource_pack_id_versions(packet.behavior_packs, stream);
 	put_misc_resource_pack_id_versions(packet.resource_packs, stream);
@@ -156,7 +165,91 @@ void put_packet_resource_pack_stack(packet_resource_pack_stack_t packet, binary_
 
 void put_packet_resource_pack_client_response(packet_resource_pack_client_response_t packet, binary_stream_t *stream)
 {
-	put_unsigned_byte(ID_RESOURCE_PACK_CLIENT_RESPONSE, stream);
+	put_var_int(ID_RESOURCE_PACK_CLIENT_RESPONSE, stream);
 	put_unsigned_byte(packet.response_status, stream);
 	put_misc_resource_pack_ids(packet.resource_pack_ids, stream);
+}
+
+void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_START_GAME, stream);
+	put_signed_var_long(packet.entity_id, stream);
+	put_var_long(packet.runtime_entity_id, stream);
+	put_signed_var_int(packet.player_gamemode, stream);
+	put_float_le(packet.player_x, stream);
+	put_float_le(packet.player_y, stream);
+	put_float_le(packet.player_z, stream);
+	put_float_le(packet.pitch, stream);
+	put_float_le(packet.yaw, stream);
+	put_signed_var_int(packet.seed, stream);
+	put_short_le(packet.biome_type, stream);
+	put_misc_string_var_int(packet.biome_name, stream);
+	put_signed_var_int(packet.dimension, stream);
+	put_signed_var_int(packet.generator, stream);
+	put_signed_var_int(packet.world_gamemode, stream);
+	put_signed_var_int(packet.difficulty, stream);
+	put_signed_var_int(packet.spawn_x, stream);
+	put_var_int(packet.spawn_y, stream);
+	put_signed_var_int(packet.spawn_z, stream);
+	put_unsigned_byte(packet.achievements_disabled, stream);
+	put_signed_var_int(packet.day_cycle_stop_time, stream);
+	put_signed_var_int(packet.edu_offer, stream);
+	put_unsigned_byte(packet.edu_features_enabled, stream);
+	put_misc_string_var_int(packet.edu_product_uuid, stream);
+	put_float_le(packet.rain_level, stream);
+	put_float_le(packet.lightning_level, stream);
+	put_unsigned_byte(packet.has_confirmed_platform_locked_content, stream);
+	put_unsigned_byte(packet.is_multiplayer, stream);
+	put_unsigned_byte(packet.broadcast_to_lan, stream);
+	put_var_int(packet.xbox_live_broadcast_mode, stream);
+	put_var_int(packet.platform_broadcast_mode, stream);
+	put_unsigned_byte(packet.enable_commands, stream);
+	put_unsigned_byte(packet.are_texture_packs_required, stream);
+	put_misc_game_rules(packet.gamerules, stream);
+	put_misc_experiments(packet.experiments, stream);
+	put_unsigned_byte(packet.experiments_previously_used, stream);
+	put_unsigned_byte(packet.bonus_chest, stream);
+	put_unsigned_byte(packet.map_enabled, stream);
+	put_signed_var_int(packet.permission_level, stream);
+	put_int_le(packet.server_chunk_tick_range, stream);
+	put_unsigned_byte(packet.has_locked_behavior_pack, stream);
+	put_unsigned_byte(packet.has_locked_texture_pack, stream);
+	put_unsigned_byte(packet.is_from_locked_world_template, stream);
+	put_unsigned_byte(packet.msa_gamertags_only, stream);
+	put_unsigned_byte(packet.is_from_world_template, stream);
+	put_unsigned_byte(packet.is_world_template_option_locked, stream);
+	put_unsigned_byte(packet.only_spawn_v1_villagers, stream);
+	put_misc_string_var_int(packet.game_version, stream);
+	put_int_le(packet.limited_world_width, stream);
+	put_int_le(packet.limited_world_length, stream);
+	put_unsigned_byte(packet.is_new_nether, stream);
+	put_misc_education_shared_resource_uri(packet.edu_resource_uri, stream);
+	put_unsigned_byte(packet.experimental_gameplay_override, stream);
+	put_misc_string_var_int(packet.level_id, stream);
+	put_misc_string_var_int(packet.world_name, stream);
+	put_misc_string_var_int(packet.premium_world_template_id, stream);
+	put_unsigned_byte(packet.is_trial, stream);
+	put_signed_var_int(packet.movement_authority, stream);
+	put_signed_var_int(packet.rewind_history_size, stream);
+	put_unsigned_byte(packet.server_authoritative_block_breaking, stream);
+	put_long_le(packet.current_tick, stream);
+	put_signed_var_int(packet.enchantment_seed, stream);
+	put_var_int(0, stream); /* Block Properties */
+	put_var_int(0, stream); /* Item States */
+	put_misc_string_var_int(packet.multiplayer_correlation_id, stream);
+	put_unsigned_byte(packet.server_authoritative_inventory, stream);
+	put_misc_string_var_int(packet.engine, stream);
+	put_unsigned_long_le(packet.block_pallete_checksum, stream);
+}
+
+void put_packet_biome_definition_list(packet_biome_definition_list_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_BIOME_DEFINITION_LIST, stream);
+	put_bytes(packet.stream.buffer, packet.stream.size, stream);
+}
+
+void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_CREATIVE_CONTENT, stream);
+	put_var_int(0, stream); /* Creative Items */
 }
