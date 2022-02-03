@@ -34,9 +34,7 @@ void cmd1executor(int argc, char **argv)
 
 RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
 {
-	while (1) {
-		printf("SPAM!\n");
-	}
+	printf("Worker Test\n");
 	return 0;
 }
 
@@ -57,7 +55,7 @@ void on_dn(misc_address_t address) {
 	out[size] = 0x00;
 	log_info(out);
 	free(out);
-	exit(0);
+	/* exit(0); */
 }
 
 void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server) {
@@ -264,6 +262,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
+	/* Some Tests
 	binary_stream_t stream;
 	stream.buffer = "Man";
 	stream.size = 3;
@@ -308,6 +307,7 @@ int main(int argc, char **argv)
 	printf("%ld\n", json_array2.members[1].json_number.number.int_number);
 
 	destroy_json_object(json_object);
+	*/
 
 	#ifdef _WIN32
 
@@ -335,6 +335,7 @@ int main(int argc, char **argv)
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
+	/* Some other Tests
 	command_t cmd1;
 	cmd1.name = "help";
 	cmd1.description = "help command";
@@ -345,7 +346,8 @@ int main(int argc, char **argv)
 	register_command(cmd1, &command_manager);
 	char **args = (char **) malloc(0);
 	execute("help", 0, args, &command_manager);
-	/* worker_t worker = create_worker(test); */
+	worker_t worker = create_worker(test);
+	*/
 	while (1) {
 		handle_raknet_packet(&raknet_server);
 	}
