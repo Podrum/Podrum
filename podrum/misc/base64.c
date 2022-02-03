@@ -102,8 +102,8 @@ binary_stream_t base64_decode(char *base64_string)
 
 char *base64_encode(binary_stream_t stream)
 {
-	char *out = (char *) malloc(1);
-	out[0] = 0;
+	char *out = (char *) malloc(0);
+	size_t size = 0;
 	size_t i;
 	char padding = 0;
 	for (i = 0; i < stream.size; i += 3) {
@@ -128,21 +128,23 @@ char *base64_encode(binary_stream_t stream)
 		uint8_t i2 = (bit_array >> 12) & 0x3f;
 		uint8_t i3 = (bit_array >> 6) & 0x3f;
 		uint8_t i4 = bit_array & 0x3f;
-		char *indexes = (char *) malloc(5);
-		indexes[0] = BASE64_TABLE[i1];
-		indexes[1] = BASE64_TABLE[i2];
+		size += 4;
+		out = realloc(out, size);
+		out[size - 4] = BASE64_TABLE[i1];
+		out[size - 3] = BASE64_TABLE[i2];
 		if (padding < 2) {
-			indexes[2] = BASE64_TABLE[i3];
+			out[size - 2] = BASE64_TABLE[i3];
 		} else {
-			indexes[2] = '=';
+			out[size - 2] = '=';
 		}
 		if (padding < 1) {
-			indexes[3] = BASE64_TABLE[i4];
+			out[size - 1] = BASE64_TABLE[i4];
 		} else {
-			indexes[3] = '=';
+			out[size - 1] = '=';
 		}
-		indexes[4] = 0;
-		strcat(out, indexes);
 	}
+	++size;
+	out = realloc(out, size);
+	out[size - 1] = 0;
 	return out;
 }
