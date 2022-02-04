@@ -19,7 +19,7 @@ binary_stream_t handle_unconneted_ping(binary_stream_t *stream, raknet_server_t 
 	unconnected_pong.guid = server->guid;
 	unconnected_pong.message = server->message;
 	binary_stream_t output_stream;
-	output_stream.buffer = (char *) malloc(0);
+	output_stream.buffer = (int8_t *) malloc(0);
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_unconnected_pong(unconnected_pong, &output_stream);
@@ -34,7 +34,7 @@ binary_stream_t handle_open_connection_request_1(binary_stream_t *stream, raknet
 	open_connection_reply_1.use_security = 0;
 	open_connection_reply_1.guid = server->guid;
 	binary_stream_t output_stream;
-	output_stream.buffer = (char *) malloc(0);
+	output_stream.buffer = (int8_t *) malloc(0);
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_open_connection_reply_1(open_connection_reply_1, &output_stream);
@@ -51,7 +51,7 @@ binary_stream_t handle_open_connection_request_2(binary_stream_t *stream, raknet
 	open_connection_reply_2.guid = server->guid;
 	open_connection_reply_2.use_encryption = 0;
 	binary_stream_t output_stream;
-	output_stream.buffer = (char *) malloc(0);
+	output_stream.buffer = (int8_t *) malloc(0);
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_open_connection_reply_2(open_connection_reply_2, &output_stream);
@@ -76,7 +76,7 @@ binary_stream_t handle_connection_request(binary_stream_t *stream, raknet_server
 	connection_request_accepted.request_timestamp = connection_request.timestamp;
 	connection_request_accepted.reply_timestamp = get_raknet_timestamp(server);
 	binary_stream_t output_stream;
-	output_stream.buffer = (char *) malloc(0);
+	output_stream.buffer = (int8_t *) malloc(0);
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_connection_request_accepted(connection_request_accepted, &output_stream);
@@ -90,7 +90,7 @@ binary_stream_t handle_connected_ping(binary_stream_t *stream, raknet_server_t *
 	connected_pong.request_timestamp = connected_ping.timestamp;
 	connected_pong.reply_timestamp = get_raknet_timestamp(server);
 	binary_stream_t output_stream;
-	output_stream.buffer = (char *) malloc(0);
+	output_stream.buffer = (int8_t *) malloc(0);
 	output_stream.offset = 0;
 	output_stream.size = 0;
 	put_packet_connected_pong(connected_pong, &output_stream);
@@ -116,7 +116,7 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 		if (frame_set.sequence_number != 0 && frame_set.frames_count != 0 && frame_set.frames != NULL) {
 			frame_set.sequence_number = connection->sender_sequence_number;
 			socket_data_t output_socket_data;
-			output_socket_data.stream.buffer = (char *) malloc(0);
+			output_socket_data.stream.buffer = (int8_t *) malloc(0);
 			output_socket_data.stream.offset = 0;
 			output_socket_data.stream.size = 0;
 			put_packet_frame_set(frame_set, ((&(output_socket_data.stream))));
@@ -139,7 +139,7 @@ void handle_fragmented_frame(misc_frame_t frame, raknet_server_t *server, connec
 	if (get_raknet_compound_size(frame.compound_id, connection) == frame.compound_size) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;
-		output_frame.stream.buffer = (char *) malloc(0);
+		output_frame.stream.buffer = (int8_t *) malloc(0);
 		output_frame.stream.offset = 0;
 		output_frame.stream.size = 0;
 		size_t i;

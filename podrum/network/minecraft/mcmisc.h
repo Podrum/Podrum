@@ -33,7 +33,7 @@ typedef struct {
 	char *content_key;
 	char *sub_pack_name;
 	char *content_identity;
-	char has_scripts;
+	uint8_t has_scripts;
 } misc_behavior_pack_info_t;
 
 typedef struct {
@@ -48,8 +48,8 @@ typedef struct {
 	char *content_key;
 	char *sub_pack_name;
 	char *content_identity;
-	char has_scripts;
-	char rtx_enabled;
+	uint8_t has_scripts;
+	uint8_t rtx_enabled;
 } misc_texture_pack_info_t;
 
 typedef struct {
@@ -75,7 +75,7 @@ typedef struct {
 
 typedef struct {
 	char *name;
-	char enabled;
+	uint8_t enabled;
 } misc_experiment_t;
 
 typedef struct {
@@ -84,14 +84,14 @@ typedef struct {
 } misc_experiments_t;
 
 typedef union {
-	char boolean;
+	uint8_t boolean;
 	int32_t signed_var_int;
 	float float_le;
 } misc_multi_game_rule_t;
 
 typedef struct {
 	char *name;
-	char editable;
+	uint8_t editable;
 	uint32_t type;
 	misc_multi_game_rule_t value;
 } misc_game_rule_t;
@@ -109,7 +109,7 @@ typedef struct {
 typedef struct {
 	char *name;
 	int16_t runtime_id;
-	char component_based;
+	uint8_t component_based;
 } misc_item_state_t;
 
 typedef struct {
@@ -129,7 +129,7 @@ typedef struct {
 
 typedef struct {
 	uint16_t with_nbt;
-	char nbt_version;
+	uint8_t nbt_version;
 	binary_stream_t *nbt_stream;
 	int32_t can_place_on_size;
 	binary_stream_t *can_place_on;
@@ -142,7 +142,7 @@ typedef struct {
 	int32_t network_id;
 	uint16_t count;
 	uint32_t metadata;
-	char has_stack_id;
+	uint8_t has_stack_id;
 	int32_t stack_id;
 	int32_t block_runtime_id;
 	misc_item_extra_data_t extra;

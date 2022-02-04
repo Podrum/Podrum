@@ -69,12 +69,12 @@ int is_sequenced_or_ordered(int reliability)
 misc_frame_t get_misc_frame(binary_stream_t *stream)
 {
 	misc_frame_t frame;
-	unsigned char flags = get_unsigned_byte(stream);
+	uint8_t flags = get_unsigned_byte(stream);
 	frame.reliability = (flags & 0xf4) >> 5;
 	frame.is_fragmented = (flags & 0x10) > 0;
 	frame.stream.offset = 0;
 	frame.stream.size = get_unsigned_short_be(stream) >> 3;
-	frame.stream.buffer = (char *) malloc(frame.stream.size);
+	frame.stream.buffer = (int8_t *) malloc(frame.stream.size);
 	if (is_reliable(frame.reliability) == 1) {
 		frame.reliable_frame_index = get_unsigned_triad_le(stream);
 	}
@@ -103,14 +103,14 @@ misc_address_t get_misc_address(binary_stream_t *stream)
 	misc_address_t address;
 	address.version = get_unsigned_byte(stream);
 	if (address.version == 4) {
-		unsigned char part_1 = ~get_unsigned_byte(stream) & 0xff;
-		unsigned char part_2 = ~get_unsigned_byte(stream) & 0xff;
-		unsigned char part_3 = ~get_unsigned_byte(stream) & 0xff;
-		unsigned char part_4 = ~get_unsigned_byte(stream) & 0xff;
+		uint8_t part_1 = ~get_unsigned_byte(stream) & 0xff;
+		uint8_t part_2 = ~get_unsigned_byte(stream) & 0xff;
+		uint8_t part_3 = ~get_unsigned_byte(stream) & 0xff;
+		uint8_t part_4 = ~get_unsigned_byte(stream) & 0xff;
 		int size = snprintf(NULL, 0, "%d.%d.%d.%d", part_1, part_2, part_3, part_4);
 		address.address = (char *) malloc(size + 1);
 		address.address[size] = 0x00;
-		sprintf(address.address, "%d.%d.%d.%d", part_1, part_2, part_3, part_4);
+		sprintf(address.address, "%u.%u.%u.%u", part_1, part_2, part_3, part_4);
 		address.port = get_unsigned_short_be(stream);
 	}
 	return address;

@@ -44,18 +44,18 @@ typedef struct {
 } packet_unconnected_pong_t;
 
 typedef struct {
-	unsigned char protocol_version;
+	uint8_t protocol_version;
 	uint64_t guid;
 } packet_incompatible_protocol_version_t;
 
 typedef struct {
-	unsigned char protocol_version;
+	uint8_t protocol_version;
 	uint16_t mtu_size;
 } packet_open_connection_request_1_t;
 
 typedef struct {
 	uint64_t guid;
-	unsigned char use_security;
+	uint8_t use_security;
 	uint16_t mtu_size;
 } packet_open_connection_reply_1_t;
 
@@ -69,7 +69,7 @@ typedef struct {
 	uint64_t guid;
 	misc_address_t address;
 	uint16_t mtu_size;
-	unsigned char use_encryption;
+	uint8_t use_encryption;
 } packet_open_connection_reply_2_t;
 
 typedef struct {

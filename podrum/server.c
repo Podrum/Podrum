@@ -73,10 +73,10 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				packet_game_t out_game;
 				out_game.streams_count = 2;
 				out_game.streams = (binary_stream_t *) malloc(out_game.streams_count * sizeof(binary_stream_t));
-				out_game.streams[0].buffer = (char *) malloc(0);
+				out_game.streams[0].buffer = (int8_t *) malloc(0);
 				out_game.streams[0].size = 0;
 				out_game.streams[0].offset = 0;
-				out_game.streams[1].buffer = (char *) malloc(0);
+				out_game.streams[1].buffer = (int8_t *) malloc(0);
 				out_game.streams[1].size = 0;
 				out_game.streams[1].offset = 0;
 				packet_play_status_t play_status;
@@ -92,7 +92,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				misc_frame_t out_frame;
 				out_frame.is_fragmented = 0;
 				out_frame.reliability = RELIABILITY_UNRELIABLE;
-				out_frame.stream.buffer = (char *) malloc(0);
+				out_frame.stream.buffer = (int8_t *) malloc(0);
 				out_frame.stream.offset = 0;
 				out_frame.stream.size = 0;
 				put_packet_game(out_game, ((&(out_frame.stream))));
@@ -113,7 +113,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					packet_game_t out_game;
 					out_game.streams_count = 1;
 					out_game.streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-					out_game.streams[0].buffer = (char *) malloc(0);
+					out_game.streams[0].buffer = (int8_t *) malloc(0);
 					out_game.streams[0].size = 0;
 					out_game.streams[0].offset = 0;
 					packet_resource_pack_stack_t resource_pack_stack;
@@ -127,7 +127,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					misc_frame_t out_frame;
 					out_frame.is_fragmented = 0;
 					out_frame.reliability = RELIABILITY_UNRELIABLE;
-					out_frame.stream.buffer = (char *) malloc(0);
+					out_frame.stream.buffer = (int8_t *) malloc(0);
 					out_frame.stream.offset = 0;
 					out_frame.stream.size = 0;
 					put_packet_game(out_game, ((&(out_frame.stream))));
@@ -138,16 +138,16 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					packet_game_t out_game;
 					out_game.streams_count = 4;
 					out_game.streams = (binary_stream_t *) malloc(out_game.streams_count * sizeof(binary_stream_t));
-					out_game.streams[0].buffer = (char *) malloc(0);
+					out_game.streams[0].buffer = (int8_t *) malloc(0);
 					out_game.streams[0].size = 0;
 					out_game.streams[0].offset = 0;
-					out_game.streams[1].buffer = (char *) malloc(0);
+					out_game.streams[1].buffer = (int8_t *) malloc(0);
 					out_game.streams[1].size = 0;
 					out_game.streams[1].offset = 0;
-					out_game.streams[2].buffer = (char *) malloc(0);
+					out_game.streams[2].buffer = (int8_t *) malloc(0);
 					out_game.streams[2].size = 0;
 					out_game.streams[2].offset = 0;
-					out_game.streams[3].buffer = (char *) malloc(0);
+					out_game.streams[3].buffer = (int8_t *) malloc(0);
 					out_game.streams[3].size = 0;
 					out_game.streams[3].offset = 0;
 					packet_start_game_t start_game;
@@ -223,6 +223,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					put_packet_biome_definition_list(biome_definition_list, ((&(out_game.streams[1]))));
 					free(biome_definition_list.stream.buffer);
 					packet_creative_content_t creative_content;
+					creative_content.size = 0;
 					put_packet_creative_content(creative_content, ((&(out_game.streams[2]))));
 					packet_play_status_t play_status;
 					play_status.status = PLAY_STATUS_PLAYER_SPAWN;
@@ -237,7 +238,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					misc_frame_t out_frame;
 					out_frame.is_fragmented = 0;
 					out_frame.reliability = RELIABILITY_UNRELIABLE;
-					out_frame.stream.buffer = (char *) malloc(0);
+					out_frame.stream.buffer = (int8_t *) malloc(0);
 					out_frame.stream.offset = 0;
 					out_frame.stream.size = 0;
 					put_packet_game(out_game, ((&(out_frame.stream))));

@@ -24,8 +24,8 @@ typedef struct {
 	uint32_t receiver_sequence_number;
 	uint32_t sender_reliable_frame_index;
 	uint32_t receiver_reliable_frame_index;
-	unsigned char sender_order_channels[32];
-	unsigned char sender_sequence_channels[32];
+	uint8_t sender_order_channels[32];
+	uint8_t sender_sequence_channels[32];
 	packet_frame_set_t queue;
 	uint32_t *ack_queue;
 	uint16_t ack_queue_size;
@@ -66,7 +66,7 @@ struct _raknet_server {
 
 double get_raknet_timestamp(raknet_server_t *server);
 
-char has_raknet_connection(misc_address_t address, raknet_server_t *server);
+uint8_t has_raknet_connection(misc_address_t address, raknet_server_t *server);
 
 void add_raknet_connection(misc_address_t address, uint16_t mtu_size, uint64_t guid, raknet_server_t *server);
 
@@ -74,7 +74,7 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server);
 
 connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *server);
 
-char is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection);
+uint8_t is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection);
 
 void append_raknet_recovery_queue(packet_frame_set_t frame_set, connection_t *connection);
 
@@ -82,11 +82,11 @@ void deduct_raknet_recovery_queue(uint32_t sequence_number, connection_t *connec
 
 packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection);
 
-char is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection);
+uint8_t is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection);
 
 void append_raknet_ack_queue(uint32_t sequence_number, connection_t *connection);
 
-char is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection);
+uint8_t is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection);
 
 void deduct_raknet_nack_queue(uint32_t sequence_number, connection_t *connection);
 
@@ -102,7 +102,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 
 void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_server_t *server);
 
-char is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection);
+uint8_t is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection);
 
 void append_raknet_frame_holder(misc_frame_t frame, connection_t *connection);
 

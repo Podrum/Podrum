@@ -7,9 +7,9 @@
 #include "binary_stream.h"
 #include <string.h>
 
-char *get_bytes(size_t count, binary_stream_t *stream)
+int8_t *get_bytes(size_t count, binary_stream_t *stream)
 {
-	char *result = (char *) malloc(count * sizeof(char));
+	int8_t *result = (int8_t *) malloc(count);
 	size_t i;
 	for (i = 0; i < count; ++i) {
 		result[i] = stream->buffer[stream->offset];
@@ -18,22 +18,22 @@ char *get_bytes(size_t count, binary_stream_t *stream)
 	return result;
 }
 
-char *get_remaining_bytes(binary_stream_t *stream)
+int8_t *get_remaining_bytes(binary_stream_t *stream)
 {
 	return get_bytes(stream->size - stream->offset - 1, stream);
 }
 
-unsigned char get_unsigned_byte(binary_stream_t *stream)
+uint8_t get_unsigned_byte(binary_stream_t *stream)
 {
-	unsigned char value = stream->buffer[stream->offset] & 0xff;
+	uint8_t value = stream->buffer[stream->offset] & 0xff;
 	++stream->offset;
 	return value;
 }
 
-char get_byte(binary_stream_t *stream)
+int8_t get_byte(binary_stream_t *stream)
 {
-	unsigned char raw = get_unsigned_byte(stream);
-	return *(char*)&raw;
+	uint8_t raw = get_unsigned_byte(stream);
+	return *(int8_t*)&raw;
 }
 
 uint16_t get_unsigned_short_le(binary_stream_t *stream)
@@ -197,7 +197,7 @@ uint32_t get_var_int(binary_stream_t *stream)
 	uint32_t value = 0;
 	int i;
 	for (i = 0; i < 35; i += 7) {
-		unsigned char to_read = get_unsigned_byte(stream);
+		uint8_t to_read = get_unsigned_byte(stream);
 		value |= ((to_read & 0x7f) << i);
 		if ((to_read & 0x80) == 0) {
 			return value;
@@ -217,7 +217,7 @@ uint64_t get_var_long(binary_stream_t *stream)
 	uint64_t value = 0;
 	int i;
 	for (i = 0; i < 70; i += 7) {
-		unsigned char to_read = get_unsigned_byte(stream);
+		uint8_t to_read = get_unsigned_byte(stream);
 		value |= (((uint64_t) (to_read & 0x7f)) << ((uint64_t) i));
 		if ((to_read & 0x80) == 0) {
 			return value;
@@ -264,31 +264,31 @@ double get_double_be(binary_stream_t *stream)
 	return f;
 }
 
-void put_bytes(char *data, size_t size, binary_stream_t *stream)
+void put_bytes(int8_t *data, size_t size, binary_stream_t *stream)
 {
 	size_t i;
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + size);
 	for (i = 0; i < size; ++i) {
-		stream->buffer = (char *) realloc(stream->buffer, (stream->size + 1) * sizeof(char));
 		stream->buffer[stream->size] = data[i];
 		++stream->size;
 	}
 }
 
-void put_unsigned_byte(unsigned char value, binary_stream_t *stream)
+void put_unsigned_byte(uint8_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 1) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 1);
 	stream->buffer[stream->size] = value & 0xff;
 	++stream->size;
 }
 
-void put_byte(char value, binary_stream_t *stream)
+void put_byte(int8_t value, binary_stream_t *stream)
 {
 	put_unsigned_byte(value & 0xff, stream);
 }
 
 void put_unsigned_short_le(uint16_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 2) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 2);
 	stream->buffer[stream->size] = value & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
@@ -297,7 +297,7 @@ void put_unsigned_short_le(uint16_t value, binary_stream_t *stream)
 
 void put_unsigned_short_be(uint16_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 2) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 2);
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = value & 0xff;
@@ -316,7 +316,7 @@ void put_short_be(int16_t value, binary_stream_t *stream)
 
 void put_unsigned_triad_le(uint32_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 3) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 3);
 	stream->buffer[stream->size] = value & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
@@ -327,7 +327,7 @@ void put_unsigned_triad_le(uint32_t value, binary_stream_t *stream)
 
 void put_unsigned_triad_be(uint32_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 3) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 3);
 	stream->buffer[stream->size] = (value >> 16) & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
@@ -348,7 +348,7 @@ void put_triad_be(int32_t value, binary_stream_t *stream)
 
 void put_unsigned_int_le(uint32_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 4) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 4);
 	stream->buffer[stream->size] = value & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
@@ -361,7 +361,7 @@ void put_unsigned_int_le(uint32_t value, binary_stream_t *stream)
 
 void put_unsigned_int_be(uint32_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 4) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 4);
 	stream->buffer[stream->size] = (value >> 24) & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 16) & 0xff;
@@ -384,7 +384,7 @@ void put_int_be(int32_t value, binary_stream_t *stream)
 
 void put_unsigned_long_le(uint64_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 8) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 8);
 	stream->buffer[stream->size] = value & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 8) & 0xff;
@@ -405,7 +405,7 @@ void put_unsigned_long_le(uint64_t value, binary_stream_t *stream)
 
 void put_unsigned_long_be(uint64_t value, binary_stream_t *stream)
 {
-	stream->buffer = (char *) realloc(stream->buffer, (stream->size + 8) * sizeof(char));
+	stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 8);
 	stream->buffer[stream->size] = (value >> 56) & 0xff;
 	++stream->size;
 	stream->buffer[stream->size] = (value >> 48) & 0xff;
@@ -439,9 +439,9 @@ void put_var_int(uint32_t value, binary_stream_t *stream)
 	value &= 0xffffffff;
 	int i;
 	for (i = 0; i < 5; ++i) {
-		unsigned char to_write = value & 0x7f;
+		uint8_t to_write = value & 0x7f;
 		value >>= 7;
-		stream->buffer = (char *) realloc(stream->buffer, (stream->size + 1) * sizeof(char));
+		stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 1);
 		if (value != 0) {
 			stream->buffer[stream->size] = (to_write | 0x80);
 			++stream->size;
@@ -463,9 +463,9 @@ void put_var_long(uint64_t value, binary_stream_t *stream)
 	value &= 0xffffffffffffffff;
 	int i;
 	for (i = 0; i < 10; ++i) {
-		unsigned char to_write = value & 0x7f;
+		uint8_t to_write = value & 0x7f;
 		value >>= 7;
-		stream->buffer = (char *) realloc(stream->buffer, (stream->size + 1) * sizeof(char));
+		stream->buffer = (int8_t *) realloc(stream->buffer, stream->size + 1);
 		if (value != 0) {
 			stream->buffer[stream->size] = (to_write | 0x80);
 			++stream->size;

@@ -14,12 +14,12 @@
 binary_stream_t base64_decode(char *base64_string)
 {
 	binary_stream_t stream;
-	stream.buffer = (char *) malloc(0);
+	stream.buffer = (int8_t *) malloc(0);
 	stream.offset = 0;
 	stream.size = 0;
 	size_t len = strlen(base64_string);
 	size_t i;
-	char padding = 0;
+	uint8_t padding = 0;
 	for (i = 0; i < len; i += 4) {
 		uint8_t i1 = 0;
 		uint8_t i2 = 0;
@@ -105,11 +105,11 @@ char *base64_encode(binary_stream_t stream)
 	char *out = (char *) malloc(0);
 	size_t size = 0;
 	size_t i;
-	char padding = 0;
+	uint8_t padding = 0;
 	for (i = 0; i < stream.size; i += 3) {
-		char b1 = 0;
-		char b2 = 0;
-		char b3 = 0;
+		uint8_t b1 = 0;
+		uint8_t b2 = 0;
+		uint8_t b3 = 0;
 		if (i < stream.size) {
 			b1 = stream.buffer[i];
 		}

@@ -201,14 +201,14 @@ void put_misc_string_var_int(char *value, binary_stream_t *stream)
 {
 	int length = strlen(value);
 	put_var_int(length & 0xffffffff, stream);
-	put_bytes(value, length, stream);
+	put_bytes((int8_t *) value, length, stream);
 }
 
 void put_misc_string_int_le(char *value, binary_stream_t *stream)
 {
 	int length = strlen(value);
 	put_int_le(length, stream);
-	put_bytes(value, length, stream);
+	put_bytes((int8_t *) value, length, stream);
 }
 
 void put_misc_byte_array_var_int(binary_stream_t value, binary_stream_t *stream)

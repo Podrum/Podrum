@@ -22,18 +22,18 @@
 #define RELIABILITY_RELIABLE_ORDERED_WITH_ACK_RECEIPT 0x07
 
 typedef struct {
-	unsigned char version;
+	uint8_t version;
 	char *address;
 	uint16_t port;
 } misc_address_t;
 
 typedef struct {
-	unsigned char reliability;
-	unsigned char is_fragmented;
+	uint8_t reliability;
+	uint8_t is_fragmented;
 	uint32_t reliable_frame_index;
 	uint32_t sequenced_frame_index;
 	uint32_t ordered_frame_index;
-	unsigned char order_channel;
+	uint8_t order_channel;
 	uint32_t compound_size;
 	uint16_t compound_id;
 	uint32_t index;

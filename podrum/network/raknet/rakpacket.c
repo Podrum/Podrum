@@ -96,7 +96,7 @@ packet_acknowledge_t get_packet_acknowledge(binary_stream_t *stream)
 	packet.sequence_numbers = (uint32_t *) malloc(0);
 	uint16_t record_count = get_unsigned_short_be(stream);
 	uint16_t i;
-	unsigned char is_single;
+	uint8_t is_single;
 	uint32_t index;
 	uint32_t end_index;
 	for (i = 0; i < record_count; ++i) {
@@ -194,7 +194,7 @@ void put_packet_unconnected_ping(packet_unconnected_ping_t packet, int opts, bin
 {
 	put_unsigned_byte(opts != 0 ? ID_UNCONNECTED_PING_OPEN_CONNECTIONS : ID_UNCONNECTED_PONG, stream);
 	put_unsigned_long_be(packet.timestamp, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_unsigned_long_be(packet.guid, stream);
 }
 
@@ -203,23 +203,23 @@ void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream
 	put_unsigned_byte(ID_UNCONNECTED_PONG, stream);
 	put_unsigned_long_be(packet.timestamp, stream);
 	put_unsigned_long_be(packet.guid, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_short_be(strlen(packet.message), stream);
-	put_bytes(packet.message, strlen(packet.message), stream);
+	put_bytes((int8_t *) packet.message, strlen(packet.message), stream);
 }
 
 void put_packet_incompatible_protocol_version(packet_incompatible_protocol_version_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_INCOMPATIBLE_PROTOCOL_VERSION, stream);
 	put_unsigned_byte(packet.protocol_version, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_unsigned_long_be(packet.guid, stream);
 }
 
 void put_packet_open_connection_request_1(packet_open_connection_request_1_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_OPEN_CONNECTION_REQUEST_1, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_unsigned_byte(packet.protocol_version, stream);
 	uint16_t pad_bytes = packet.mtu_size - 18;
 	uint16_t i;
@@ -231,7 +231,7 @@ void put_packet_open_connection_request_1(packet_open_connection_request_1_t pac
 void put_packet_open_connection_reply_1(packet_open_connection_reply_1_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_OPEN_CONNECTION_REPLY_1, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_unsigned_long_be(packet.guid, stream);
 	put_unsigned_byte(packet.use_security, stream);
 	put_unsigned_short_be(packet.mtu_size, stream);
@@ -240,7 +240,7 @@ void put_packet_open_connection_reply_1(packet_open_connection_reply_1_t packet,
 void put_packet_open_connection_request_2(packet_open_connection_request_2_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_OPEN_CONNECTION_REQUEST_2, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_misc_address(packet.address, stream);
 	put_unsigned_short_be(packet.mtu_size, stream);
 	put_unsigned_long_be(packet.guid, stream);
@@ -249,7 +249,7 @@ void put_packet_open_connection_request_2(packet_open_connection_request_2_t pac
 void put_packet_open_connection_reply_2(packet_open_connection_reply_2_t packet, binary_stream_t *stream)
 {
 	put_unsigned_byte(ID_OPEN_CONNECTION_REPLY_2, stream);
-	put_bytes(MAGIC, 16, stream);
+	put_bytes((int8_t *) MAGIC, 16, stream);
 	put_unsigned_long_be(packet.guid, stream);
 	put_misc_address(packet.address, stream);
 	put_unsigned_short_be(packet.mtu_size, stream);
@@ -275,7 +275,7 @@ void put_packet_acknowledge(packet_acknowledge_t packet, int opts, binary_stream
 	binary_stream_t temp_stream;
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
-	temp_stream.buffer = (char *) malloc(0);
+	temp_stream.buffer = (int8_t *) malloc(0);
 	uint16_t record_count = 0;
 	if (packet.sequence_numbers_count > 0) {
 		uint32_t start_index = packet.sequence_numbers[0];

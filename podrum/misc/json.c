@@ -11,7 +11,7 @@
 #include <stdio.h>
 #include <ctype.h>
 
-char hextobin(char hex)
+unsigned char hextobin(char hex)
 {
 	switch (hex) {
 	case '0':
@@ -119,7 +119,7 @@ char *parse_json_string(json_input_t *json_input)
 					++json_input->offset;
 					int len = strlen(json_input->json);
 					if ((len - json_input->offset) > 3) {
-						char parts_v1[4] = {
+						unsigned char parts_v1[4] = {
 							hextobin(json_input->json[json_input->offset++]),
 							hextobin(json_input->json[json_input->offset++]),
 							hextobin(json_input->json[json_input->offset++]),
@@ -129,7 +129,7 @@ char *parse_json_string(json_input_t *json_input)
 							uint32_t uni_v1 = (((parts_v1[0] << 4) | parts_v1[1]) << 8) | ((parts_v1[2] << 4) | parts_v1[3]);
 							if ((len - json_input->offset) > 5) {
 								if (uni_v1 >= 0xd800 && uni_v1 <= 0xdbff && json_input->json[json_input->offset++] == '\\' && json_input->json[json_input->offset++] == 'u') {
-									char parts_v2[4] = {
+									unsigned char parts_v2[4] = {
 										hextobin(json_input->json[json_input->offset++]),
 										hextobin(json_input->json[json_input->offset++]),
 										hextobin(json_input->json[json_input->offset++]),

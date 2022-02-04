@@ -77,17 +77,17 @@ socket_data_t receive_data(int sock)
 	socket_data_t result;
 	result.stream.offset = 0;
 	result.stream.size = 65535;
-	result.stream.buffer = (char *) malloc(result.stream.size);
+	result.stream.buffer = (int8_t *) malloc(result.stream.size);
 	struct sockaddr_in s_address;
 	memset(&s_address, 0, sizeof(s_address));
 	socklen_t s_address_length = sizeof(s_address);
 	int length = recvfrom(sock, result.stream.buffer, result.stream.size, 0, (struct sockaddr *) &s_address, &s_address_length);
 	if (length != -1 && length < result.stream.size) {
 		result.stream.size = length;
-		result.stream.buffer = (char *) realloc(result.stream.buffer, result.stream.size);
+		result.stream.buffer = (int8_t *) realloc(result.stream.buffer, result.stream.size);
 	} else if (length == -1) {
 		result.stream.size = 0;
-		result.stream.buffer = (char *) realloc(result.stream.buffer, 0);
+		result.stream.buffer = (int8_t *) realloc(result.stream.buffer, 0);
 		result.address.version = 4;
 		result.address.address = "0.0.0.0";
 		result.address.port = 0;

@@ -10,6 +10,7 @@
 #define PODRUM_COMMAND_COMMANDMANAGER_H
 
 #include <stdlib.h>
+#include <stdint.h>
 
 typedef void (*command_executor_t)(int argc, char **argv);
 
@@ -18,7 +19,7 @@ typedef struct {
     char *description;
     char *usage;
     char *prefix;
-    unsigned char flags; /* 1 = Error flag */
+    uint8_t flags; /* 1 = Error flag */
     command_executor_t executor;
 } command_t;
 

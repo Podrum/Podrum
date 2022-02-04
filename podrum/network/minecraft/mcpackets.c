@@ -22,7 +22,7 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 	zlib_buf_t out;
 	zlib_decode(in, &out, ZLIB_DEFLATE_MODE);
 	binary_stream_t data_stream;
-	data_stream.buffer = (char *) out.data;
+	data_stream.buffer = (int8_t *) out.data;
 	data_stream.size = out.size;
 	data_stream.offset = 0;
 	while (data_stream.offset < data_stream.size) {
@@ -91,6 +91,7 @@ packet_resource_pack_client_response_t get_packet_resource_pack_client_response(
 	return resource_pack_client_response;
 }
 
+/*
 packet_start_game_t get_packet_start_game(binary_stream_t *stream)
 {}
 
@@ -99,11 +100,12 @@ packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t 
 
 packet_creative_content_t get_packet_creative_content(binary_stream_t *stream)
 {}
+*/
 
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
 	binary_stream_t temp_stream;
-	temp_stream.buffer = (char *) malloc(0);
+	temp_stream.buffer = (int8_t *) malloc(0);
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
 	size_t i;
@@ -119,7 +121,7 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 	zlib_encode(in, &out, 7, ZLIB_DEFLATE_MODE);
 	free(temp_stream.buffer);
 	put_unsigned_byte(ID_GAME, stream);
-	put_bytes((char *) out.data, (size_t) out.size, stream);
+	put_bytes((int8_t *) out.data, (size_t) out.size, stream);
 	free(out.data);
 }
 
@@ -128,7 +130,7 @@ void put_packet_login(packet_login_t packet, binary_stream_t *stream)
 	put_var_int(ID_LOGIN, stream);
 	put_int_be(packet.protocol_version, stream);
 	binary_stream_t temp_stream;
-	temp_stream.buffer = (char *) malloc(0);
+	temp_stream.buffer = (int8_t *) malloc(0);
 	temp_stream.offset = 0;
 	temp_stream.size = 0;
 	put_misc_login_tokens(packet.tokens, &temp_stream);

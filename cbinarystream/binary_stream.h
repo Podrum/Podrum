@@ -11,18 +11,18 @@
 #include <stdlib.h>
 
 typedef struct {
-	char *buffer;
+	int8_t *buffer;
 	size_t size;
 	size_t offset;
 } binary_stream_t;
 
-char *get_bytes(size_t count, binary_stream_t *stream);
+int8_t *get_bytes(size_t count, binary_stream_t *stream);
 
-char *get_remaining_bytes(binary_stream_t *stream);
+int8_t *get_remaining_bytes(binary_stream_t *stream);
 
-unsigned char get_unsigned_byte(binary_stream_t *stream);
+uint8_t get_unsigned_byte(binary_stream_t *stream);
 
-char get_byte(binary_stream_t *stream);
+int8_t get_byte(binary_stream_t *stream);
 
 uint16_t get_unsigned_short_le(binary_stream_t *stream);
 
@@ -72,11 +72,11 @@ double get_double_le(binary_stream_t *stream);
 
 double get_double_be(binary_stream_t *stream);
 
-void put_bytes(char *data, size_t size, binary_stream_t *stream);
+void put_bytes(int8_t *data, size_t size, binary_stream_t *stream);
 
-void put_unsigned_byte(unsigned char value, binary_stream_t *stream);
+void put_unsigned_byte(uint8_t value, binary_stream_t *stream);
 
-void put_byte(char value, binary_stream_t *stream);
+void put_byte(int8_t value, binary_stream_t *stream);
 
 void put_unsigned_short_le(uint16_t value, binary_stream_t *stream);
 

@@ -17,7 +17,7 @@ double get_raknet_timestamp(raknet_server_t *server)
 	return (time(NULL) * 1000) - server->epoch;
 }
 
-char has_raknet_connection(misc_address_t address, raknet_server_t *server)
+uint8_t has_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
 	size_t i;
 	for (i = 0; i < server->connections_count; ++i) {
@@ -108,7 +108,7 @@ connection_t *get_raknet_connection(misc_address_t address, raknet_server_t *ser
 	return NULL;
 }
 
-char is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
+uint8_t is_in_raknet_recovery_queue(uint32_t sequence_number, connection_t *connection)
 {
 	size_t i;
 	for (i = 0; i < connection->recovery_queue_size; ++i) {
@@ -179,7 +179,7 @@ packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connectio
 	return output_frame_set;
 }
 
-char is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
+uint8_t is_in_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	uint16_t i;
 	for (i = 0; i < connection->ack_queue_size; ++i) {
@@ -199,7 +199,7 @@ void append_raknet_ack_queue(uint32_t sequence_number, connection_t *connection)
 	}
 }
 
-char is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
+uint8_t is_in_raknet_nack_queue(uint32_t sequence_number, connection_t *connection)
 {
 	uint16_t i;
 	for (i = 0; i < connection->nack_queue_size; ++i) {
@@ -244,7 +244,7 @@ void send_raknet_ack_queue(connection_t *connection, raknet_server_t *server)
 		acknowledge.sequence_numbers = connection->ack_queue;
 		acknowledge.sequence_numbers_count = connection->ack_queue_size;
 		socket_data_t output_socket_data;
-		output_socket_data.stream.buffer = (char *) malloc(0);
+		output_socket_data.stream.buffer = (int8_t *) malloc(0);
 		output_socket_data.stream.offset = 0;
 		output_socket_data.stream.size = 0;
 		put_packet_acknowledge(acknowledge, 0, ((&(output_socket_data.stream))));
@@ -264,7 +264,7 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server)
 		acknowledge.sequence_numbers = connection->nack_queue;
 		acknowledge.sequence_numbers_count = connection->nack_queue_size;
 		socket_data_t output_socket_data;
-		output_socket_data.stream.buffer = (char *) malloc(0);
+		output_socket_data.stream.buffer = (int8_t *) malloc(0);
 		output_socket_data.stream.offset = 0;
 		output_socket_data.stream.size = 0;
 		put_packet_acknowledge(acknowledge, 1, ((&(output_socket_data.stream))));
@@ -284,7 +284,7 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 		++connection->sender_sequence_number;
 		append_raknet_recovery_queue(connection->queue, connection);
 		socket_data_t output_socket_data;
-		output_socket_data.stream.buffer = (char *) malloc(0);
+		output_socket_data.stream.buffer = (int8_t *) malloc(0);
 		output_socket_data.stream.offset = 0;
 		output_socket_data.stream.size = 0;
 		put_packet_frame_set(connection->queue, ((&(output_socket_data.stream))));
@@ -308,7 +308,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 		++connection->sender_sequence_number;
 		append_raknet_recovery_queue(frame_set, connection);
 		socket_data_t output_socket_data;
-		output_socket_data.stream.buffer = (char *) malloc(0);
+		output_socket_data.stream.buffer = (int8_t *) malloc(0);
 		output_socket_data.stream.offset = 0;
 		output_socket_data.stream.size = 0;
 		put_packet_frame_set(frame_set, ((&(output_socket_data.stream))));
@@ -385,7 +385,7 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 	}
 }
 
-char is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection)
+uint8_t is_in_raknet_frame_holder(uint16_t compound_id, uint32_t index, connection_t *connection)
 {
 	size_t i;
 	for (i = 0; i < connection->frame_holder_size; ++i) {
@@ -452,7 +452,7 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	misc_frame_t frame;
 	frame.is_fragmented = 0;
 	frame.reliability = 0;
-	frame.stream.buffer = (char *) malloc(1);
+	frame.stream.buffer = (int8_t *) malloc(1);
 	frame.stream.size = 1;
 	frame.stream.offset = 0;
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
