@@ -8,6 +8,8 @@
 *.pdb
 *.lib
 .vscode/settings.json
+.idea
+cmake-build-debug/*
 CMakeFiles/*
 Makefile
 CMakeCache.txt
