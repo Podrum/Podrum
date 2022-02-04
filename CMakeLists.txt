@@ -23,6 +23,6 @@ add_executable(PodrumR3
         podrum/server.c
         podrum/worker.c)
 
-IF(NOT ("${CMAKE_SYSTEM}" MATCHES "WIN32"))
+IF(NOT ("${CMAKE_SYSTEM}" MATCHES "Windows"))
 	TARGET_LINK_LIBRARIES(PodrumR3 pthread)
 endif()
