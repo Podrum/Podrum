@@ -8,3 +8,9 @@
 *.pdb
 *.lib
 .vscode/settings.json
+CMakeFiles/*
+Makefile
+CMakeCache.txt
+PodrumR3
+ut
+cmake_install.cmake
