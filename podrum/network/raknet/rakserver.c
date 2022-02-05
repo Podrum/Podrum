@@ -322,7 +322,7 @@ void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection,
 		for (i = 0; i < connection->queue.frames_count; ++i) {
 			size += get_frame_size(connection->queue.frames[i]);
 		}
-		if (size >= connection->mtu_size) {
+		if (size >= (connection->mtu_size - 36)) {
 			send_raknet_queue(connection, server);
 		}
 		++connection->queue.frames_count;
