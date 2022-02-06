@@ -228,13 +228,6 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					packet_play_status_t play_status;
 					play_status.status = PLAY_STATUS_PLAYER_SPAWN;
 					put_packet_play_status(play_status, ((&(out_game.streams[3]))));
-					packet_resource_packs_info_t resource_packs_info;
-					resource_packs_info.must_accept = 0;
-					resource_packs_info.has_scripts = 0;
-					resource_packs_info.force_server_packs = 0;
-					resource_packs_info.behavior_packs.size = 0;
-					resource_packs_info.texture_packs.size = 0;
-					put_packet_resource_packs_info(resource_packs_info, ((&(out_game.streams[1]))));
 					misc_frame_t out_frame;
 					out_frame.is_fragmented = 0;
 					out_frame.reliability = RELIABILITY_UNRELIABLE;
