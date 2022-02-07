@@ -47,6 +47,20 @@ void on_nic(connection_t *connection) {
 	free(out);
 }
 
+void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, connection_t *connection, raknet_server_t *server)
+{
+	packet_game_t game;
+	game.streams = streams;
+	game.streams_count = streams_count;
+	misc_frame_t frame;
+	frame.is_fragmented = 0;
+	frame.reliability = RELIABILITY_RELIABLE;
+	frame.stream.buffer = (int8_t *) malloc(0);
+	frame.stream.offset = 0;
+	frame.stream.size = 0;
+	put_packet_game(game, (&(frame.stream)));
+	add_to_raknet_queue(frame, connection, server);
+}
 
 void on_dn(misc_address_t address) {
 	int size = snprintf(NULL, 0, "%s:%d disconnected.", address.address, address.port);
@@ -70,36 +84,28 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				printf("Tryed to connect with protocol %d\n", login.protocol_version);
 				free(login.tokens.client);
 				free(login.tokens.identity);
-				packet_game_t out_game;
-				out_game.streams_count = 2;
-				out_game.streams = (binary_stream_t *) malloc(out_game.streams_count * sizeof(binary_stream_t));
-				out_game.streams[0].buffer = (int8_t *) malloc(0);
-				out_game.streams[0].size = 0;
-				out_game.streams[0].offset = 0;
-				out_game.streams[1].buffer = (int8_t *) malloc(0);
-				out_game.streams[1].size = 0;
-				out_game.streams[1].offset = 0;
+				size_t streams_count = 2;
+				binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
+				streams[0].buffer = (int8_t *) malloc(0);
+				streams[0].size = 0;
+				streams[0].offset = 0;
+				streams[1].buffer = (int8_t *) malloc(0);
+				streams[1].size = 0;
+				streams[1].offset = 0;
 				packet_play_status_t play_status;
 				play_status.status = PLAY_STATUS_LOGIN_SUCCESS;
-				put_packet_play_status(play_status, ((&(out_game.streams[0]))));
+				put_packet_play_status(play_status, (&(streams[0])));
 				packet_resource_packs_info_t resource_packs_info;
 				resource_packs_info.must_accept = 0;
 				resource_packs_info.has_scripts = 0;
 				resource_packs_info.force_server_packs = 0;
 				resource_packs_info.behavior_packs.size = 0;
 				resource_packs_info.texture_packs.size = 0;
-				put_packet_resource_packs_info(resource_packs_info, ((&(out_game.streams[1]))));
-				misc_frame_t out_frame;
-				out_frame.is_fragmented = 0;
-				out_frame.reliability = RELIABILITY_UNRELIABLE;
-				out_frame.stream.buffer = (int8_t *) malloc(0);
-				out_frame.stream.offset = 0;
-				out_frame.stream.size = 0;
-				put_packet_game(out_game, ((&(out_frame.stream))));
-				free(out_game.streams[0].buffer);
-				free(out_game.streams[1].buffer);
-				free(out_game.streams);
-				add_to_raknet_queue(out_frame, connection, server);
+				put_packet_resource_packs_info(resource_packs_info, (&(streams[1])));
+				send_minecraft_packet(streams, streams_count, connection, server);
+				free(streams[0].buffer);
+				free(streams[1].buffer);
+				free(streams);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x9C) {
 				int ii;
 				for (ii = 0; ii < game.streams[i].size; ++ii) {
@@ -110,12 +116,11 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				packet_resource_pack_client_response_t resource_pack_client_response = get_packet_resource_pack_client_response(((&(game.streams[i]))));
 				printf("RESOURCE PACKS RESONSE: %d\n", resource_pack_client_response.response_status);
 				if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_NONE || resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS) {
-					packet_game_t out_game;
-					out_game.streams_count = 1;
-					out_game.streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-					out_game.streams[0].buffer = (int8_t *) malloc(0);
-					out_game.streams[0].size = 0;
-					out_game.streams[0].offset = 0;
+					size_t streams_count = 1;
+					binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+					streams[0].buffer = (int8_t *) malloc(0);
+					streams[0].size = 0;
+					streams[0].offset = 0;
 					packet_resource_pack_stack_t resource_pack_stack;
 					resource_pack_stack.must_accept = 0;
 					resource_pack_stack.behavior_packs.size = 0;
@@ -123,33 +128,19 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					resource_pack_stack.game_version = GAME_VERSION;
 					resource_pack_stack.experiments.size = 0;
 					resource_pack_stack.experiments_previously_used = 0;
-					put_packet_resource_pack_stack(resource_pack_stack, ((&(out_game.streams[0]))));
-					misc_frame_t out_frame;
-					out_frame.is_fragmented = 0;
-					out_frame.reliability = RELIABILITY_UNRELIABLE;
-					out_frame.stream.buffer = (int8_t *) malloc(0);
-					out_frame.stream.offset = 0;
-					out_frame.stream.size = 0;
-					put_packet_game(out_game, ((&(out_frame.stream))));
-					free(out_game.streams[0].buffer);
-					free(out_game.streams);
-					add_to_raknet_queue(out_frame, connection, server);
+					put_packet_resource_pack_stack(resource_pack_stack, (&(streams[0])));
+					send_minecraft_packet(streams, streams_count, connection, server);
+					free(streams[0].buffer);
+					free(streams);
 				} else if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED) {
-					packet_game_t out_game;
-					out_game.streams_count = 4;
-					out_game.streams = (binary_stream_t *) malloc(out_game.streams_count * sizeof(binary_stream_t));
-					out_game.streams[0].buffer = (int8_t *) malloc(0);
-					out_game.streams[0].size = 0;
-					out_game.streams[0].offset = 0;
-					out_game.streams[1].buffer = (int8_t *) malloc(0);
-					out_game.streams[1].size = 0;
-					out_game.streams[1].offset = 0;
-					out_game.streams[2].buffer = (int8_t *) malloc(0);
-					out_game.streams[2].size = 0;
-					out_game.streams[2].offset = 0;
-					out_game.streams[3].buffer = (int8_t *) malloc(0);
-					out_game.streams[3].size = 0;
-					out_game.streams[3].offset = 0;
+					size_t streams_count = 2;
+					binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
+					streams[0].buffer = (int8_t *) malloc(0);
+					streams[0].size = 0;
+					streams[0].offset = 0;
+					streams[1].buffer = (int8_t *) malloc(0);
+					streams[1].size = 0;
+					streams[1].offset = 0;
 					packet_start_game_t start_game;
 					start_game.entity_id = 0;
 					start_game.runtime_entity_id = 0;
@@ -217,36 +208,49 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					start_game.server_authoritative_inventory = 0;
 					start_game.engine = GAME_ENGINE;
 					start_game.block_pallete_checksum = 0;
-					put_packet_start_game(start_game, ((&(out_game.streams[0]))));
-					packet_biome_definition_list_t biome_definition_list;
-					biome_definition_list.stream = base64_decode(BIOME_DATA_BLOB);
-					put_packet_biome_definition_list(biome_definition_list, ((&(out_game.streams[1]))));
-					free(biome_definition_list.stream.buffer);
+					put_packet_start_game(start_game, (&(streams[0])));
 					packet_creative_content_t creative_content;
 					creative_content.size = 0;
-					put_packet_creative_content(creative_content, ((&(out_game.streams[2]))));
-					packet_play_status_t play_status;
-					play_status.status = PLAY_STATUS_PLAYER_SPAWN;
-					put_packet_play_status(play_status, ((&(out_game.streams[3]))));
-					misc_frame_t out_frame;
-					out_frame.is_fragmented = 0;
-					out_frame.reliability = RELIABILITY_UNRELIABLE;
-					out_frame.stream.buffer = (int8_t *) malloc(0);
-					out_frame.stream.offset = 0;
-					out_frame.stream.size = 0;
-					put_packet_game(out_game, ((&(out_frame.stream))));
-					free(out_game.streams[0].buffer);
-					free(out_game.streams[1].buffer);
-					free(out_game.streams[2].buffer);
-					free(out_game.streams[3].buffer);
-					free(out_game.streams);
-					add_to_raknet_queue(out_frame, connection, server);
+					put_packet_creative_content(creative_content, (&(streams[1])));
+					send_minecraft_packet(streams, streams_count, connection, server);
+					free(streams[0].buffer);
+					free(streams[1].buffer);
+					free(streams);
+					streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+					streams[0].buffer = (int8_t *) malloc(0);
+					streams[0].size = 0;
+					streams[0].offset = 0;
+					packet_biome_definition_list_t biome_definition_list;
+					FILE *file = fopen("resource/biome_definitions.nbt", "r");
+					fseek(file, 0, SEEK_END);
+					biome_definition_list.stream.size = ftell(file);
+					biome_definition_list.stream.buffer = (int8_t *) malloc(biome_definition_list.stream.size);
+					fseek(file, 0, SEEK_SET);
+					fread(biome_definition_list.stream.buffer, 1, biome_definition_list.stream.size, file);
+					fclose(file);
+					biome_definition_list.stream = base64_decode(BIOME_DATA_BLOB);
+					put_packet_biome_definition_list(biome_definition_list, (&(streams[0])));
+					free(biome_definition_list.stream.buffer);
+					send_minecraft_packet(streams, 1, connection, server);
+					free(streams[0].buffer);
+					free(streams);
 				}
 				int16_t ii;
 				for (ii = 0; ii < resource_pack_client_response.resource_pack_ids.size; ++ii) {
 					free(resource_pack_client_response.resource_pack_ids.ids[i]);
 				}
 				free(resource_pack_client_response.resource_pack_ids.ids);
+			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x45) {
+				binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+				streams[0].buffer = (int8_t *) malloc(0);
+				streams[0].size = 0;
+				streams[0].offset = 0;
+				packet_play_status_t play_status;
+				play_status.status = PLAY_STATUS_PLAYER_SPAWN;
+				put_packet_play_status(play_status, (&(streams[0])));
+				send_minecraft_packet(streams, 1, connection, server);
+				free(streams[0].buffer);
+				free(streams);
 			}
 			free(game.streams[i].buffer);
 		}

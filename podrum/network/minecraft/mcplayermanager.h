@@ -31,4 +31,16 @@ typedef struct {
 	size_t size;
 } minecraft_player_manager_t;
 
+uint8_t has_minecraft_player_address(misc_address_t address, minecraft_player_manager_t *player_manager);
+
+void add_minecraft_player(misc_address_t address, minecraft_player_manager_t *player_manager);
+
+void remove_minecraft_player(misc_address_t address, minecraft_player_manager_t *player_manager);
+
+minecraft_player_t *get_minecraft_player_address(misc_address_t address, minecraft_player_manager_t *player_manager);
+
+uint8_t has_minecraft_player_display_name(char *display_name, minecraft_player_manager_t *player_manager);
+
+minecraft_player_t *get_minecraft_player_display_name(char *display_name, minecraft_player_manager_t *player_manager);
+
 #endif
