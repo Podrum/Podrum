@@ -326,7 +326,7 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		++connection->sender_sequence_channels[frame.order_channel];
 	}
 	uint16_t max_size = connection->mtu_size - 60;
-	if (frame.stream.size > connection->mtu_size) {
+	if (frame.stream.size > max_size) {
 		size_t frame_count = (frame.stream.size / max_size) + 1;
 		size_t pad_bytes = (frame_count * max_size) - frame.stream.size;
 		size_t i;
