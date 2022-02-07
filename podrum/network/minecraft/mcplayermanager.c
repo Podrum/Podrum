@@ -8,6 +8,8 @@
 
 #include "./mcplayermanager.h"
 
+#include <string.h>
+
 uint8_t has_minecraft_player_address(misc_address_t address, minecraft_player_manager_t *player_manager)
 {
 	size_t i;

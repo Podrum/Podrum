@@ -299,35 +299,19 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 
 void append_raknet_frame(misc_frame_t frame, int opts, connection_t *connection, raknet_server_t *server)
 {
+	size_t size = 4 + get_frame_size(frame);
+	size_t i;
+	for (i = 0; i < connection->queue.frames_count; ++i) {
+		size += get_frame_size(connection->queue.frames[i]);
+	}
+	if (size > (connection->mtu_size - 36)) {
+		send_raknet_queue(connection, server);
+	}
+	++connection->queue.frames_count;
+	connection->queue.frames = (misc_frame_t *) realloc(connection->queue.frames, connection->queue.frames_count * sizeof(misc_frame_t));
+	connection->queue.frames[connection->queue.frames_count - 1] = frame;
 	if (opts != 0) {
-		packet_frame_set_t frame_set;
-		frame_set.frames = (misc_frame_t *) malloc(sizeof(misc_frame_t));
-		frame_set.frames_count = 1;
-		frame_set.frames[0] = frame;
-		frame_set.sequence_number = connection->sender_sequence_number;
-		++connection->sender_sequence_number;
-		append_raknet_recovery_queue(frame_set, connection);
-		socket_data_t output_socket_data;
-		output_socket_data.stream.buffer = (int8_t *) malloc(0);
-		output_socket_data.stream.offset = 0;
-		output_socket_data.stream.size = 0;
-		put_packet_frame_set(frame_set, ((&(output_socket_data.stream))));
-		output_socket_data.address = connection->address;
-		send_data(server->sock, output_socket_data);
-		free(output_socket_data.stream.buffer);
-		memset(&output_socket_data, 0, sizeof(socket_data_t));
-	} else {
-		size_t size = get_frame_size(frame);
-		size_t i;
-		for (i = 0; i < connection->queue.frames_count; ++i) {
-			size += get_frame_size(connection->queue.frames[i]);
-		}
-		if (size >= (connection->mtu_size - 36)) {
-			send_raknet_queue(connection, server);
-		}
-		++connection->queue.frames_count;
-		connection->queue.frames = (misc_frame_t *) realloc(connection->queue.frames, connection->queue.frames_count * sizeof(misc_frame_t));
-		connection->queue.frames[connection->queue.frames_count - 1] = frame;
+		send_raknet_queue(connection, server);
 	}
 }
 
@@ -341,8 +325,8 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		frame.ordered_frame_index = connection->sender_sequence_channels[frame.order_channel];
 		++connection->sender_sequence_channels[frame.order_channel];
 	}
-	uint16_t max_size = get_frame_size(frame) - 60; 
-	if (max_size > connection->mtu_size) {
+	uint16_t max_size = connection->mtu_size - 60;
+	if (frame.stream.size > connection->mtu_size) {
 		size_t frame_count = (frame.stream.size / max_size) + 1;
 		size_t pad_bytes = (frame_count * max_size) - frame.stream.size;
 		size_t i;

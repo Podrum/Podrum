@@ -54,7 +54,8 @@ void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, conne
 	game.streams_count = streams_count;
 	misc_frame_t frame;
 	frame.is_fragmented = 0;
-	frame.reliability = RELIABILITY_RELIABLE;
+	frame.reliability = RELIABILITY_RELIABLE_ORDERED;
+	frame.order_channel = 0;
 	frame.stream.buffer = (int8_t *) malloc(0);
 	frame.stream.offset = 0;
 	frame.stream.size = 0;
@@ -73,7 +74,6 @@ void on_dn(misc_address_t address) {
 }
 
 void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server) {
-	printf("0x%X\n", frame.stream.buffer[0] & 0xFF);
 	if ((frame.stream.buffer[0] & 0xFF) == ID_GAME) {
 		packet_game_t game = get_packet_game(((&(frame.stream))));
 		size_t i;
@@ -133,7 +133,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					free(streams[0].buffer);
 					free(streams);
 				} else if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED) {
-					size_t streams_count = 2;
+					size_t streams_count = 3;
 					binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
 					streams[0].buffer = (int8_t *) malloc(0);
 					streams[0].size = 0;
@@ -141,6 +141,9 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					streams[1].buffer = (int8_t *) malloc(0);
 					streams[1].size = 0;
 					streams[1].offset = 0;
+					streams[2].buffer = (int8_t *) malloc(0);
+					streams[2].size = 0;
+					streams[2].offset = 0;
 					packet_start_game_t start_game;
 					start_game.entity_id = 0;
 					start_game.runtime_entity_id = 0;
@@ -212,27 +215,19 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					packet_creative_content_t creative_content;
 					creative_content.size = 0;
 					put_packet_creative_content(creative_content, (&(streams[1])));
-					send_minecraft_packet(streams, streams_count, connection, server);
-					free(streams[0].buffer);
-					free(streams[1].buffer);
-					free(streams);
-					streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-					streams[0].buffer = (int8_t *) malloc(0);
-					streams[0].size = 0;
-					streams[0].offset = 0;
 					packet_biome_definition_list_t biome_definition_list;
-					FILE *file = fopen("resource/biome_definitions.nbt", "r");
+					FILE *file = fopen("resource/biome_definitions.nbt", "rb");
 					fseek(file, 0, SEEK_END);
 					biome_definition_list.stream.size = ftell(file);
 					biome_definition_list.stream.buffer = (int8_t *) malloc(biome_definition_list.stream.size);
 					fseek(file, 0, SEEK_SET);
 					fread(biome_definition_list.stream.buffer, 1, biome_definition_list.stream.size, file);
 					fclose(file);
-					biome_definition_list.stream = base64_decode(BIOME_DATA_BLOB);
-					put_packet_biome_definition_list(biome_definition_list, (&(streams[0])));
-					free(biome_definition_list.stream.buffer);
-					send_minecraft_packet(streams, 1, connection, server);
+					put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
+					send_minecraft_packet(streams, streams_count, connection, server);
 					free(streams[0].buffer);
+					free(streams[1].buffer);
+					free(streams[2].buffer);
 					free(streams);
 				}
 				int16_t ii;
