@@ -23,9 +23,11 @@
 #define ID_RESOURCE_PACKS_INFO 0x06
 #define ID_RESOURCE_PACK_STACK 0x07
 #define ID_RESOURCE_PACK_CLIENT_RESPONSE 0x08
-#define ID_START_GAME 0x0b
-#define ID_BIOME_DEFINITION_LIST 0x7a
+#define ID_START_GAME 0x0B
+#define ID_BIOME_DEFINITION_LIST 0x7A
 #define ID_CREATIVE_CONTENT 0x91
+#define ID_REQUEST_CHUNK_RADIUS 0x45
+#define ID_AVAILABLE_ENTITY_IDENTIFIERS 0x77
 
 #define PLAY_STATUS_LOGIN_SUCCESS 0
 #define PLAY_STATUS_FAILED_CLIENT 1
@@ -153,6 +155,10 @@ typedef struct {
 } packet_biome_definition_list_t;
 
 typedef struct {
+	binary_stream_t stream;
+} packet_available_entity_identifiers_t;
+
+typedef struct {
 	uint32_t size;
 	uint32_t *entry_ids;
 	misc_item_t *items;
@@ -174,6 +180,8 @@ packet_start_game_t get_packet_start_game(binary_stream_t *stream);
 
 packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t *stream);
 
+packet_available_entity_identifiers_t get_packet_available_entity_identifiers(binary_stream_t *stream);
+
 packet_creative_content_t get_packet_creative_content(binary_stream_t *stream);
 
 void put_packet_game(packet_game_t packet, binary_stream_t *stream);
@@ -191,6 +199,8 @@ void put_packet_resource_pack_client_response(packet_resource_pack_client_respon
 void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream);
 
 void put_packet_biome_definition_list(packet_biome_definition_list_t packet, binary_stream_t *stream);
+
+void put_packet_available_entity_identifiers(packet_available_entity_identifiers_t packet, binary_stream_t *stream);
 
 void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream);
 

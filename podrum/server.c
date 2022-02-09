@@ -133,7 +133,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					free(streams[0].buffer);
 					free(streams);
 				} else if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED) {
-					size_t streams_count = 3;
+					size_t streams_count = 4;
 					binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
 					streams[0].buffer = (int8_t *) malloc(0);
 					streams[0].size = 0;
@@ -144,6 +144,9 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					streams[2].buffer = (int8_t *) malloc(0);
 					streams[2].size = 0;
 					streams[2].offset = 0;
+					streams[3].buffer = (int8_t *) malloc(0);
+					streams[3].size = 0;
+					streams[3].offset = 0;
 					packet_start_game_t start_game;
 					start_game.entity_id = 0;
 					start_game.runtime_entity_id = 0;
@@ -224,10 +227,20 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					fread(biome_definition_list.stream.buffer, 1, biome_definition_list.stream.size, file);
 					fclose(file);
 					put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
+					packet_available_entity_identifiers_t available_entity_identifiers;
+					file = fopen("resource/entity_identifiers.nbt", "rb");
+					fseek(file, 0, SEEK_END);
+					available_entity_identifiers.stream.size = ftell(file);
+					available_entity_identifiers.stream.buffer = (int8_t *) malloc(biome_definition_list.stream.size);
+					fseek(file, 0, SEEK_SET);
+					fread(available_entity_identifiers.stream.buffer, 1, available_entity_identifiers.stream.size, file);
+					fclose(file);
+					put_packet_available_entity_identifiers(available_entity_identifiers, (&(streams[3])));
 					send_minecraft_packet(streams, streams_count, connection, server);
 					free(streams[0].buffer);
 					free(streams[1].buffer);
 					free(streams[2].buffer);
+					free(streams[3].buffer);
 					free(streams);
 				}
 				int16_t ii;

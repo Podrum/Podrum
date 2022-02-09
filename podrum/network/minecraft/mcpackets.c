@@ -91,16 +91,46 @@ packet_resource_pack_client_response_t get_packet_resource_pack_client_response(
 	return resource_pack_client_response;
 }
 
-/*
+
 packet_start_game_t get_packet_start_game(binary_stream_t *stream)
-{}
+{
+	get_var_int(stream); /* Packet ID */
+	packet_start_game_t start_game;
+	return start_game;
+}
 
 packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t *stream)
-{}
+{
+	get_var_int(stream); /* Packet ID */
+	packet_biome_definition_list_t biome_definition_list;
+	biome_definition_list.stream.size = stream->size - stream->offset;
+	biome_definition_list.stream.buffer = get_bytes(biome_definition_list.stream.size, stream);
+	return biome_definition_list;
+}
+
+packet_available_entity_identifiers_t get_packet_available_entity_identifiers(binary_stream_t *stream)
+{
+	get_var_int(stream); /* Packet ID */
+	packet_available_entity_identifiers_t available_entity_identifiers;
+	available_entity_identifiers.stream.size = stream->size - stream->offset;
+	available_entity_identifiers.stream.buffer = get_bytes(available_entity_identifiers.stream.size, stream);
+	return available_entity_identifiers;
+}
 
 packet_creative_content_t get_packet_creative_content(binary_stream_t *stream)
-{}
-*/
+{
+	get_var_int(stream); /* Packet ID */
+	packet_creative_content_t creative_content;
+	creative_content.size = get_var_int(stream);
+	creative_content.entry_ids = (uint32_t *) malloc(creative_content.size * sizeof(uint32_t));
+	creative_content.items = (misc_item_t *) malloc(creative_content.size * sizeof(misc_item_t));
+	uint32_t i;
+	for (i = 0; i < creative_content.size; ++i) {
+		creative_content.entry_ids[i] = get_var_int(stream);
+		/* TODO creative_content.items[i] = get_item(stream); TODO*/
+	}
+	return creative_content;
+}
 
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
@@ -247,6 +277,12 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 void put_packet_biome_definition_list(packet_biome_definition_list_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_BIOME_DEFINITION_LIST, stream);
+	put_bytes(packet.stream.buffer, packet.stream.size, stream);
+}
+
+void put_packet_available_entity_identifiers(packet_available_entity_identifiers_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_AVAILABLE_ENTITY_IDENTIFIERS, stream);
 	put_bytes(packet.stream.buffer, packet.stream.size, stream);
 }
 

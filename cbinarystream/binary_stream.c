@@ -20,7 +20,7 @@ int8_t *get_bytes(size_t count, binary_stream_t *stream)
 
 int8_t *get_remaining_bytes(binary_stream_t *stream)
 {
-	return get_bytes(stream->size - stream->offset - 1, stream);
+	return get_bytes(stream->size - stream->offset, stream);
 }
 
 uint8_t get_unsigned_byte(binary_stream_t *stream)
