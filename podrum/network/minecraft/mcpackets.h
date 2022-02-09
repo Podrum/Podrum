@@ -95,7 +95,7 @@ typedef struct {
 	int32_t world_gamemode;
 	int32_t difficulty;
 	int32_t spawn_x;
-	uint32_t spawn_y;
+	int32_t spawn_y; // max -64 in overworld don't use uint 
 	int32_t spawn_z;
 	uint8_t achievements_disabled;
 	int32_t day_cycle_stop_time;
@@ -117,7 +117,7 @@ typedef struct {
 	uint8_t bonus_chest;
 	uint8_t map_enabled;
 	int32_t permission_level;
-	int32_t server_chunk_tick_range;
+	int32_t server_chunk_tick_range; // suggest uint32
 	uint8_t has_locked_behavior_pack;
 	uint8_t has_locked_texture_pack;
 	uint8_t is_from_locked_world_template;
