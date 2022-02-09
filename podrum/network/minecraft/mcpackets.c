@@ -221,7 +221,7 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 	put_signed_var_int(packet.world_gamemode, stream);
 	put_signed_var_int(packet.difficulty, stream);
 	put_signed_var_int(packet.spawn_x, stream);
-	put_var_int(packet.spawn_y, stream);
+	put_var_int(packet.spawn_y & 0xffffffff, stream);
 	put_signed_var_int(packet.spawn_z, stream);
 	put_unsigned_byte(packet.achievements_disabled, stream);
 	put_signed_var_int(packet.day_cycle_stop_time, stream);

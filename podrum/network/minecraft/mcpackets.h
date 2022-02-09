@@ -97,7 +97,7 @@ typedef struct {
 	int32_t world_gamemode;
 	int32_t difficulty;
 	int32_t spawn_x;
-	uint32_t spawn_y;
+	int32_t spawn_y;
 	int32_t spawn_z;
 	uint8_t achievements_disabled;
 	int32_t day_cycle_stop_time;
