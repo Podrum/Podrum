@@ -27,8 +27,8 @@ int zlib_decode(zlib_buf_t in, zlib_buf_t *out, int mode)
 
 	status = inflateInit2(
 	  &stream,
-	  mode == ZLIB_DEFLATE_MODE ? -MAX_WBITS :
-	  mode == ZLIB_RAW_MODE ? MAX_WBITS :
+	  mode == ZLIB_RAW_MODE ? -MAX_WBITS :
+	  mode == ZLIB_DEFLATE_MODE ? MAX_WBITS :
 	  mode == ZLIB_GZIP_MODE ? 16 + MAX_WBITS :
 	  MAX_WBITS
 	);
@@ -82,8 +82,8 @@ int zlib_encode(zlib_buf_t in, zlib_buf_t *out, int level, int mode)
 	  &stream,
 	  level,
 	  Z_DEFLATED,
-	  mode == ZLIB_DEFLATE_MODE ? -MAX_WBITS :
-	  mode == ZLIB_RAW_MODE ? MAX_WBITS :
+	  mode == ZLIB_RAW_MODE ? -MAX_WBITS :
+	  mode == ZLIB_DEFLATE_MODE ? MAX_WBITS :
 	  mode == ZLIB_GZIP_MODE ? 16 + MAX_WBITS :
 	  MAX_WBITS,
 	  9,

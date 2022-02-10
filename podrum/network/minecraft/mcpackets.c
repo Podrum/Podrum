@@ -20,7 +20,7 @@ packet_game_t get_packet_game(binary_stream_t *stream)
 	in.data = (Bytef *) (stream->buffer + 1);
 	in.size = (uLong) (stream->size - 1);
 	zlib_buf_t out;
-	zlib_decode(in, &out, ZLIB_DEFLATE_MODE);
+	zlib_decode(in, &out, ZLIB_RAW_MODE);
 	binary_stream_t data_stream;
 	data_stream.buffer = (int8_t *) out.data;
 	data_stream.size = out.size;
@@ -148,7 +148,7 @@ void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 	in.data = (Bytef *) temp_stream.buffer;
 	in.size = (uLong) temp_stream.size;
 	zlib_buf_t out;
-	zlib_encode(in, &out, 7, ZLIB_DEFLATE_MODE);
+	zlib_encode(in, &out, 7, ZLIB_RAW_MODE);
 	free(temp_stream.buffer);
 	put_unsigned_byte(ID_GAME, stream);
 	put_bytes((int8_t *) out.data, (size_t) out.size, stream);
