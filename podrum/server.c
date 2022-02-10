@@ -210,6 +210,8 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					start_game.server_authoritative_block_breaking = 0;
 					start_game.current_tick = 0;
 					start_game.enchantment_seed = 0;
+					start_game.block_properties.size = 0;
+					start_game.item_states.size = 0;
 					start_game.multiplayer_correlation_id = "";
 					start_game.server_authoritative_inventory = 0;
 					start_game.engine = GAME_ENGINE;

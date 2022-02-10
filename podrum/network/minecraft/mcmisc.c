@@ -197,6 +197,33 @@ misc_education_shared_resource_uri_t get_misc_education_shared_resource_uri(bina
 	return education_shared_resource_uri;
 }
 
+misc_item_states_t get_misc_item_states(binary_stream_t *stream)
+{
+	misc_item_states_t item_states;
+	item_states.size = get_var_int(stream);
+	item_states.entries = (misc_item_state_t *) malloc(sizeof(misc_item_state_t) * item_states.size);
+	uint32_t i;
+	for (i = 0; i < item_states.size; ++i) {
+		item_states.entries[i].name = get_misc_string_var_int(stream);
+		item_states.entries[i].runtime_id = get_short_le(stream);
+		item_states.entries[i].component_based = get_unsigned_byte(stream);
+	}
+	return item_states;
+}
+
+misc_block_properties_t get_misc_block_properties(binary_stream_t *stream)
+{
+	misc_block_properties_t block_properties;
+	block_properties.size = get_var_int(stream);
+	block_properties.entries = (misc_block_property_t *) malloc(sizeof(misc_block_property_t) * block_properties.size);
+	uint32_t i;
+	for (i = 0; i < block_properties.size; ++i) {
+		block_properties.entries[i].name = get_misc_string_var_int(stream);
+		// get nbt data
+	}
+	return block_properties;
+}
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream)
 {
 	int length = strlen(value);
@@ -332,4 +359,25 @@ void put_misc_education_shared_resource_uri(misc_education_shared_resource_uri_t
 {
 	put_misc_string_var_int(value.button_name, stream);
 	put_misc_string_var_int(value.link_uri, stream);
+}
+
+void put_misc_item_states(misc_item_states_t value, binary_stream_t *stream)
+{
+	put_var_int(value.size, stream);
+	uint32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.entries[i].name, stream);
+		put_short_le(value.entries[i].runtime_id, stream);
+		put_unsigned_byte(value.entries[i].component_based, stream);
+	}
+}
+
+void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *stream)
+{
+	put_var_int(value.size, stream);
+	uint32_t i;
+	for (i = 0; i < value.size; ++i) {
+		put_misc_string_var_int(value.entries[i].name, stream);
+		put_bytes(value.entries[i].nbt_stream.buffer, value.entries[i].nbt_stream.size, stream);
+	}
 }

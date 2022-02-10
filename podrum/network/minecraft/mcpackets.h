@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include "./mcmisc.h"
 
-#define GAME_VERSION "1.18.2"
-#define GAME_PROTOCOL_VERSION 475
+#define GAME_VERSION "1.18.10"
+#define GAME_PROTOCOL_VERSION 486
 #define GAME_ENGINE "Podrum"
 
 #define ID_GAME 0xFE
@@ -143,7 +143,7 @@ typedef struct {
 	int64_t current_tick;
 	int32_t enchantment_seed;
 	misc_block_properties_t block_properties;
-	misc_item_states_t itemstates;
+	misc_item_states_t item_states;
 	char *multiplayer_correlation_id;
 	uint8_t server_authoritative_inventory;
 	char *engine;

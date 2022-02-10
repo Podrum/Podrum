@@ -119,7 +119,7 @@ typedef struct {
 
 typedef struct {
 	char *name;
-	binary_stream_t *nbt_stream;
+	binary_stream_t nbt_stream;
 } misc_block_property_t;
 
 typedef struct {
@@ -178,6 +178,10 @@ misc_game_rules_t get_misc_game_rules(binary_stream_t *stream);
 
 misc_education_shared_resource_uri_t get_misc_education_shared_resource_uri(binary_stream_t *stream);
 
+misc_item_states_t get_misc_item_states(binary_stream_t *stream);
+
+misc_block_properties_t get_misc_block_properties(binary_stream_t *stream);
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream);
 
 void put_misc_string_int_le(char *value, binary_stream_t *stream);
@@ -207,5 +211,9 @@ void put_misc_game_rule(misc_game_rule_t value, binary_stream_t *stream);
 void put_misc_game_rules(misc_game_rules_t value, binary_stream_t *stream);
 
 void put_misc_education_shared_resource_uri(misc_education_shared_resource_uri_t value, binary_stream_t *stream);
+
+void put_misc_item_states(misc_item_states_t value, binary_stream_t *stream);
+
+void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *stream);
 
 #endif
