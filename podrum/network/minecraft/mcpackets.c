@@ -103,8 +103,7 @@ packet_biome_definition_list_t get_packet_biome_definition_list(binary_stream_t 
 {
 	get_var_int(stream); /* Packet ID */
 	packet_biome_definition_list_t biome_definition_list;
-	biome_definition_list.stream.size = stream->size - stream->offset;
-	biome_definition_list.stream.buffer = get_bytes(biome_definition_list.stream.size, stream);
+	biome_definition_list.nbt = get_misc_nbt_tag(stream);
 	return biome_definition_list;
 }
 
@@ -112,8 +111,7 @@ packet_available_entity_identifiers_t get_packet_available_entity_identifiers(bi
 {
 	get_var_int(stream); /* Packet ID */
 	packet_available_entity_identifiers_t available_entity_identifiers;
-	available_entity_identifiers.stream.size = stream->size - stream->offset;
-	available_entity_identifiers.stream.buffer = get_bytes(available_entity_identifiers.stream.size, stream);
+	available_entity_identifiers.nbt = get_misc_nbt_tag(stream);
 	return available_entity_identifiers;
 }
 
@@ -277,13 +275,13 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 void put_packet_biome_definition_list(packet_biome_definition_list_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_BIOME_DEFINITION_LIST, stream);
-	put_bytes(packet.stream.buffer, packet.stream.size, stream);
+	put_misc_nbt_tag(packet.nbt, stream);
 }
 
 void put_packet_available_entity_identifiers(packet_available_entity_identifiers_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_AVAILABLE_ENTITY_IDENTIFIERS, stream);
-	put_bytes(packet.stream.buffer, packet.stream.size, stream);
+	put_misc_nbt_tag(packet.nbt, stream);
 }
 
 void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream)

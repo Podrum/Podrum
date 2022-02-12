@@ -12,6 +12,7 @@
 #include <cbinarystream/binary_stream.h>
 #include <stdlib.h>
 #include "./mcmisc.h"
+#include <cnbt/nbt.h>
 
 #define GAME_VERSION "1.18.10"
 #define GAME_PROTOCOL_VERSION 486
@@ -151,11 +152,11 @@ typedef struct {
 } packet_start_game_t;
 
 typedef struct {
-	binary_stream_t stream;
+	nbt_compound_t nbt;
 } packet_biome_definition_list_t;
 
 typedef struct {
-	binary_stream_t stream;
+	nbt_compound_t nbt;
 } packet_available_entity_identifiers_t;
 
 typedef struct {

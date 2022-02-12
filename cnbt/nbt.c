@@ -95,19 +95,19 @@ char *get_nbt_string_tag(uint8_t endianess, binary_stream_t *stream)
 {
 	uint32_t length;
 	switch (endianess) {
-                case E_BIG_ENDIAN:
-                        length = get_unsigned_short_be(stream);
-			break;
-                case E_LITTLE_ENDIAN:
-			length = get_unsigned_short_le(stream);
-			break;
-                case E_NETWORK_ENDIAN:
-                        length = get_var_int(stream);
-			break;
-                default:
-                        length = 0;
-			break;
-        }
+	case E_BIG_ENDIAN:
+		length = get_unsigned_short_be(stream);
+		break;
+	case E_LITTLE_ENDIAN:
+		length = get_unsigned_short_le(stream);
+		break;
+	case E_NETWORK_ENDIAN:
+		length = get_var_int(stream);
+		break;
+	default:
+		length = 0;
+		break;
+	}
 	char *result = (char *) malloc(length + 1);
 	uint32_t i;
 	for (i = 0; i < length; ++i) {

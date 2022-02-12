@@ -25,7 +25,7 @@ int8_t *get_remaining_bytes(binary_stream_t *stream)
 
 uint8_t get_unsigned_byte(binary_stream_t *stream)
 {
-	uint8_t value = stream->buffer[stream->offset] & 0xff;
+	uint8_t value = ((uint8_t) (stream->buffer[stream->offset] & 0xff));
 	++stream->offset;
 	return value;
 }
@@ -38,18 +38,18 @@ int8_t get_byte(binary_stream_t *stream)
 
 uint16_t get_unsigned_short_le(binary_stream_t *stream)
 {
-	uint16_t value = stream->buffer[stream->offset] & 0xff;
+	uint16_t value = ((uint16_t) (stream->buffer[stream->offset] & 0xff));
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 8;
+	value |= ((uint16_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
 	return value;
 }
 
 uint16_t get_unsigned_short_be(binary_stream_t *stream)
 {
-	uint16_t value = (stream->buffer[stream->offset] & 0xff) << 8;
+	uint16_t value = ((uint16_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
-	value |= stream->buffer[stream->offset] & 0xff;
+	value |= ((uint16_t) (stream->buffer[stream->offset] & 0xff));
 	++stream->offset;
 	return value;
 }
@@ -68,22 +68,22 @@ int16_t get_short_be(binary_stream_t *stream)
 
 uint32_t get_unsigned_triad_le(binary_stream_t *stream)
 {
-	uint32_t value = stream->buffer[stream->offset] & 0xff;
+	uint32_t value = ((uint32_t) stream->buffer[stream->offset] & 0xff);
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 8;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 16;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 16;
 	++stream->offset;
 	return value;
 }
 
 uint32_t get_unsigned_triad_be(binary_stream_t *stream)
 {
-	uint32_t value = (stream->buffer[stream->offset] & 0xff) << 16;
+	uint32_t value = ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 16;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 8;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
-	value |= stream->buffer[stream->offset] & 0xff;
+	value |= ((uint32_t) stream->buffer[stream->offset] & 0xff);
 	++stream->offset;
 	return value;
 }
@@ -102,26 +102,26 @@ int32_t get_triad_be(binary_stream_t *stream)
 
 uint32_t get_unsigned_int_le(binary_stream_t *stream)
 {
-	uint32_t value = stream->buffer[stream->offset] & 0xff;
+	uint32_t value = ((uint32_t) (stream->buffer[stream->offset] & 0xff));
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 8;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 16;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 16;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 24;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 24;
 	++stream->offset;
 	return value;
 }
 
 uint32_t get_unsigned_int_be(binary_stream_t *stream)
 {
-	uint32_t value = (stream->buffer[stream->offset] & 0xff) << 24;
+	uint32_t value = ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 24;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 16;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 16;
 	++stream->offset;
-	value |= (stream->buffer[stream->offset] & 0xff) << 8;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff)) << 8;
 	++stream->offset;
-	value |= stream->buffer[stream->offset] & 0xff;
+	value |= ((uint32_t) (stream->buffer[stream->offset] & 0xff));
 	++stream->offset;
 	return value;
 }

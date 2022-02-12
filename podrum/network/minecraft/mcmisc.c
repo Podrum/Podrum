@@ -219,9 +219,14 @@ misc_block_properties_t get_misc_block_properties(binary_stream_t *stream)
 	uint32_t i;
 	for (i = 0; i < block_properties.size; ++i) {
 		block_properties.entries[i].name = get_misc_string_var_int(stream);
-		// get nbt data
+		block_properties.entries[i].nbt = get_misc_nbt_tag(stream);
 	}
 	return block_properties;
+}
+
+nbt_compound_t get_misc_nbt_tag(binary_stream_t *stream)
+{
+	return get_nbt_compound_tag(E_NETWORK_ENDIAN, stream);
 }
 
 void put_misc_string_var_int(char *value, binary_stream_t *stream)
@@ -378,6 +383,11 @@ void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *s
 	uint32_t i;
 	for (i = 0; i < value.size; ++i) {
 		put_misc_string_var_int(value.entries[i].name, stream);
-		put_bytes(value.entries[i].nbt_stream.buffer, value.entries[i].nbt_stream.size, stream);
+		put_misc_nbt_tag(value.entries[i].nbt, stream);
 	}
+}
+
+void put_misc_nbt_tag(nbt_compound_t value, binary_stream_t *stream)
+{
+	put_nbt_compound_tag(value, E_NETWORK_ENDIAN, stream);
 }

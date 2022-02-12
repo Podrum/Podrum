@@ -17,6 +17,7 @@
 #include "./network/minecraft/mcpackets.h"
 #include "./misc/json.h"
 #include "./misc/base64.h"
+#include <cnbt/nbt.h>
 
 #ifdef _WIN32
 
@@ -109,7 +110,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x9C) {
 				int ii;
 				for (ii = 0; ii < game.streams[i].size; ++ii) {
-					printf("\\x%X", game.streams[i].buffer[ii]);
+					printf("\\x%X", game.streams[i].buffer[ii] & 0xFF);
 				}
 				printf("\n");
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_RESOURCE_PACK_CLIENT_RESPONSE) {
@@ -223,21 +224,31 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					packet_biome_definition_list_t biome_definition_list;
 					FILE *file = fopen("resource/biome_definitions.nbt", "rb");
 					fseek(file, 0, SEEK_END);
-					biome_definition_list.stream.size = ftell(file);
-					biome_definition_list.stream.buffer = (int8_t *) malloc(biome_definition_list.stream.size);
+					binary_stream_t biome_definition_list_stream;
+					biome_definition_list_stream.size = ftell(file);
+					biome_definition_list_stream.offset = 0;
+					biome_definition_list_stream.buffer = (int8_t *) malloc(biome_definition_list_stream.size);
 					fseek(file, 0, SEEK_SET);
-					fread(biome_definition_list.stream.buffer, 1, biome_definition_list.stream.size, file);
+					fread(biome_definition_list_stream.buffer, 1, biome_definition_list_stream.size, file);
 					fclose(file);
+					biome_definition_list.nbt = get_misc_nbt_tag(&biome_definition_list_stream);
 					put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
+					free(biome_definition_list_stream.buffer);
+					destroy_nbt_compound(biome_definition_list.nbt);
 					packet_available_entity_identifiers_t available_entity_identifiers;
 					file = fopen("resource/entity_identifiers.nbt", "rb");
 					fseek(file, 0, SEEK_END);
-					available_entity_identifiers.stream.size = ftell(file);
-					available_entity_identifiers.stream.buffer = (int8_t *) malloc(biome_definition_list.stream.size);
+					binary_stream_t available_entity_identifiers_stream;
+					available_entity_identifiers_stream.size = ftell(file);
+					available_entity_identifiers_stream.offset = 0;
+					available_entity_identifiers_stream.buffer = (int8_t *) malloc(available_entity_identifiers_stream.size);
 					fseek(file, 0, SEEK_SET);
-					fread(available_entity_identifiers.stream.buffer, 1, available_entity_identifiers.stream.size, file);
+					fread(available_entity_identifiers_stream.buffer, 1, available_entity_identifiers_stream.size, file);
 					fclose(file);
+					available_entity_identifiers.nbt = get_misc_nbt_tag(&available_entity_identifiers_stream);
 					put_packet_available_entity_identifiers(available_entity_identifiers, (&(streams[3])));
+					free(available_entity_identifiers_stream.buffer);
+					destroy_nbt_compound(available_entity_identifiers.nbt);
 					send_minecraft_packet(streams, streams_count, connection, server);
 					free(streams[0].buffer);
 					free(streams[1].buffer);
