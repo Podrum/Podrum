@@ -229,6 +229,60 @@ nbt_compound_t get_misc_nbt_tag(binary_stream_t *stream)
 	return get_nbt_compound_tag(E_NETWORK_ENDIAN, stream);
 }
 
+nbt_compound_t get_misc_lnbt_tag(binary_stream_t *stream)
+{
+	return get_nbt_compound_tag(E_LITTLE_ENDIAN, stream);
+}
+
+misc_item_extra_data_t get_misc_item_extra_data(uint8_t has_blocking_tick, binary_stream_t *stream)
+{
+	misc_item_extra_data_t extra_data;
+	extra_data.with_nbt = get_unsigned_short_le(stream);
+	if (extra_data.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
+		extra_data.nbt_version = get_unsigned_byte(stream);
+		extra_data.nbt = get_misc_lnbt_tag(stream);
+	}
+	int32_t i;
+	extra_data.can_place_on_size = get_int_le(stream);
+	extra_data.can_place_on = (binary_stream_t *) malloc(extra_data.can_place_on_size * sizeof(binary_stream_t));
+	for (i = 0; i < extra_data.can_place_on_size; ++i) {
+		extra_data.can_place_on[i] = get_misc_byte_array_short_le(stream);
+	}
+	extra_data.can_destroy_size = get_int_le(stream);
+	extra_data.can_destroy = (binary_stream_t *) malloc(extra_data.can_destroy_size * sizeof(binary_stream_t));
+	for (i = 0; i < extra_data.can_destroy_size; ++i) {
+		extra_data.can_destroy[i] = get_misc_byte_array_short_le(stream);
+	}
+	if (has_blocking_tick) {
+		extra_data.blocking_tick = get_long_le(stream);
+	} else {
+		has_blocking_tick = -1;
+	}
+	return extra_data;
+}
+
+misc_item_t get_misc_item(uint8_t with_stack_id, binary_stream_t *stream)
+{
+	misc_item_t item;
+	item.network_id = get_signed_var_int(stream);
+	if (item.network_id != 0) {
+		item.count = get_unsigned_short_le(stream);
+		item.metadata = get_var_int(stream);
+		if (with_stack_id) {
+			item.has_stack_id = get_unsigned_byte(stream);
+			if (item.has_stack_id != 0) {
+				item.stack_id = get_signed_var_int(stream);
+			}
+		} else {
+			item.has_stack_id = 0;
+		}
+		item.block_runtime_id = get_signed_var_int(stream);
+		binary_stream_t temp_stream = get_misc_byte_array_var_int(stream);
+		item.extra = get_misc_item_extra_data(item.network_id == 355 ? 1 : 0, &temp_stream);
+	}
+	return item;
+}
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream)
 {
 	int length = strlen(value);
@@ -390,4 +444,52 @@ void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *s
 void put_misc_nbt_tag(nbt_compound_t value, binary_stream_t *stream)
 {
 	put_nbt_compound_tag(value, E_NETWORK_ENDIAN, stream);
+}
+
+void put_misc_lnbt_tag(nbt_compound_t value, binary_stream_t *stream)
+{
+	put_nbt_compound_tag(value, E_LITTLE_ENDIAN, stream);
+}
+
+void put_misc_item_extra_data(misc_item_extra_data_t value, uint8_t has_blocking_tick, binary_stream_t *stream)
+{
+	put_unsigned_short_le(value.with_nbt, stream);
+	if (value.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
+		put_unsigned_byte(value.nbt_version, stream);
+		put_misc_lnbt_tag(value.nbt, stream);
+	}
+	int32_t i;
+	put_int_le(value.can_place_on_size, stream);
+	for (i = 0; i < value.can_place_on_size; ++i) {
+		put_misc_byte_array_short_le(value.can_place_on[i], stream);
+	}
+	put_int_le(value.can_destroy_size, stream);
+	for (i = 0; i < value.can_destroy_size; ++i) {
+		put_misc_byte_array_short_le(value.can_destroy[i], stream);
+	}
+	if (has_blocking_tick) {
+		put_long_le(value.blocking_tick, stream);
+	}
+}
+
+void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *stream)
+{
+	put_signed_var_int(value.network_id, stream);
+	if (value.network_id != 0) {
+		put_unsigned_short_le(value.count, stream);
+		put_var_int(value.metadata, stream);
+		if (with_stack_id) {
+			put_unsigned_byte(value.has_stack_id, stream);
+			if (value.has_stack_id != 0) {
+				put_signed_var_int(value.stack_id, stream);
+			}
+		}
+		put_signed_var_int(value.block_runtime_id, stream);
+		binary_stream_t temp_stream;
+		temp_stream.buffer = (int8_t *) malloc(0);
+		temp_stream.offset = 0;
+		temp_stream.size = 0;
+		put_misc_item_extra_data(value.extra, value.network_id == 355 ? 1 : 0, &temp_stream);
+		put_misc_byte_array_var_int(temp_stream, stream);
+	}
 }

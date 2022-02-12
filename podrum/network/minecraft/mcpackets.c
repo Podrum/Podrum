@@ -125,7 +125,7 @@ packet_creative_content_t get_packet_creative_content(binary_stream_t *stream)
 	uint32_t i;
 	for (i = 0; i < creative_content.size; ++i) {
 		creative_content.entry_ids[i] = get_var_int(stream);
-		/* TODO creative_content.items[i] = get_item(stream); TODO*/
+		creative_content.items[i] = get_misc_item(0, stream);
 	}
 	return creative_content;
 }
@@ -287,5 +287,10 @@ void put_packet_available_entity_identifiers(packet_available_entity_identifiers
 void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_CREATIVE_CONTENT, stream);
-	put_var_int(0, stream); /* Creative Items */
+	put_var_int(packet.size, stream);
+	uint32_t i;
+	for (i = 0; i < packet.size; ++i) {
+		put_var_int(packet.entry_ids[i], stream);
+		put_misc_item(packet.items[i], 0, stream);
+	}
 }

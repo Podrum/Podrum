@@ -129,7 +129,7 @@ typedef struct {
 typedef struct {
 	uint16_t with_nbt;
 	uint8_t nbt_version;
-	binary_stream_t *nbt_stream;
+	nbt_compound_t nbt;
 	int32_t can_place_on_size;
 	binary_stream_t *can_place_on;
 	int32_t can_destroy_size;
@@ -183,6 +183,12 @@ misc_block_properties_t get_misc_block_properties(binary_stream_t *stream);
 
 nbt_compound_t get_misc_nbt_tag(binary_stream_t *stream);
 
+nbt_compound_t get_misc_lnbt_tag(binary_stream_t *stream);
+
+misc_item_extra_data_t get_misc_item_extra_data(uint8_t has_blocking_tick, binary_stream_t *stream);
+
+misc_item_t get_misc_item(uint8_t with_stack_id, binary_stream_t *stream);
+
 void put_misc_string_var_int(char *value, binary_stream_t *stream);
 
 void put_misc_string_int_le(char *value, binary_stream_t *stream);
@@ -218,5 +224,11 @@ void put_misc_item_states(misc_item_states_t value, binary_stream_t *stream);
 void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *stream);
 
 void put_misc_nbt_tag(nbt_compound_t value, binary_stream_t *stream);
+
+void put_misc_lnbt_tag(nbt_compound_t value, binary_stream_t *stream);
+
+void put_misc_item_extra_data(misc_item_extra_data_t value, uint8_t has_blocking_tick, binary_stream_t *stream);
+
+void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *stream);
 
 #endif
