@@ -18,17 +18,20 @@
 #define GAME_PROTOCOL_VERSION 486
 #define GAME_ENGINE "Podrum"
 
-#define ID_GAME 0xFE
 #define ID_LOGIN 0x01
 #define ID_PLAY_STATUS 0x02
 #define ID_RESOURCE_PACKS_INFO 0x06
 #define ID_RESOURCE_PACK_STACK 0x07
 #define ID_RESOURCE_PACK_CLIENT_RESPONSE 0x08
 #define ID_START_GAME 0x0B
-#define ID_BIOME_DEFINITION_LIST 0x7A
-#define ID_CREATIVE_CONTENT 0x91
+#define ID_INTERACT 0x21
+#define ID_CONTAINER_OPEN 0x2E
+#define ID_CONTAINER_CLOSE 0x2F
 #define ID_REQUEST_CHUNK_RADIUS 0x45
 #define ID_AVAILABLE_ENTITY_IDENTIFIERS 0x77
+#define ID_BIOME_DEFINITION_LIST 0x7A
+#define ID_CREATIVE_CONTENT 0x91
+#define ID_GAME 0xFE
 
 #define PLAY_STATUS_LOGIN_SUCCESS 0
 #define PLAY_STATUS_FAILED_CLIENT 1
@@ -44,6 +47,10 @@
 #define RESOURCE_PACK_CLIENT_RESPONSE_SEND_PACKS 2
 #define RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS 3
 #define RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED 4
+
+#define INTERACT_LEAVE_VEHICLE 3
+#define INTERACT_MOUSE_OVER_ENTITY 4
+#define INTERACT_OPEN_INVENTORY 6
 
 typedef struct {
 	binary_stream_t *streams;
@@ -98,7 +105,7 @@ typedef struct {
 	int32_t world_gamemode;
 	int32_t difficulty;
 	int32_t spawn_x;
-	int32_t spawn_y;
+	uint32_t spawn_y;
 	int32_t spawn_z;
 	uint8_t achievements_disabled;
 	int32_t day_cycle_stop_time;
@@ -165,6 +172,28 @@ typedef struct {
 	misc_item_t *items;
 } packet_creative_content_t;
 
+typedef struct {
+	uint8_t action_id;
+	uint64_t target_entity_id;
+	float position_x;
+	float position_y;
+	float position_z;
+} packet_interact_t;
+
+typedef struct {
+	int8_t window_id;
+	int8_t window_type;
+	int32_t coordinates_x;
+	uint32_t coordinates_y;
+	int32_t coordinates_z;
+	int64_t runtime_entity_id;
+} packet_container_open_t;
+
+typedef struct {
+	int8_t window_id;
+	uint8_t server;
+} packet_container_close_t;
+
 packet_game_t get_packet_game(binary_stream_t *stream);
 
 packet_login_t get_packet_login(binary_stream_t *stream);
@@ -185,6 +214,12 @@ packet_available_entity_identifiers_t get_packet_available_entity_identifiers(bi
 
 packet_creative_content_t get_packet_creative_content(binary_stream_t *stream);
 
+packet_interact_t get_packet_interact(binary_stream_t *stream);
+
+packet_container_open_t get_packet_container_open(binary_stream_t *stream);
+
+packet_container_close_t get_packet_container_close(binary_stream_t *stream);
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream);
 
 void put_packet_login(packet_login_t packet, binary_stream_t *stream);
@@ -204,5 +239,11 @@ void put_packet_biome_definition_list(packet_biome_definition_list_t packet, bin
 void put_packet_available_entity_identifiers(packet_available_entity_identifiers_t packet, binary_stream_t *stream);
 
 void put_packet_creative_content(packet_creative_content_t packet, binary_stream_t *stream);
+
+void put_packet_interact(packet_interact_t packet, binary_stream_t *stream);
+
+void put_packet_container_open(packet_container_open_t packet, binary_stream_t *stream);
+
+void put_packet_container_close(packet_container_close_t packet, binary_stream_t *stream);
 
 #endif

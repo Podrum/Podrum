@@ -279,6 +279,7 @@ misc_item_t get_misc_item(uint8_t with_stack_id, binary_stream_t *stream)
 		item.block_runtime_id = get_signed_var_int(stream);
 		binary_stream_t temp_stream = get_misc_byte_array_var_int(stream);
 		item.extra = get_misc_item_extra_data(item.network_id == 355 ? 1 : 0, &temp_stream);
+		free(temp_stream.buffer);
 	}
 	return item;
 }
@@ -491,5 +492,6 @@ void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *st
 		temp_stream.size = 0;
 		put_misc_item_extra_data(value.extra, value.network_id == 355 ? 1 : 0, &temp_stream);
 		put_misc_byte_array_var_int(temp_stream, stream);
+		free(temp_stream.buffer);
 	}
 }

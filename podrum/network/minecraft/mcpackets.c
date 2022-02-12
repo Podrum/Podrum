@@ -130,6 +130,42 @@ packet_creative_content_t get_packet_creative_content(binary_stream_t *stream)
 	return creative_content;
 }
 
+packet_interact_t get_packet_interact(binary_stream_t *stream)
+{
+	get_var_int(stream); /* Packet ID */
+	packet_interact_t interact;
+	interact.action_id = get_unsigned_byte(stream);
+	interact.target_entity_id = get_var_long(stream);
+	if (interact.action_id == INTERACT_LEAVE_VEHICLE || interact.action_id == INTERACT_MOUSE_OVER_ENTITY) {
+		interact.position_x = get_float_le(stream);
+		interact.position_y = get_float_le(stream);
+		interact.position_z = get_float_le(stream);
+	}
+	return interact;
+}
+
+packet_container_open_t get_packet_container_open(binary_stream_t *stream)
+{
+	get_var_int(stream); /* Packet ID */
+	packet_container_open_t container_open;
+	container_open.window_id = get_byte(stream);
+	container_open.window_type = get_byte(stream);
+	container_open.coordinates_x = get_signed_var_int(stream);
+	container_open.coordinates_y = get_var_int(stream);
+	container_open.coordinates_z = get_signed_var_int(stream);
+	container_open.runtime_entity_id = get_signed_var_long(stream);
+	return container_open;
+}
+
+packet_container_close_t get_packet_container_close(binary_stream_t *stream)
+{
+	get_var_int(stream); /* Packet ID */
+	packet_container_close_t container_close;
+	container_close.window_id = get_byte(stream);
+	container_close.server = get_unsigned_byte(stream);
+	return container_close;
+}
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
 	binary_stream_t temp_stream;
@@ -219,7 +255,7 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 	put_signed_var_int(packet.world_gamemode, stream);
 	put_signed_var_int(packet.difficulty, stream);
 	put_signed_var_int(packet.spawn_x, stream);
-	put_var_int(packet.spawn_y & 0xffffffff, stream);
+	put_var_int(packet.spawn_y, stream);
 	put_signed_var_int(packet.spawn_z, stream);
 	put_unsigned_byte(packet.achievements_disabled, stream);
 	put_signed_var_int(packet.day_cycle_stop_time, stream);
@@ -293,4 +329,33 @@ void put_packet_creative_content(packet_creative_content_t packet, binary_stream
 		put_var_int(packet.entry_ids[i], stream);
 		put_misc_item(packet.items[i], 0, stream);
 	}
+}
+
+void put_packet_interact(packet_interact_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_INTERACT, stream);
+	put_unsigned_byte(packet.action_id, stream);
+	put_var_long(packet.target_entity_id, stream);
+	if (packet.action_id == INTERACT_LEAVE_VEHICLE || packet.action_id == INTERACT_MOUSE_OVER_ENTITY) {
+		put_float_le(packet.position_x, stream);
+		put_float_le(packet.position_y, stream);
+		put_float_le(packet.position_z, stream);
+	}
+}
+
+void put_packet_container_open(packet_container_open_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_CONTAINER_OPEN, stream);
+	put_byte(packet.window_id, stream);
+	put_byte(packet.window_type, stream);
+	put_signed_var_int(packet.coordinates_x, stream);
+	put_var_int(packet.coordinates_y, stream);
+	put_signed_var_int(packet.coordinates_z, stream);
+	put_signed_var_long(packet.runtime_entity_id, stream);
+}
+void put_packet_container_close(packet_container_close_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_CONTAINER_CLOSE, stream);
+	put_byte(packet.window_id, stream);
+	put_var_int(packet.server, stream);
 }
