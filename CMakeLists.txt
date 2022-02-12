@@ -7,6 +7,7 @@ include_directories(.)
 
 add_executable(PodrumR3
         cbinarystream/binary_stream.c
+		cnbt/nbt.c
         czlibhelper/zlib_helper.c
         miniz/miniz.c
         podrum/command/commandmanager.c
@@ -15,6 +16,7 @@ add_executable(PodrumR3
         podrum/misc/logger.c
         podrum/network/minecraft/mcmisc.c
         podrum/network/minecraft/mcpackets.c
+		podrum/network/minecraft/mcplayermanager.c
         podrum/network/raknet/rakhandler.c
         podrum/network/raknet/rakmisc.c
         podrum/network/raknet/rakpacket.c
