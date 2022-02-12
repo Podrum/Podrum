@@ -213,11 +213,48 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					start_game.enchantment_seed = 0;
 					start_game.block_properties.size = 0;
 					start_game.item_states.size = 0;
+					start_game.item_states.entries = (misc_item_state_t *) malloc(0);
+					FILE *item_states_file = fopen("resource/item_states.json", "rb");
+					fseek(item_states_file, 0, SEEK_END);
+					binary_stream_t item_states_stream;
+					item_states_stream.size = ftell(item_states_file);
+					item_states_stream.offset = 0;
+					item_states_stream.buffer = (int8_t *) malloc(item_states_stream.size);
+					fseek(item_states_file, 0, SEEK_SET);
+					fread(item_states_stream.buffer, 1, item_states_stream.size, item_states_file);
+					fclose(item_states_file);
+					put_unsigned_byte(0, &item_states_stream);
+					json_input_t item_states_input;
+					item_states_input.json = (char *) item_states_stream.buffer;
+					item_states_input.offset = 0;
+					json_array_t item_states_array = parse_json_array(&item_states_input);
+					free(item_states_stream.buffer);
+					size_t ii;
+					for (ii = 0; ii < item_states_array.size; ++ii) {
+						misc_item_state_t item_state;
+						item_state.component_based = 0;
+						item_state.runtime_id = 0;
+						size_t iii;
+						for (iii = 0; iii < item_states_array.members[ii].json_object.size; ++iii) {
+							if (strcmp(item_states_array.members[ii].json_object.keys[iii], "name") == 0) {
+								item_state.name = item_states_array.members[ii].json_object.members[iii].json_string;
+							} else if (strcmp(item_states_array.members[ii].json_object.keys[iii], "runtime_id") == 0) {
+								item_state.runtime_id = item_states_array.members[ii].json_object.members[iii].json_number.number.int_number;
+							} else if (strcmp(item_states_array.members[ii].json_object.keys[iii], "component_based") == 0) {
+								item_state.component_based = item_states_array.members[ii].json_object.members[iii].json_bool;
+							}
+						}
+						++start_game.item_states.size;
+						start_game.item_states.entries = (misc_item_state_t *) realloc(start_game.item_states.entries, start_game.item_states.size * sizeof(misc_item_state_t));
+						start_game.item_states.entries[start_game.item_states.size - 1] = item_state;
+					}
 					start_game.multiplayer_correlation_id = "";
 					start_game.server_authoritative_inventory = 0;
 					start_game.engine = GAME_ENGINE;
 					start_game.block_pallete_checksum = 0;
 					put_packet_start_game(start_game, (&(streams[0])));
+					destroy_json_array(item_states_array);
+					free(start_game.item_states.entries);
 					packet_creative_content_t creative_content;
 					creative_content.size = 0;
 					put_packet_creative_content(creative_content, (&(streams[1])));
@@ -295,7 +332,7 @@ int main(int argc, char **argv)
 	printf("\n");
 	printf("%ld\n", stream2.size);
 	json_input_t my_json_object;
-	my_json_object.json = "{\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [{\"ayy\": 8}, 3]]}}";
+	my_json_object.json = "{	\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [		{\"ayy\": 8}, 3]]}}";
 	my_json_object.offset = 0;
 	json_object_t json_object = parse_json_object(&my_json_object);
 	log_info(json_object.keys[0]);

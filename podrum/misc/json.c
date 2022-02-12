@@ -295,6 +295,13 @@ json_number_t parse_json_number(json_input_t *json_input)
 				sr_number[size - 1] = json_input->json[json_input->offset];
 				++json_input->offset;
 				is_first = 0;
+			} else if (json_input->json[json_input->offset] == '-') {
+				++size;
+				sr_number = (char *) realloc(sr_number, size);
+				sr_number[size - 1] = json_input->json[json_input->offset];
+				++json_input->offset;
+				is_first = 0;
+				expect_digit = 1;
 			} else {
 				number.type = JSON_NUMBER_NAN;
 				free(sr_number);
@@ -364,7 +371,7 @@ json_array_t parse_json_array(json_input_t *json_input)
 		char expect_member = 1;
 		char expect_seporator = 0;
 		while (json_input->json[json_input->offset] != ']') {
-			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n') {
+			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n' && json_input->json[json_input->offset] != '\t' && json_input->json[json_input->offset] != '\r') {
 				if (expect_member == 1) {
 					char *json_string = parse_json_string(json_input);
 					if (json_string == NULL) {
@@ -474,7 +481,7 @@ json_object_t parse_json_object(json_input_t *json_input)
 		char expect_member = 0;
 		char expect_seporator = 0;
 		while (json_input->json[json_input->offset] != '}') {
-			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n') {
+			if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n' && json_input->json[json_input->offset] != '\t' && json_input->json[json_input->offset] != '\r') {
 				if (expect_key == 1) {
 					char *key = parse_json_string(json_input);
 					if (key == NULL) {
