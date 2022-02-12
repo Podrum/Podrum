@@ -28,7 +28,7 @@ command_t get_command(char *name, command_manager_t *manager)
         }
     }
     command_t noret;
-    noret.flags = 0x00; /* Set error flag */
+    noret.flags = 0x01; /* Set error flag */
     return noret;
 }
 
