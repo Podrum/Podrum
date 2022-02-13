@@ -38,7 +38,7 @@ binary_stream_t base64_decode(char *base64_string)
 		} else {
 			break;
 		}
-		if (i + 1 < len) {
+		if ((i + 1) < len) {
 			if (base64_string[i + 1] == '=') {
 				++padding;
 			} else {
@@ -47,7 +47,7 @@ binary_stream_t base64_decode(char *base64_string)
 		} else {
 			break;
 		}
-		if (i + 2 < len) {
+		if ((i + 2) < len) {
 			if (base64_string[i + 2] == '=') {
 				++padding;
 			} else {
@@ -56,7 +56,7 @@ binary_stream_t base64_decode(char *base64_string)
 		} else {
 			++padding;
 		}
-		if (i + 3 < len) {
+		if ((i + 3) < len) {
 			if (base64_string[i + 3] == '=') {
 				++padding;
 			} else {
@@ -69,18 +69,21 @@ binary_stream_t base64_decode(char *base64_string)
 			break;
 		}
 		int step = 0;
-		int ii;
+		uint8_t ii;
 		for (ii = 0; ii < 64; ++ii) {
 			if (BASE64_TABLE[ii] == c1) {
 				i1 = ii;
 				++step;
-			} else if (BASE64_TABLE[ii] == c2) {
+			}
+			if (BASE64_TABLE[ii] == c2) {
 				i2 = ii;
 				++step;
-			} else if (BASE64_TABLE[ii] == c3) {
+			}
+			if (BASE64_TABLE[ii] == c3) {
 				i3 = ii;
 				++step;
-			} else if (BASE64_TABLE[ii] == c4) {
+			}
+			if (BASE64_TABLE[ii] == c4) {
 				i4 = ii;
 				++step;
 			}
@@ -113,12 +116,12 @@ char *base64_encode(binary_stream_t stream)
 		if (i < stream.size) {
 			b1 = stream.buffer[i];
 		}
-		if (i + 1 < stream.size) {
+		if ((i + 1) < stream.size) {
 			b2 = stream.buffer[i + 1];
 		} else {
 			++padding;
 		}
-		if (i + 2 < stream.size) {
+		if ((i + 2) < stream.size) {
 			b3 = stream.buffer[i + 2];
 		} else {
 			++padding;
