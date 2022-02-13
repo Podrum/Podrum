@@ -586,7 +586,36 @@ json_object_t parse_json_object(json_input_t *json_input)
 	}
 }
 
-void destroy_json_array(json_array_t json_array) {
+json_root_t parse_json_root(json_input_t *json_input)
+{
+	json_root_t json_root;
+	json_root.type = JSON_EMPTY;
+	while (json_input->offset < strlen(json_input->json)) {
+		if (json_input->json[json_input->offset] != '\x20' && json_input->json[json_input->offset] != '\n' && json_input->json[json_input->offset] != '\t' && json_input->json[json_input->offset] != '\r') {
+			json_object_t nested_json_object = parse_json_object(json_input);
+			if (nested_json_object.noret == 1) {
+				json_array_t nested_json_array = parse_json_array(json_input);
+				if (nested_json_array.noret == 1) {
+					perror("Invalid member");
+					exit(0);
+				} else {
+					json_root.type = JSON_ARRAY;
+					json_root.entry.json_array = nested_json_array;
+					return json_root;
+				}
+			} else {
+				json_root.type = JSON_OBJECT;
+				json_root.entry.json_object = nested_json_object;
+				return json_root;
+			}
+		} else {
+			++json_input->offset;
+		}
+	}
+}
+
+void destroy_json_array(json_array_t json_array)
+{
 	size_t i;
 	for (i = 0; i < json_array.size; ++i) {
 		switch (json_array.types[i]) {
@@ -605,7 +634,8 @@ void destroy_json_array(json_array_t json_array) {
 	free(json_array.members);
 }
 
-void destroy_json_object(json_object_t json_object) {
+void destroy_json_object(json_object_t json_object)
+{
 	size_t i;
 	for (i = 0; i < json_object.size; ++i) {
 		switch (json_object.types[i]) {
@@ -624,4 +654,13 @@ void destroy_json_object(json_object_t json_object) {
 	free(json_object.keys);
 	free(json_object.types);
 	free(json_object.members);
+}
+
+void destroy_json_root(json_root_t json_root)
+{
+	if (json_root.type == JSON_ARRAY) {
+		destroy_json_array(json_root.entry.json_array);
+	} else if (json_root.type == JSON_OBJECT) {
+		destroy_json_object(json_root.entry.json_object);
+	}
 }

@@ -18,6 +18,7 @@
 #define JSON_NUMBER 3
 #define JSON_BOOL 4
 #define JSON_NULL 5
+#define JSON_EMPTY 6
 
 #define JSON_NUMBER_NAN 0
 #define JSON_NUMBER_INT 1
@@ -66,6 +67,11 @@ union _json_multi {
 	void *json_null;
 };
 
+typedef struct {
+	json_multi_t entry;
+	char type;
+} json_root_t;
+
 char *parse_json_string(json_input_t *json_input);
 
 char parse_json_bool(json_input_t *json_input);
@@ -78,8 +84,12 @@ json_array_t parse_json_array(json_input_t *json_input);
 
 json_object_t parse_json_object(json_input_t *json_input);
 
+json_root_t parse_json_root(json_input_t *json_input);
+
 void destroy_json_array(json_array_t json_array);
 
 void destroy_json_object(json_object_t json_object);
+
+void destroy_json_root(json_root_t json_root);
 
 #endif
