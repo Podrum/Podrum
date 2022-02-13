@@ -18,6 +18,7 @@
 #include "./misc/json.h"
 #include "./misc/base64.h"
 #include "./misc/jwt.h"
+#include "./misc/resourcemanager.h"
 #include "./network/minecraft/mcplayermanager.h"
 #include "./network/minecraft/mchandler.h"
 #include "./network/minecraft/mcplayer.h"
@@ -33,6 +34,8 @@
 #define API_VERSION "1.0.0-alpha1"
 
 minecraft_player_manager_t player_manager;
+
+resources_t resources;
 
 void cmd1executor(int argc, char **argv)
 {
@@ -178,49 +181,12 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					start_game.current_tick = 0;
 					start_game.enchantment_seed = 0;
 					start_game.block_properties.size = 0;
-					start_game.item_states.size = 0;
-					start_game.item_states.entries = (misc_item_state_t *) malloc(0);
-					FILE *item_states_file = fopen("resource/item_states.json", "rb");
-					fseek(item_states_file, 0, SEEK_END);
-					binary_stream_t item_states_stream;
-					item_states_stream.size = ftell(item_states_file);
-					item_states_stream.offset = 0;
-					item_states_stream.buffer = (int8_t *) malloc(item_states_stream.size);
-					fseek(item_states_file, 0, SEEK_SET);
-					fread(item_states_stream.buffer, 1, item_states_stream.size, item_states_file);
-					fclose(item_states_file);
-					put_unsigned_byte(0, &item_states_stream);
-					json_input_t item_states_input;
-					item_states_input.json = (char *) item_states_stream.buffer;
-					item_states_input.offset = 0;
-					json_array_t item_states_array = parse_json_array(&item_states_input);
-					free(item_states_stream.buffer);
-					size_t ii;
-					for (ii = 0; ii < item_states_array.size; ++ii) {
-						misc_item_state_t item_state;
-						item_state.component_based = 0;
-						item_state.runtime_id = 0;
-						size_t iii;
-						for (iii = 0; iii < item_states_array.members[ii].json_object.size; ++iii) {
-							if (strcmp(item_states_array.members[ii].json_object.keys[iii], "name") == 0) {
-								item_state.name = item_states_array.members[ii].json_object.members[iii].json_string;
-							} else if (strcmp(item_states_array.members[ii].json_object.keys[iii], "runtime_id") == 0) {
-								item_state.runtime_id = item_states_array.members[ii].json_object.members[iii].json_number.number.int_number;
-							} else if (strcmp(item_states_array.members[ii].json_object.keys[iii], "component_based") == 0) {
-								item_state.component_based = item_states_array.members[ii].json_object.members[iii].json_bool;
-							}
-						}
-						++start_game.item_states.size;
-						start_game.item_states.entries = (misc_item_state_t *) realloc(start_game.item_states.entries, start_game.item_states.size * sizeof(misc_item_state_t));
-						start_game.item_states.entries[start_game.item_states.size - 1] = item_state;
-					}
+					start_game.item_states = resources.item_states;
 					start_game.multiplayer_correlation_id = "";
-					start_game.server_authoritative_inventory = 0;
+					start_game.server_authoritative_inventory = 1;
 					start_game.engine = GAME_ENGINE;
 					start_game.block_pallete_checksum = 0;
 					put_packet_start_game(start_game, (&(streams[0])));
-					destroy_json_array(item_states_array);
-					free(start_game.item_states.entries);
 					packet_creative_content_t creative_content;
 					creative_content.size = 5;
 					creative_content.entry_ids = (uint32_t *) malloc(creative_content.size * sizeof(uint32_t));
@@ -279,33 +245,11 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					free(creative_content.entry_ids);
 					free(creative_content.items);
 					packet_biome_definition_list_t biome_definition_list;
-					FILE *file = fopen("resource/biome_definitions.nbt", "rb");
-					fseek(file, 0, SEEK_END);
-					binary_stream_t biome_definition_list_stream;
-					biome_definition_list_stream.size = ftell(file);
-					biome_definition_list_stream.offset = 0;
-					biome_definition_list_stream.buffer = (int8_t *) malloc(biome_definition_list_stream.size);
-					fseek(file, 0, SEEK_SET);
-					fread(biome_definition_list_stream.buffer, 1, biome_definition_list_stream.size, file);
-					fclose(file);
-					biome_definition_list.nbt = get_misc_nbt_tag(&biome_definition_list_stream);
+					biome_definition_list.nbt = resources.biome_definitions;
 					put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
-					free(biome_definition_list_stream.buffer);
-					destroy_nbt_compound(biome_definition_list.nbt);
 					packet_available_entity_identifiers_t available_entity_identifiers;
-					file = fopen("resource/entity_identifiers.nbt", "rb");
-					fseek(file, 0, SEEK_END);
-					binary_stream_t available_entity_identifiers_stream;
-					available_entity_identifiers_stream.size = ftell(file);
-					available_entity_identifiers_stream.offset = 0;
-					available_entity_identifiers_stream.buffer = (int8_t *) malloc(available_entity_identifiers_stream.size);
-					fseek(file, 0, SEEK_SET);
-					fread(available_entity_identifiers_stream.buffer, 1, available_entity_identifiers_stream.size, file);
-					fclose(file);
-					available_entity_identifiers.nbt = get_misc_nbt_tag(&available_entity_identifiers_stream);
+					available_entity_identifiers.nbt = resources.entity_identifiers;
 					put_packet_available_entity_identifiers(available_entity_identifiers, (&(streams[3])));
-					free(available_entity_identifiers_stream.buffer);
-					destroy_nbt_compound(available_entity_identifiers.nbt);
 					send_minecraft_packet(streams, streams_count, connection, server);
 					free(streams[0].buffer);
 					free(streams[1].buffer);
@@ -378,6 +322,9 @@ int main(int argc, char **argv)
 	SetConsoleMode(handle, dw_mode);
 
 	#endif
+	log_info("Loading resources...");
+	resources = get_resources();
+	log_info("Resources loaded.");
 	player_manager.size = 0;
 	player_manager.players = (minecraft_player_t *) malloc(0);
 	raknet_server_t raknet_server;
