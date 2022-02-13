@@ -369,53 +369,6 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
-	/*
-	binary_stream_t stream;
-	stream.buffer = "Man";
-	stream.size = 3;
-	char *b64 = base64_encode(stream);
-	printf("%s\n", b64);
-	binary_stream_t stream2 = base64_decode("eyJuYmYiOjE2NDQ3MzYxNTgsImV4dHJhRGF0YSI6eyJYVUlEIjoiMjUzNTQ2Nzc2NDI4MTk1NCIsImlkZW50aXR5IjoiMDUxMjAzYWItMDc0ZS0zODhkLWEzYmQtNGFhY2MzNTQwOGQ0IiwiZGlzcGxheU5hbWUiOiJNRkRHYW1lcyIsInRpdGxlSWQiOiI4OTY5Mjg3NzUifSwicmFuZG9tTm9uY2UiOi05MDI3NzQ3Njc2NDMxOTk5NjA4LCJpc3MiOiJNb2phbmciLCJleHAiOjE2NDQ4MjI2MTgsImlhdCI6MTY0NDczNjIxOCwiaWRlbnRpdHlQdWJsaWNLZXkiOiJNSFl3RUFZSEtvWkl6ajBDQVFZRks0RUVBQ0lEWWdBRWR1ZlZab0wyRUxTd0w1aFg2N1l1Y0lGNzhwRUZidnN3QVQwZnhLSzVEOGRNTlpVNDhKcytwWisrcmZaQTJXSFdCemp4SktwOTdQeE5rT3prakt0R2pEazV0WTBGSXFsUjNCU3ZXZCtpR2VsRExNZWhCa1ZFQUdwUldDa0RzeG9iIn0==");
-	int i;
-	for (i = 0; i < stream2.size; ++i) {
-		printf("%c", stream2.buffer[i]);
-	}
-	printf("\n");
-	printf("%ld\n", stream2.size);
-	json_input_t my_json_object;
-	my_json_object.json = "{	\":)\": 1234, \":o\": 12.5, \":]\": \"a string\", \":(\": null, \":[\": false, \";)\": true, \"test\": {\"hi\": \"worked\", \"ha\": [12, 13, 14, [		{\"ayy\": 8}, 3]]}}";
-	my_json_object.offset = 0;
-	json_object_t json_object = parse_json_object(&my_json_object);
-	log_info(json_object.keys[0]);
-	printf("%ld\n", json_object.members[0].json_number.number.int_number);
-	log_info(json_object.keys[1]);
-	printf("%lf\n", json_object.members[1].json_number.number.float_number);
-	log_info(json_object.keys[2]);
-	printf("%s\n", json_object.members[2].json_string);
-	log_info(json_object.keys[3]);
-	printf("%p\n", json_object.members[3].json_null);
-	log_info(json_object.keys[4]);
-	printf("%d\n", json_object.members[4].json_bool);
-	log_info(json_object.keys[5]);
-	printf("%d\n", json_object.members[5].json_bool);
-	log_info(json_object.keys[6]);
-	json_object_t json_object2 = json_object.members[6].json_object;
-	log_info(json_object2.keys[0]);
-	log_info(json_object2.members[0].json_string);
-	log_info(json_object2.keys[1]);
-	json_array_t json_array = json_object2.members[1].json_array;
-	printf("%ld\n", json_array.members[0].json_number.number.int_number);
-	printf("%ld\n", json_array.members[1].json_number.number.int_number);
-	printf("%ld\n", json_array.members[2].json_number.number.int_number);
-	json_array_t json_array2 = json_array.members[3].json_array;
-	json_object_t json_object3 = json_array2.members[0].json_object;
-	log_info(json_object3.keys[0]);
-	printf("%ld\n", json_object3.members[0].json_number.number.int_number);
-	printf("%ld\n", json_array2.members[1].json_number.number.int_number);
-
-	destroy_json_object(json_object);
-	*/
-
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -444,19 +397,6 @@ int main(int argc, char **argv)
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
-	/* Some other Tests
-	command_t cmd1;
-	cmd1.name = "help";
-	cmd1.description = "help command";
-	cmd1.flags = 0;
-	cmd1.prefix = "/help";
-	cmd1.usage = "<page>";
-	cmd1.executor = cmd1executor;
-	register_command(cmd1, &command_manager);
-	char **args = (char **) malloc(0);
-	execute("help", 0, args, &command_manager);
-	worker_t worker = create_worker(test);
-	*/
 	while (1) {
 		handle_raknet_packet(&raknet_server);
 	}
