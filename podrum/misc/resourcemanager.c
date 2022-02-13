@@ -51,7 +51,6 @@ resources_t get_resources()
 		size_t size = strlen(name) + 1;
 		item_state.name = (char *) malloc(size);
 		memcpy(item_state.name, name, size);
-		item_state.name = get_json_object_value("name", json_object).entry.json_string;
 		item_state.runtime_id = get_json_object_value("runtime_id", json_object).entry.json_number.number.int_number;
 		item_state.component_based = get_json_object_value("component_based", json_object).entry.json_bool;
 		resources.item_states.entries[i] = item_state;
