@@ -9,6 +9,7 @@
 #include "./resourcemanager.h"
 #include "./json.h"
 #include <stdio.h>
+#include <string.h>
 
 binary_stream_t read_file(char *path)
 {
@@ -46,10 +47,15 @@ resources_t get_resources()
 	for (i = 0; i < resources.item_states.size; ++i) {
 		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
 		misc_item_state_t item_state;
+		char *name = get_json_object_value("name", json_object).entry.json_string;
+		size_t size = strlen(name) + 1;
+		item_state.name = (char *) malloc(size);
+		memcpy(item_state.name, name, size);
 		item_state.name = get_json_object_value("name", json_object).entry.json_string;
 		item_state.runtime_id = get_json_object_value("runtime_id", json_object).entry.json_number.number.int_number;
 		item_state.component_based = get_json_object_value("component_based", json_object).entry.json_bool;
 		resources.item_states.entries[i] = item_state;
 	}
+	destroy_json_root(json_root);
 	return resources;
 }
