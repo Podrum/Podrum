@@ -91,11 +91,11 @@ packet_resource_pack_client_response_t get_packet_resource_pack_client_response(
 	return resource_pack_client_response;
 }
 
-
 packet_start_game_t get_packet_start_game(binary_stream_t *stream)
 {
 	get_var_int(stream); /* Packet ID */
 	packet_start_game_t start_game;
+	start_game.entity_id = 0;
 	return start_game;
 }
 

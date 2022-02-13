@@ -17,6 +17,10 @@
 #include "./network/minecraft/mcpackets.h"
 #include "./misc/json.h"
 #include "./misc/base64.h"
+#include "./misc/jwt.h"
+#include "./network/minecraft/mcplayermanager.h"
+#include "./network/minecraft/mchandler.h"
+#include "./network/minecraft/mcplayer.h"
 #include <cnbt/nbt.h>
 
 #ifdef _WIN32
@@ -27,6 +31,8 @@
 
 #define CODE_NAME "Titanium"
 #define API_VERSION "1.0.0-alpha1"
+
+minecraft_player_manager_t player_manager;
 
 void cmd1executor(int argc, char **argv)
 {
@@ -48,23 +54,8 @@ void on_nic(connection_t *connection) {
 	free(out);
 }
 
-void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, connection_t *connection, raknet_server_t *server)
-{
-	packet_game_t game;
-	game.streams = streams;
-	game.streams_count = streams_count;
-	misc_frame_t frame;
-	frame.is_fragmented = 0;
-	frame.reliability = RELIABILITY_RELIABLE_ORDERED;
-	frame.order_channel = 0;
-	frame.stream.buffer = (int8_t *) malloc(0);
-	frame.stream.offset = 0;
-	frame.stream.size = 0;
-	put_packet_game(game, (&(frame.stream)));
-	add_to_raknet_queue(frame, connection, server);
-}
-
 void on_dn(misc_address_t address) {
+	remove_minecraft_player(address, &player_manager);
 	int size = snprintf(NULL, 0, "%s:%d disconnected.", address.address, address.port);
 	char *out = (char *) malloc(size + 1);
 	sprintf(out, "%s:%d disconnected.", address.address, address.port);
@@ -81,32 +72,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 		for (i = 0; i < game.streams_count; ++i) {
 			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff);
 			if ((game.streams[i].buffer[0] & 0xFF) == ID_LOGIN) {
-				packet_login_t login = get_packet_login(((&(game.streams[i]))));
-				printf("Tryed to connect with protocol %d\n", login.protocol_version);
-				free(login.tokens.client);
-				free(login.tokens.identity);
-				size_t streams_count = 2;
-				binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
-				streams[0].buffer = (int8_t *) malloc(0);
-				streams[0].size = 0;
-				streams[0].offset = 0;
-				streams[1].buffer = (int8_t *) malloc(0);
-				streams[1].size = 0;
-				streams[1].offset = 0;
-				packet_play_status_t play_status;
-				play_status.status = PLAY_STATUS_LOGIN_SUCCESS;
-				put_packet_play_status(play_status, (&(streams[0])));
-				packet_resource_packs_info_t resource_packs_info;
-				resource_packs_info.must_accept = 0;
-				resource_packs_info.has_scripts = 0;
-				resource_packs_info.force_server_packs = 0;
-				resource_packs_info.behavior_packs.size = 0;
-				resource_packs_info.texture_packs.size = 0;
-				put_packet_resource_packs_info(resource_packs_info, (&(streams[1])));
-				send_minecraft_packet(streams, streams_count, connection, server);
-				free(streams[0].buffer);
-				free(streams[1].buffer);
-				free(streams);
+				handle_packet_login((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x9C) {
 				int ii;
 				for (ii = 0; ii < game.streams[i].size; ++ii) {
@@ -403,13 +369,13 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
-	/* Some Tests
+	/*
 	binary_stream_t stream;
 	stream.buffer = "Man";
 	stream.size = 3;
 	char *b64 = base64_encode(stream);
 	printf("%s\n", b64);
-	binary_stream_t stream2 = base64_decode("TWFu");
+	binary_stream_t stream2 = base64_decode("eyJuYmYiOjE2NDQ3MzYxNTgsImV4dHJhRGF0YSI6eyJYVUlEIjoiMjUzNTQ2Nzc2NDI4MTk1NCIsImlkZW50aXR5IjoiMDUxMjAzYWItMDc0ZS0zODhkLWEzYmQtNGFhY2MzNTQwOGQ0IiwiZGlzcGxheU5hbWUiOiJNRkRHYW1lcyIsInRpdGxlSWQiOiI4OTY5Mjg3NzUifSwicmFuZG9tTm9uY2UiOi05MDI3NzQ3Njc2NDMxOTk5NjA4LCJpc3MiOiJNb2phbmciLCJleHAiOjE2NDQ4MjI2MTgsImlhdCI6MTY0NDczNjIxOCwiaWRlbnRpdHlQdWJsaWNLZXkiOiJNSFl3RUFZSEtvWkl6ajBDQVFZRks0RUVBQ0lEWWdBRWR1ZlZab0wyRUxTd0w1aFg2N1l1Y0lGNzhwRUZidnN3QVQwZnhLSzVEOGRNTlpVNDhKcytwWisrcmZaQTJXSFdCemp4SktwOTdQeE5rT3prakt0R2pEazV0WTBGSXFsUjNCU3ZXZCtpR2VsRExNZWhCa1ZFQUdwUldDa0RzeG9iIn0==");
 	int i;
 	for (i = 0; i < stream2.size; ++i) {
 		printf("%c", stream2.buffer[i]);
@@ -459,6 +425,8 @@ int main(int argc, char **argv)
 	SetConsoleMode(handle, dw_mode);
 
 	#endif
+	player_manager.size = 0;
+	player_manager.players = (minecraft_player_t *) malloc(0);
 	raknet_server_t raknet_server;
 	raknet_server.address.version = 4;
 	raknet_server.address.address = "0.0.0.0";

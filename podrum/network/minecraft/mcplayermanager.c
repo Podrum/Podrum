@@ -21,22 +21,9 @@ uint8_t has_minecraft_player_address(misc_address_t address, minecraft_player_ma
 	return 0;
 }
 
-void add_minecraft_player(misc_address_t address, minecraft_player_manager_t *player_manager)
+void add_minecraft_player(minecraft_player_t player, minecraft_player_manager_t *player_manager)
 {
-	if (has_minecraft_player_address(address, player_manager) == 0) {
-		minecraft_player_t player;
-		player.address = address;
-		player.gamemode = 1;
-		player.x = 0.0;
-		player.y = 9.0;
-		player.z = 0.0;
-		player.pitch = 0.0;
-		player.yaw = 0.0;
-		player.view_distance = 8;
-		player.display_name = malloc(1);
-		player.display_name[0] = 0;
-		player.identity = malloc(1);
-		player.identity[0] = 0;
+	if (has_minecraft_player_address(player.address, player_manager) == 0) {
 		++player_manager->size;
 		player_manager->players = (minecraft_player_t *) realloc(player_manager->players, player_manager->size * sizeof(minecraft_player_t));
 		player_manager->players[player_manager->size - 1] = player;
@@ -56,6 +43,7 @@ void remove_minecraft_player(misc_address_t address, minecraft_player_manager_t 
 			} else {
 				free(player_manager->players[i].display_name);
 				free(player_manager->players[i].identity);
+				free(player_manager->players[i].xuid);
 			}
 		}
 		free(player_manager->players);
@@ -95,4 +83,15 @@ minecraft_player_t *get_minecraft_player_display_name(char *display_name, minecr
 		}
 	}
 	return NULL;
+}
+
+uint8_t has_minecraft_player_entity_id(int64_t entity_id, minecraft_player_manager_t *player_manager)
+{
+	size_t i;
+	for (i = 0; i < player_manager->size; ++i) {
+		if (player_manager->players[i].entity_id == entity_id) {
+			return 1;
+		}
+	}
+	return 0;
 }

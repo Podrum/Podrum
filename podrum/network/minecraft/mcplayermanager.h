@@ -14,9 +14,11 @@
 #include "../raknet/rakmisc.h"
 
 typedef struct {
+	int64_t entity_id;
 	misc_address_t address;
 	char *display_name;
 	char *identity;
+	char *xuid;
 	float x;
 	float y;
 	float z;
@@ -33,7 +35,7 @@ typedef struct {
 
 uint8_t has_minecraft_player_address(misc_address_t address, minecraft_player_manager_t *player_manager);
 
-void add_minecraft_player(misc_address_t address, minecraft_player_manager_t *player_manager);
+void add_minecraft_player(minecraft_player_t player, minecraft_player_manager_t *player_manager);
 
 void remove_minecraft_player(misc_address_t address, minecraft_player_manager_t *player_manager);
 
@@ -42,5 +44,7 @@ minecraft_player_t *get_minecraft_player_address(misc_address_t address, minecra
 uint8_t has_minecraft_player_display_name(char *display_name, minecraft_player_manager_t *player_manager);
 
 minecraft_player_t *get_minecraft_player_display_name(char *display_name, minecraft_player_manager_t *player_manager);
+
+uint8_t has_minecraft_player_entity_id(int64_t entity_id, minecraft_player_manager_t *player_manager);
 
 #endif

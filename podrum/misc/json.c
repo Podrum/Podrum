@@ -596,8 +596,7 @@ json_root_t parse_json_root(json_input_t *json_input)
 			if (nested_json_object.noret == 1) {
 				json_array_t nested_json_array = parse_json_array(json_input);
 				if (nested_json_array.noret == 1) {
-					perror("Invalid member");
-					exit(0);
+					return json_root;
 				} else {
 					json_root.type = JSON_ARRAY;
 					json_root.entry.json_array = nested_json_array;
@@ -612,6 +611,7 @@ json_root_t parse_json_root(json_input_t *json_input)
 			++json_input->offset;
 		}
 	}
+	return json_root;
 }
 
 void destroy_json_array(json_array_t json_array)
@@ -663,4 +663,35 @@ void destroy_json_root(json_root_t json_root)
 	} else if (json_root.type == JSON_OBJECT) {
 		destroy_json_object(json_root.entry.json_object);
 	}
+}
+
+json_root_t get_json_object_value(char *key, json_object_t json_object)
+{
+	json_root_t json_root;
+	json_root.type = JSON_EMPTY;
+	if (json_object.noret == 0) {
+		size_t i;
+		for (i = 0; i < json_object.size; ++i) {
+			if (strcmp(json_object.keys[i], key) == 0) {
+				json_root.entry = json_object.members[i];
+				json_root.type = json_object.types[i];
+				return json_root;
+			}
+		}
+	}
+	return json_root;
+}
+
+json_root_t get_json_array_value(size_t index, json_array_t json_array)
+{
+	json_root_t json_root;
+	json_root.type = JSON_EMPTY;
+	if (json_array.noret == 0) {
+		if (index < json_array.size) {
+			json_root.entry = json_array.members[index];
+			json_root.type = json_array.types[index];
+			return json_root;
+		}
+	}
+	return json_root;
 }

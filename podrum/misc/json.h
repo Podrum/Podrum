@@ -92,4 +92,8 @@ void destroy_json_object(json_object_t json_object);
 
 void destroy_json_root(json_root_t json_root);
 
+json_root_t get_json_object_value(char *key, json_object_t json_object);
+
+json_root_t get_json_array_value(size_t index, json_array_t json_array);
+
 #endif
