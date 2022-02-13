@@ -13,6 +13,7 @@ add_executable(PodrumR3
         podrum/command/commandmanager.c
         podrum/misc/base64.c
         podrum/misc/json.c
+		podrum/misc/jwt.c
         podrum/misc/logger.c
         podrum/network/minecraft/mcmisc.c
         podrum/network/minecraft/mcpackets.c
