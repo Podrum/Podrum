@@ -334,7 +334,8 @@ json_number_t parse_json_number(json_input_t *json_input)
 					json_input->json[json_input->offset] == '\x20' ||
 					json_input->json[json_input->offset] == ',' ||
 					json_input->json[json_input->offset] == ']' ||
-					json_input->json[json_input->offset] == '}'
+					json_input->json[json_input->offset] == '}' ||
+					json_input->json[json_input->offset] == '\n'
 				) {
 					++size;
 					sr_number = (char *) realloc(sr_number, size);
