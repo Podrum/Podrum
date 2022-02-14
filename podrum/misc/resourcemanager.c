@@ -56,5 +56,34 @@ resources_t get_resources()
 		resources.item_states.entries[i] = item_state;
 	}
 	destroy_json_root(json_root);
+	/*
+	binary_stream_t block_states_stream = read_file("./resource/block_states.json");
+	put_unsigned_byte(0, &block_states_stream);
+	json_input.json = (char *) block_states_stream.buffer;
+	json_input.offset = 0;
+	json_root = parse_json_root(&json_input);
+	free(block_states_stream.buffer);
+	resources.block_states.size = json_root.entry.json_array.size;
+	resources.block_states.entries = (mapping_block_state_t *) malloc(resources.block_states.size * sizeof(mapping_block_state_t));
+	char *old_name = "";
+	uint8_t metadata_counter = 0;
+	for (i = 0; i < resources.block_states.size; ++i) {
+		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
+		mapping_block_state_t block_state;
+		char *name = get_json_object_value("name", json_object).entry.json_string;
+		size_t size = strlen(name) + 1;
+		block_state.name = (char *) malloc(size);
+		memcpy(block_state.name, name, size);
+		if (strcmp(old_name, block_state.name) != 0) {
+			metadata_counter = 0;
+		}
+		block_state.metadata = metadata_counter;
+		++metadata_counter;
+		old_name = block_state.name;
+		resources.block_states.entries[i] = block_state;
+		//printf("%s %u\n", block_state.name, block_state.metadata);
+	}
+	destroy_json_root(json_root);*/
+	
 	return resources;
 }

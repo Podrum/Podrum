@@ -12,11 +12,13 @@
 #include <cbinarystream/binary_stream.h>
 #include <cnbt/nbt.h>
 #include "../network/minecraft/mcmisc.h"
+#include "../network/minecraft/mcmapping.h"
 
 typedef struct {
 	nbt_compound_t biome_definitions;
 	nbt_compound_t entity_identifiers;
 	misc_item_states_t item_states;
+	mapping_block_states_t block_states;
 } resources_t;
 
 binary_stream_t read_file(char *path);
