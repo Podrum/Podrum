@@ -11,6 +11,7 @@
 #include "./logger.h"
 #include <stdio.h>
 #include <string.h>
+#include <ctype.h>
 
 binary_stream_t read_file(char *path)
 {
@@ -74,7 +75,22 @@ resources_t get_resources()
 		int ii;
 		for (ii = 0; ii < nbt_compound.size; ++ii) {
 			if (strcmp(nbt_compound.names[ii], "name") == 0) {
-				name = nbt_compound.data[ii].string_tag;
+				binary_stream_t stream;
+				stream.buffer = (int8_t *) malloc(0);
+				stream.size = 0;
+				uint8_t is_concrete_powder = 0;
+				if (strcmp(nbt_compound.data[ii].string_tag, "minecraft:concretePowder") == 0) is_concrete_powder = 1;
+				int iii;
+				for (iii = 0; iii < strlen(nbt_compound.data[ii].string_tag); ++iii) {
+					if(isupper(nbt_compound.data[ii].string_tag[iii])) {
+						if (i != 0 && is_concrete_powder) put_unsigned_byte('_', &stream);
+						put_unsigned_byte(tolower(nbt_compound.data[ii].string_tag[iii]), &stream);
+					} else {
+						put_unsigned_byte(nbt_compound.data[ii].string_tag[iii], &stream);
+					}
+				}
+				put_unsigned_byte(0, &stream);
+				name = (char *) stream.buffer;
 				break;
 			}
 		}
@@ -82,9 +98,7 @@ resources_t get_resources()
 			log_error("Does not contain name key");
 			exit(0);
 		}
-		size_t size = strlen(name) + 1;
-		block_state.name = (char *) malloc(size);
-		memcpy(block_state.name, name, size);
+		block_state.name = name;
 		if (strcmp(old_name, block_state.name) != 0) {
 			metadata_counter = 0;
 		}
