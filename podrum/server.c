@@ -322,9 +322,7 @@ int main(int argc, char **argv)
 	SetConsoleMode(handle, dw_mode);
 
 	#endif
-	log_info("Loading resources...");
 	resources = get_resources();
-	log_info("Resources loaded.");
 	player_manager.size = 0;
 	player_manager.players = (minecraft_player_t *) malloc(0);
 	raknet_server_t raknet_server;

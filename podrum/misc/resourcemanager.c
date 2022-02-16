@@ -8,6 +8,7 @@
 
 #include "./resourcemanager.h"
 #include "./json.h"
+#include "./logger.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -27,50 +28,60 @@ binary_stream_t read_file(char *path)
 
 resources_t get_resources()
 {
+	log_info("Loading resources...");
 	resources_t resources;
 	binary_stream_t biome_definitions_stream = read_file("./resource/biome_definitions.nbt");
 	resources.biome_definitions = get_misc_nbt_tag(&biome_definitions_stream);
 	free(biome_definitions_stream.buffer);
+	log_success("Loaded Biome Definitions");
 	binary_stream_t entity_identifiers_stream = read_file("./resource/entity_identifiers.nbt");
 	resources.entity_identifiers = get_misc_nbt_tag(&entity_identifiers_stream);
 	free(entity_identifiers_stream.buffer);
-	binary_stream_t item_states_stream = read_file("./resource/item_states.json");
+	log_success("Loaded Entity Identifiers");
+	binary_stream_t item_states_stream = read_file("./resource/required_item_list.json");
 	put_unsigned_byte(0, &item_states_stream);
 	json_input_t json_input;
 	json_input.json = (char *) item_states_stream.buffer;
 	json_input.offset = 0;
 	json_root_t json_root = parse_json_root(&json_input);
 	free(item_states_stream.buffer);
-	resources.item_states.size = json_root.entry.json_array.size;
+	resources.item_states.size = json_root.entry.json_object.size;
 	resources.item_states.entries = (misc_item_state_t *) malloc(resources.item_states.size * sizeof(misc_item_state_t));
 	size_t i;
 	for (i = 0; i < resources.item_states.size; ++i) {
-		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
+		json_object_t json_object = json_root.entry.json_object.members[i].json_object;
 		misc_item_state_t item_state;
-		char *name = get_json_object_value("name", json_object).entry.json_string;
-		size_t size = strlen(name) + 1;
+		size_t size = strlen(json_root.entry.json_object.keys[i]) + 1;
 		item_state.name = (char *) malloc(size);
-		memcpy(item_state.name, name, size);
+		memcpy(item_state.name, json_root.entry.json_object.keys[i], size);
 		item_state.runtime_id = get_json_object_value("runtime_id", json_object).entry.json_number.number.int_number;
 		item_state.component_based = get_json_object_value("component_based", json_object).entry.json_bool;
 		resources.item_states.entries[i] = item_state;
 	}
 	destroy_json_root(json_root);
-	/*
-	binary_stream_t block_states_stream = read_file("./resource/block_states.json");
-	put_unsigned_byte(0, &block_states_stream);
-	json_input.json = (char *) block_states_stream.buffer;
-	json_input.offset = 0;
-	json_root = parse_json_root(&json_input);
+	log_success("Loaded Item States");
+	binary_stream_t block_states_stream = read_file("./resource/canonical_block_states.nbt");
+	nbt_compound_t block_states_compound = get_misc_nbt_tag(&block_states_stream);
 	free(block_states_stream.buffer);
-	resources.block_states.size = json_root.entry.json_array.size;
+	resources.block_states.size = block_states_compound.size;
 	resources.block_states.entries = (mapping_block_state_t *) malloc(resources.block_states.size * sizeof(mapping_block_state_t));
 	char *old_name = "";
 	uint8_t metadata_counter = 0;
 	for (i = 0; i < resources.block_states.size; ++i) {
-		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
+		nbt_compound_t nbt_compound = block_states_compound.data[i].compound_tag;
 		mapping_block_state_t block_state;
-		char *name = get_json_object_value("name", json_object).entry.json_string;
+		char *name = NULL;
+		int ii;
+		for (ii = 0; ii < nbt_compound.size; ++ii) {
+			if (strcmp(nbt_compound.names[ii], "name") == 0) {
+				name = nbt_compound.data[ii].string_tag;
+				break;
+			}
+		}
+		if (name == NULL) {
+			log_error("Does not contain name key");
+			exit(0);
+		}
 		size_t size = strlen(name) + 1;
 		block_state.name = (char *) malloc(size);
 		memcpy(block_state.name, name, size);
@@ -81,9 +92,9 @@ resources_t get_resources()
 		++metadata_counter;
 		old_name = block_state.name;
 		resources.block_states.entries[i] = block_state;
-		//printf("%s %u\n", block_state.name, block_state.metadata);
 	}
-	destroy_json_root(json_root);*/
-	
+	destroy_nbt_compound(block_states_compound);
+	log_success("Loaded Block States");
+	log_success("Resources loaded.");
 	return resources;
 }
