@@ -72,7 +72,7 @@ resources_t get_resources()
 		nbt_compound_t nbt_compound = block_states_compound.data[i].compound_tag;
 		mapping_block_state_t block_state;
 		char *name = NULL;
-		int ii;
+		size_t ii;
 		for (ii = 0; ii < nbt_compound.size; ++ii) {
 			if (strcmp(nbt_compound.names[ii], "name") == 0) {
 				binary_stream_t stream;
@@ -80,7 +80,7 @@ resources_t get_resources()
 				stream.size = 0;
 				uint8_t is_concrete_powder = 0;
 				if (strcmp(nbt_compound.data[ii].string_tag, "minecraft:concretePowder") == 0) is_concrete_powder = 1;
-				int iii;
+				size_t iii;
 				for (iii = 0; iii < strlen(nbt_compound.data[ii].string_tag); ++iii) {
 					if(isupper(nbt_compound.data[ii].string_tag[iii])) {
 						if (i != 0 && is_concrete_powder) put_unsigned_byte('_', &stream);
