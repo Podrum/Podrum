@@ -215,7 +215,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					free(resource_pack_client_response.resource_pack_ids.ids[i]);
 				}
 				free(resource_pack_client_response.resource_pack_ids.ids);
-			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x45) {
+			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_REQUEST_CHUNK_RADIUS) {
 				binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
 				streams[0].buffer = (int8_t *) malloc(0);
 				streams[0].size = 0;

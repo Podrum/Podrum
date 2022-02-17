@@ -24,11 +24,14 @@
 #define ID_RESOURCE_PACK_STACK 0x07
 #define ID_RESOURCE_PACK_CLIENT_RESPONSE 0x08
 #define ID_START_GAME 0x0B
+#define ID_MOVE_PLAYER 0x13
 #define ID_INTERACT 0x21
 #define ID_CONTAINER_OPEN 0x2E
 #define ID_CONTAINER_CLOSE 0x2F
 #define ID_REQUEST_CHUNK_RADIUS 0x45
+#define ID_CHUNK_RADIUS_UPDATED 0x46
 #define ID_AVAILABLE_ENTITY_IDENTIFIERS 0x77
+#define ID_NETWORK_CHUNK_PUBLISHER_UPDATE 0x79
 #define ID_BIOME_DEFINITION_LIST 0x7A
 #define ID_CREATIVE_CONTENT 0x91
 #define ID_GAME 0xFE
@@ -47,6 +50,17 @@
 #define RESOURCE_PACK_CLIENT_RESPONSE_SEND_PACKS 2
 #define RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS 3
 #define RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED 4
+
+#define MOVE_PLAYER_MODE_NORMAL 0
+#define MOVE_PLAYER_MODE_RESET 1
+#define MOVE_PLAYER_MODE_TELEPORT 2
+#define MOVE_PLAYER_MODE_ROTATION 3
+
+#define MOVE_PLAYER_TELEPORT_CAUSE_UNKNOWN 0
+#define MOVE_PLAYER_TELEPORT_CAUSE_PROJECTILE 1
+#define MOVE_PLAYER_TELEPORT_CAUSE_CHORUS_FRUIT 2
+#define MOVE_PLAYER_TELEPORT_CAUSE_COMMAND 3
+#define MOVE_PLAYER_TELEPORT_CAUSE_BEHAVIOR 4
 
 #define INTERACT_LEAVE_VEHICLE 3
 #define INTERACT_MOUSE_OVER_ENTITY 4
@@ -194,6 +208,37 @@ typedef struct {
 	uint8_t server;
 } packet_container_close_t;
 
+typedef struct {
+	uint32_t runtime_id;
+	float position_x;
+	float position_y;
+	float position_z;
+	float pitch;
+	float yaw;
+	float head_yaw;
+	uint8_t mode;
+	uint8_t on_ground;
+	uint32_t ridden_runtime_id;
+	int32_t teleport_cause;
+	int32_t teleport_source_entity_type;
+	uint64_t tick;
+} packet_move_player_t;
+
+typedef struct {
+	int32_t x;
+	uint32_t y;
+	int32_t z;
+	uint32_t radius;
+} packet_network_chunk_publisher_update_t;
+
+typedef struct {
+	int32_t chunk_radius;
+} packet_request_chunk_radius_t;
+
+typedef struct {
+	int32_t chunk_radius;
+} packet_chunk_radius_updated_t;
+
 packet_game_t get_packet_game(binary_stream_t *stream);
 
 packet_login_t get_packet_login(binary_stream_t *stream);
@@ -220,6 +265,14 @@ packet_container_open_t get_packet_container_open(binary_stream_t *stream);
 
 packet_container_close_t get_packet_container_close(binary_stream_t *stream);
 
+packet_move_player_t get_packet_move_player(binary_stream_t *stream);
+
+packet_network_chunk_publisher_update_t get_packet_network_chunk_publisher_update(binary_stream_t *stream);
+
+packet_request_chunk_radius_t get_packet_request_chunk_radius(binary_stream_t *stream);
+
+packet_chunk_radius_updated_t get_packet_chunk_radius_updated(binary_stream_t *stream);
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream);
 
 void put_packet_login(packet_login_t packet, binary_stream_t *stream);
@@ -245,5 +298,13 @@ void put_packet_interact(packet_interact_t packet, binary_stream_t *stream);
 void put_packet_container_open(packet_container_open_t packet, binary_stream_t *stream);
 
 void put_packet_container_close(packet_container_close_t packet, binary_stream_t *stream);
+
+void put_packet_move_player(packet_move_player_t packet, binary_stream_t *stream);
+
+void put_packet_network_chunk_publisher_update(packet_network_chunk_publisher_update_t packet, binary_stream_t *stream);
+
+void put_packet_request_chunk_radius(packet_request_chunk_radius_t packet, binary_stream_t *stream);
+
+void put_packet_chunk_radius_updated(packet_chunk_radius_updated_t packet, binary_stream_t *stream);
 
 #endif
