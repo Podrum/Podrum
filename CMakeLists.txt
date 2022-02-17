@@ -17,6 +17,7 @@ add_executable(PodrumR3
         podrum/misc/logger.c
 		podrum/misc/resourcemanager.c
 		podrum/network/minecraft/mchandler.c
+		podrum/network/minecraft/mcmapping.c
         podrum/network/minecraft/mcmisc.c
         podrum/network/minecraft/mcpackets.c
 		podrum/network/minecraft/mcplayer.c
