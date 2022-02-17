@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "./base64.h"
 
 binary_stream_t read_file(char *path)
 {
@@ -109,6 +110,55 @@ resources_t get_resources()
 	}
 	destroy_nbt_compound(block_states_compound);
 	log_success("Loaded Block States");
+	binary_stream_t creative_items_stream = read_file("./resource/creative_items.json");
+	put_unsigned_byte(0, &creative_items_stream);
+	json_input.json = (char *) creative_items_stream.buffer;
+	json_input.offset = 0;
+	json_root = parse_json_root(&json_input);
+	free(creative_items_stream.buffer);
+	resources.creative_items.size = json_root.entry.json_array.size;
+	resources.creative_items.entries = (misc_item_t *) malloc(resources.creative_items.size * sizeof(misc_item_t));
+	int16_t id = -1;
+	uint8_t metadata = 0;
+	for (i = 0; i < resources.creative_items.size; ++i) {
+		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
+		misc_item_t item;
+		char *name = get_json_object_value("id", json_object).entry.json_string;
+		item.network_id = item_state_to_runtime_id(name, resources.item_states);
+		item.count = 1;
+		json_root_t json_metadata = get_json_object_value("damage", json_object);
+		if (json_metadata.type != JSON_EMPTY) {
+			item.metadata = json_metadata.entry.json_number.number.int_number;
+			metadata = 0;
+		} else {
+			if (id != item.network_id) {
+				metadata = 0;
+			}
+			item.metadata = metadata;
+			++metadata;
+			id = item.network_id;
+		}
+		int64_t block_runtime_id = block_state_to_runtime_id(name, item.metadata, resources.block_states);
+		if (block_runtime_id == -1) {
+			item.block_runtime_id = 0;
+		} else {
+			item.block_runtime_id = block_runtime_id;
+		}
+		json_root_t json_nbt = get_json_object_value("nbt_b64", json_object);
+		if (json_nbt.type != JSON_EMPTY) {
+			item.extra.with_nbt = ITEM_EXTRA_DATA_WITH_NBT;
+			item.extra.nbt_version = 1;
+			binary_stream_t nbt_stream = base64_decode(json_nbt.entry.json_string);
+			item.extra.nbt = get_misc_lnbt_tag(&nbt_stream);
+		} else {
+			item.extra.with_nbt = ITEM_EXTRA_DATA_WITHOUT_NBT;
+		}
+		item.extra.can_place_on_size = 0;
+		item.extra.can_destroy_size = 0;
+		resources.creative_items.entries[i] = item;
+	}
+	destroy_json_root(json_root);
+	log_success("Creative Items loaded.");
 	log_success("Resources loaded.");
 	return resources;
 }

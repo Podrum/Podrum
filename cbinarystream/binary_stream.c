@@ -455,7 +455,7 @@ void put_var_int(uint32_t value, binary_stream_t *stream)
 
 void put_signed_var_int(int32_t value, binary_stream_t *stream)
 {
-	put_var_int((value << 1) ^ (value >> 31), stream);
+	put_var_int(value >= 0 ? (((uint32_t) value) << 1) : ((((uint32_t) (-1 - value)) << 1) | 0x01), stream);
 }
 
 void put_var_long(uint64_t value, binary_stream_t *stream)
@@ -479,7 +479,7 @@ void put_var_long(uint64_t value, binary_stream_t *stream)
 
 void put_signed_var_long(int64_t value, binary_stream_t *stream)
 {
-	put_var_long((value << 1) ^ (value >> 63), stream);
+	put_var_long(value >= 0 ? (((uint64_t) value) << 1) : ((((uint64_t) (-1 - value)) << 1) | 0x01), stream);
 }
 
 void put_float_le(float value, binary_stream_t *stream)
