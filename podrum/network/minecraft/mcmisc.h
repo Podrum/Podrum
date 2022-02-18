@@ -13,6 +13,13 @@
 #include <cbinarystream/binary_stream.h>
 #include <cnbt/nbt.h>
 
+#define GAMEMODE_SURVIVAL 0
+#define GAMEMODE_CREATIVE 1
+#define GAMEMODE_ADVENTURE 2
+#define GAMEMODE_SURVIVAL_SPECTATOR 3
+#define GAMEMODE_CREATIVE_SPECTATOR 4
+#define GAMEMODE_FALLBACK 5
+
 #define GAME_RULE_BOOLEAN 1
 #define GAME_RULE_SIGNED_VAR_INT 2
 #define GAME_RULE_FLOAT_LE 3

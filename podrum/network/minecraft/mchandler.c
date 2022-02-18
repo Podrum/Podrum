@@ -8,6 +8,7 @@
 
 #include "./mchandler.h"
 #include "./mcpackets.h"
+#include "../../misc/logger.h"
 #include "./mcmisc.h"
 #include "./mcplayer.h"
 #include "../../misc/json.h"
@@ -15,6 +16,7 @@
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
+#include <math.h>
 
 void handle_packet_login(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager)
 {
@@ -26,7 +28,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	player.identity[0] = 0;
 	player.xuid = (char *) malloc(1);
 	player.xuid[0] = 0;
-	player.gamemode = 1;
+	player.gamemode = 0;
 	player.view_distance = 8;
 	player.address = connection->address;
 	player.x = 0.0;
@@ -113,4 +115,83 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 		printf("%s is your xuid\n", player.xuid);
 	}
 	printf("%s is your identity\n", player.identity);
+}
+
+void handle_packet_interact(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager)
+{
+	packet_interact_t interact = get_packet_interact(stream);
+	if (interact.action_id == INTERACT_OPEN_INVENTORY) {
+		minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
+		binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+		streams[0].buffer = (int8_t *) malloc(0);
+		streams[0].size = 0;
+		streams[0].offset = 0;
+		packet_container_open_t container_open;
+		switch (player->gamemode) {
+		case GAMEMODE_SURVIVAL:
+		case GAMEMODE_ADVENTURE:
+		case GAMEMODE_SURVIVAL_SPECTATOR:
+		case GAMEMODE_FALLBACK:
+			container_open.window_id = WINDOW_ID_INVENTORY;
+			break;
+		case GAMEMODE_CREATIVE:
+		case GAMEMODE_CREATIVE_SPECTATOR:
+			container_open.window_id = WINDOW_ID_CREATIVE;
+			break;
+		default:
+			log_warning("Invalid Gamemode");
+			disconnect_raknet_client(connection, server);
+		}
+		container_open.window_type = WINDOW_TYPE_INVENTORY;
+		container_open.coordinates_x = (int32_t) player->x;
+		container_open.coordinates_y = (uint32_t) (((int32_t) player->y) & 0xffffffff);
+		container_open.coordinates_z = (int32_t) player->z;
+		container_open.runtime_entity_id = player->entity_id;
+		put_packet_container_open(container_open, (&(streams[0])));
+		send_minecraft_packet(streams, 1, connection, server);
+		free(streams[0].buffer);
+		free(streams);
+	}
+}
+
+void handle_packet_window_close(binary_stream_t *stream, connection_t *connection, raknet_server_t *server)
+{
+	packet_container_close_t container_close_in = get_packet_container_close(stream);
+	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+	streams[0].buffer = (int8_t *) malloc(0);
+	streams[0].size = 0;
+	streams[0].offset = 0;
+	packet_container_close_t container_close_out;
+	container_close_out.window_id = container_close_in.window_id;
+	container_close_out.server = 0;
+	put_packet_container_close(container_close_out, (&(streams[0])));
+	send_minecraft_packet(streams, 1, connection, server);
+	free(streams[0].buffer);
+	free(streams);
+}
+
+void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager)
+{
+	size_t i;
+	size_t streams_count = 2;
+	binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
+	for (i = 0; i < streams_count; ++i) {
+		streams[i].buffer = (int8_t *) malloc(0);
+		streams[i].size = 0;
+		streams[i].offset = 0;
+	}
+	packet_request_chunk_radius_t request_chunk_radius = get_packet_request_chunk_radius(stream);
+	packet_chunk_radius_updated_t chunk_radius_updated;
+	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 8.0); /* server_chunk_radius = 8 */
+	put_packet_chunk_radius_updated(chunk_radius_updated, (&(streams[0])));
+	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
+	player->view_distance = chunk_radius_updated.chunk_radius;
+	packet_play_status_t play_status;
+	play_status.status = PLAY_STATUS_PLAYER_SPAWN;
+	put_packet_play_status(play_status, (&(streams[1])));
+	send_minecraft_packet(streams, streams_count, connection, server);
+	for (i = 0; i < streams_count; ++i) {
+		free(streams[i].buffer);
+	}
+	free(streams);
 }

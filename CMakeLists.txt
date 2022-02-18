@@ -28,7 +28,8 @@ add_executable(PodrumR3
         podrum/network/raknet/rakserver.c
         podrum/network/raknet/socket.c
         podrum/server.c
-        podrum/worker.c)
+        podrum/worker.c
+        podrum/world/chunk/blockstorage.c)
 
 IF(NOT ("${CMAKE_SYSTEM}" MATCHES "Windows"))
 	TARGET_LINK_LIBRARIES(PodrumR3 pthread)

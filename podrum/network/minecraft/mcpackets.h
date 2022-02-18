@@ -28,6 +28,7 @@
 #define ID_INTERACT 0x21
 #define ID_CONTAINER_OPEN 0x2E
 #define ID_CONTAINER_CLOSE 0x2F
+#define ID_LEVEL_CHUNK 0x3A
 #define ID_REQUEST_CHUNK_RADIUS 0x45
 #define ID_CHUNK_RADIUS_UPDATED 0x46
 #define ID_AVAILABLE_ENTITY_IDENTIFIERS 0x77
@@ -239,6 +240,17 @@ typedef struct {
 	int32_t chunk_radius;
 } packet_chunk_radius_updated_t;
 
+typedef struct {
+	int32_t x;
+	int32_t z;
+	uint32_t sub_chunk_count;
+	uint16_t highest_subchunk_count;
+	uint8_t cache_enabled;
+	uint32_t hashes_count;
+	uint64_t *hashes;
+	binary_stream_t payload;
+} packet_level_chunk_t;
+
 packet_game_t get_packet_game(binary_stream_t *stream);
 
 packet_login_t get_packet_login(binary_stream_t *stream);
@@ -273,6 +285,8 @@ packet_request_chunk_radius_t get_packet_request_chunk_radius(binary_stream_t *s
 
 packet_chunk_radius_updated_t get_packet_chunk_radius_updated(binary_stream_t *stream);
 
+packet_level_chunk_t get_packet_level_chunk(binary_stream_t *stream);
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream);
 
 void put_packet_login(packet_login_t packet, binary_stream_t *stream);
@@ -306,5 +320,7 @@ void put_packet_network_chunk_publisher_update(packet_network_chunk_publisher_up
 void put_packet_request_chunk_radius(packet_request_chunk_radius_t packet, binary_stream_t *stream);
 
 void put_packet_chunk_radius_updated(packet_chunk_radius_updated_t packet, binary_stream_t *stream);
+
+void put_packet_level_chunk(packet_level_chunk_t packet, binary_stream_t *stream);
 
 #endif

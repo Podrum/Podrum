@@ -28,9 +28,9 @@ typedef struct {
 	uint32_t size;
 } mapping_creative_items_t;
 
-mapping_block_state_t runtime_id_to_block_state(int64_t runtime_id, mapping_block_states_t states);
+mapping_block_state_t runtime_id_to_block_state(int32_t runtime_id, mapping_block_states_t states);
 
-int64_t block_state_to_runtime_id(char *name, uint8_t metadata, mapping_block_states_t states);
+int32_t block_state_to_runtime_id(char *name, uint8_t metadata, mapping_block_states_t states);
 
 char *runtime_id_to_item_state(int16_t runtime_id, misc_item_states_t states);
 

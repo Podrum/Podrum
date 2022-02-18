@@ -216,47 +216,11 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				}
 				free(resource_pack_client_response.resource_pack_ids.ids);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_REQUEST_CHUNK_RADIUS) {
-				binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-				streams[0].buffer = (int8_t *) malloc(0);
-				streams[0].size = 0;
-				streams[0].offset = 0;
-				packet_play_status_t play_status;
-				play_status.status = PLAY_STATUS_PLAYER_SPAWN;
-				put_packet_play_status(play_status, (&(streams[0])));
-				send_minecraft_packet(streams, 1, connection, server);
-				free(streams[0].buffer);
-				free(streams);
+				handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_INTERACT) {
-				packet_interact_t interact = get_packet_interact(((&(game.streams[i]))));
-				if (interact.action_id == INTERACT_OPEN_INVENTORY) {
-					binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-					streams[0].buffer = (int8_t *) malloc(0);
-					streams[0].size = 0;
-					streams[0].offset = 0;
-					packet_container_open_t container_open;
-					container_open.window_id = WINDOW_ID_CREATIVE;
-					container_open.window_type = WINDOW_TYPE_INVENTORY;
-					container_open.coordinates_x = 0;
-					container_open.coordinates_y = 0;
-					container_open.coordinates_z = 0;
-					container_open.runtime_entity_id = 0;
-					put_packet_container_open(container_open, (&(streams[0])));
-					send_minecraft_packet(streams, 1, connection, server);
-					free(streams[0].buffer);
-					free(streams);
-				}
+				handle_packet_interact((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_CONTAINER_CLOSE) {
-				binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-				streams[0].buffer = (int8_t *) malloc(0);
-				streams[0].size = 0;
-				streams[0].offset = 0;
-				packet_container_close_t container_close;
-				container_close.window_id = WINDOW_ID_CREATIVE;
-				container_close.server = 0;
-				put_packet_container_close(container_close, (&(streams[0])));
-				send_minecraft_packet(streams, 1, connection, server);
-				free(streams[0].buffer);
-				free(streams);
+				handle_packet_window_close((&(game.streams[i])), connection, server);
 			}
 			free(game.streams[i].buffer);
 		}

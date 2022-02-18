@@ -215,6 +215,29 @@ packet_chunk_radius_updated_t get_packet_chunk_radius_updated(binary_stream_t *s
 	return chunk_radius_updated;
 }
 
+packet_level_chunk_t get_packet_level_chunk(binary_stream_t *stream)
+{
+	get_var_int(stream); /* Packet ID */
+	packet_level_chunk_t level_chunk;
+	level_chunk.x = get_signed_var_int(stream);
+	level_chunk.z = get_signed_var_int(stream);
+	level_chunk.sub_chunk_count = get_var_int(stream);
+	if (level_chunk.sub_chunk_count == 0xfffffffe) {
+		level_chunk.highest_subchunk_count = get_unsigned_short_le(stream);
+	}
+	level_chunk.cache_enabled = get_unsigned_byte(stream);
+	if (level_chunk.cache_enabled) {
+		level_chunk.hashes_count = get_var_int(stream);
+		level_chunk.hashes = (uint64_t *) malloc(level_chunk.hashes_count * sizeof(uint64_t));
+		uint32_t i;
+		for (i = 0; i < level_chunk.hashes_count; ++i) {
+			level_chunk.hashes[i] = get_unsigned_long_le(stream);
+		}
+	}
+	level_chunk.payload = get_misc_byte_array_var_int(stream);
+	return level_chunk;
+}
+
 void put_packet_game(packet_game_t packet, binary_stream_t *stream)
 {
 	binary_stream_t temp_stream;
@@ -448,4 +471,24 @@ void put_packet_chunk_radius_updated(packet_chunk_radius_updated_t packet, binar
 {
 	put_var_int(ID_CHUNK_RADIUS_UPDATED, stream);
 	put_signed_var_int(packet.chunk_radius, stream);
+}
+
+void put_packet_level_chunk(packet_level_chunk_t packet, binary_stream_t *stream)
+{
+	put_var_int(ID_LEVEL_CHUNK, stream);
+	put_signed_var_int(packet.x, stream);
+	put_signed_var_int(packet.z, stream);
+	put_var_int(packet.sub_chunk_count, stream);
+	if (packet.sub_chunk_count == 0xfffffffe) {
+		put_unsigned_short_le(packet.highest_subchunk_count, stream);
+	}
+	put_unsigned_byte(packet.cache_enabled, stream);
+	if (packet.cache_enabled) {
+		put_var_int(packet.hashes_count, stream);
+		uint32_t i;
+		for (i = 0; i < packet.hashes_count; ++i) {
+			put_unsigned_long_le(packet.hashes[i], stream);
+		}
+	}
+	put_misc_byte_array_var_int(packet.payload, stream);
 }

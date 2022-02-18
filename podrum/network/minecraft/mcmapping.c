@@ -9,12 +9,12 @@
 #include "./mcmapping.h"
 #include <string.h>
 
-mapping_block_state_t runtime_id_to_block_state(int64_t runtime_id, mapping_block_states_t states)
+mapping_block_state_t runtime_id_to_block_state(int32_t runtime_id, mapping_block_states_t states)
 {
 	return states.entries[runtime_id];
 }
 
-int64_t block_state_to_runtime_id(char *name, uint8_t metadata, mapping_block_states_t states)
+int32_t block_state_to_runtime_id(char *name, uint8_t metadata, mapping_block_states_t states)
 {
 	int64_t runtime_id;
 	for (runtime_id = 0; runtime_id < states.size; ++runtime_id) {
