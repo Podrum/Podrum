@@ -1,4 +1,4 @@
-# PodrumR3
+# Podrum
 
 ## Introduction
 Podrum is a server software for Minecraft Bedrock Edition written in C and aims to be fast, stable and secure.
