@@ -13,12 +13,20 @@
 block_storage_t new_block_storage(mapping_block_states_t block_states)
 {
 	block_storage_t block_storage;
-	int32_t i;
 	int32_t air_runtime_id = block_state_to_runtime_id("minecraft:air", 0, block_states);
 	memset(block_storage.blocks, 0, 4096);
 	block_storage.palette_size = 1;
 	block_storage.palette = (int32_t *) malloc(block_storage.palette_size * sizeof(int32_t));
 	block_storage.palette[0] = air_runtime_id;
+	return block_storage;
+}
+
+block_storage_t new_biome_storage()
+{
+	block_storage_t block_storage;
+	memset(block_storage.blocks, 0, 4096);
+	block_storage.palette_size = 0;
+	block_storage.palette = (int32_t *) malloc(0);
 	return block_storage;
 }
 
@@ -52,7 +60,7 @@ int8_t get_block_storage_highest_block_at(uint8_t x, uint8_t z, block_storage_t 
 			return y;
 		}
 	}
-	return -1; /* -1 indicates an empty block storage */
+	return BLOCK_STORAGE_EMPTY;
 }
 
 uint8_t is_empty_block_storage(block_storage_t *block_storage)

@@ -12,6 +12,8 @@
 #include <stdint.h>
 #include "../../network/minecraft/mcmapping.h"
 
+#define BLOCK_STORAGE_EMPTY -1
+
 typedef struct {
 	uint32_t blocks[4096];
 	int32_t palette_size;
@@ -19,6 +21,8 @@ typedef struct {
 } block_storage_t;
 
 block_storage_t new_block_storage(mapping_block_states_t block_states);
+
+block_storage_t new_biome_storage();
 
 int32_t get_block_storage_block_runtime_id(uint8_t x, uint8_t y, uint8_t z, block_storage_t *block_storage);
 
