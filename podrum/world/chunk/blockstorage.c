@@ -52,7 +52,7 @@ int8_t get_block_storage_highest_block_at(uint8_t x, uint8_t z, block_storage_t 
 			return y;
 		}
 	}
-	return -1; /* -1 indicates an empty chunk */
+	return -1; /* -1 indicates an empty block storage */
 }
 
 uint8_t is_empty_block_storage(block_storage_t *block_storage)
