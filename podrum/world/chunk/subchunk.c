@@ -54,3 +54,12 @@ uint8_t is_empty_sub_chunk(sub_chunk_t *sub_chunk)
 	}
 	return 1;
 }
+
+void destroy_sub_chunk(sub_chunk_t *sub_chunk)
+{
+	uint8_t i;
+	for (i = 0; i < sub_chunk->block_storages_count; ++i) {
+		free(sub_chunk->block_storages[i].palette);
+	}
+	free(sub_chunk->block_storages);
+}

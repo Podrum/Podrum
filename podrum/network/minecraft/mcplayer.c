@@ -75,10 +75,11 @@ void send_chunks(mapping_block_states_t block_states, minecraft_player_t *player
 	int32_t current_x = ((int32_t) floor(player->x)) >> 4;
 	int32_t current_z = ((int32_t) floor(player->z)) >> 4;
 	int32_t x;
+	static chunk_t chunk;
 	for (x = current_x - player->view_distance; x < (current_x + player->view_distance); ++x) {
 		int32_t z;
 		for (z = current_z - player->view_distance; z < (current_z + player->view_distance); ++z) {
-			chunk_t chunk = new_chunk(x, z, air_runtime_id);
+			chunk = new_chunk(x, z, air_runtime_id);
 			// temp auto generate chunk
 			int32_t xx;
 			for (xx = 0; xx < 16; ++xx) {
@@ -91,7 +92,7 @@ void send_chunks(mapping_block_states_t block_states, minecraft_player_t *player
 				}
 			}
 			send_chunk(&chunk, player, connection, server);
-			// Todo destroy chunks
+			destroy_chunk(&chunk);
 		}
 	}
 }

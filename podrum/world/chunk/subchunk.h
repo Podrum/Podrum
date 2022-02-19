@@ -29,4 +29,6 @@ int8_t get_sub_chunk_highest_block_at(uint8_t x, uint8_t z, uint8_t layer, sub_c
 
 uint8_t is_empty_sub_chunk(sub_chunk_t *sub_chunk);
 
+void destroy_sub_chunk(sub_chunk_t *sub_chunk);
+
 #endif

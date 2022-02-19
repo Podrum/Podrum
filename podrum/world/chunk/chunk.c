@@ -7,6 +7,7 @@
  */
 
 #include <podrum/world/chunk/chunk.h>
+#include <stdlib.h>
 
 chunk_t new_chunk(int32_t x, int32_t z, int32_t air_runtime_id)
 {
@@ -76,4 +77,13 @@ uint32_t get_chunk_sub_chunk_send_count(chunk_t *chunk)
 		}
 	}
 	return 25 - top_empty;
+}
+
+void destroy_chunk(chunk_t *chunk)
+{
+	uint8_t i;
+	for (i = 0; i < 25; ++i) {
+		destroy_sub_chunk((&(chunk->sub_chunks[i])));
+		free(chunk->biomes[i].palette);
+	}
 }

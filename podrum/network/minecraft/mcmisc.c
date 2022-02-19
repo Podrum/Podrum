@@ -499,37 +499,24 @@ void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *st
 
 void put_misc_block_storage(block_storage_t *value, binary_stream_t *stream)
 {
-	int32_t bits_per_block = (int32_t) ceil(log2((double) value->palette_size));
+	double bits_per_block = ceil(log2((double) value->palette_size));
 	int32_t *version;
-	switch (bits_per_block) {
-	case 0:
-	case 1:
+	if (bits_per_block == 0.0 || bits_per_block == 1.0) {
 		version = BITARRAY_V1;
-		break;
-	case 2:
+	} else if (bits_per_block == 2.0) {
 		version = BITARRAY_V2;
-		break;
-	case 3:
+	} else if (bits_per_block == 3.0) {
 		version = BITARRAY_V3;
-		break;
-	case 4:
+	} else if (bits_per_block == 4.0) {
 		version = BITARRAY_V4;
-		break;
-	case 5:
+	} else if (bits_per_block == 5.0) {
 		version = BITARRAY_V5;
-		break;
-	case 6:
+	} else if (bits_per_block == 6.0) {
 		version = BITARRAY_V6;
-		break;
-	case 7:
-	case 8:
+	} else if (bits_per_block == 7.0 || bits_per_block == 8.0) {
 		version = BITARRAY_V8;
-		break;
-	default:
-		if (bits_per_block > 8) {
-			version = BITARRAY_V16;
-		}
-		break;
+	} else if (bits_per_block > 8.0) {
+		version = BITARRAY_V16;
 	}
 	put_unsigned_byte((uint8_t) ((version[0] << 1) | 1), stream);
 	int32_t position = 0;

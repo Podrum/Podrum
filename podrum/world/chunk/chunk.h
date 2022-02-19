@@ -36,4 +36,6 @@ uint8_t is_empty_chunk(chunk_t *chunk);
 
 uint32_t get_chunk_sub_chunk_send_count(chunk_t *chunk);
 
+void destroy_chunk(chunk_t *chunk);
+
 #endif
