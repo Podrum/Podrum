@@ -541,7 +541,7 @@ void put_misc_block_storage(block_storage_t *value, binary_stream_t *stream)
 			if (position >= 4096) {
 				break;
 			}
-			int32_t state = (int32_t) value->blocks[position];
+			uint32_t state = value->blocks[position];
 			word |= state << ((uint32_t) (version[0] * ii));
 			++position;
 		}
