@@ -9,7 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_SOCKET_H
 #define PODRUM_NETWORK_RAKNET_SOCKET_H
 
-#include "./rakmisc.h"
+#include <podrum/network/raknet/rakmisc.h>
 #include <cbinarystream/binary_stream.h>
 
 typedef struct {

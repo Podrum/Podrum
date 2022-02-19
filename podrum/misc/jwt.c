@@ -6,8 +6,8 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./jwt.h"
-#include "./base64.h"
+#include <podrum/misc/jwt.h>
+#include <podrum/misc/base64.h>
 #include <stdlib.h>
 #include <stdint.h>
 #include <string.h>

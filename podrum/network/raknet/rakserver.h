@@ -12,9 +12,9 @@
 #include <stdint.h>
 #include <stdlib.h>
 
-#include "./rakmisc.h"
-#include "./rakpacket.h"
-#include "./socket.h"
+#include <podrum/network/raknet/rakmisc.h>
+#include <podrum/network/raknet/rakpacket.h>
+#include <podrum/network/raknet/socket.h>
 
 typedef struct {
 	uint16_t mtu_size;

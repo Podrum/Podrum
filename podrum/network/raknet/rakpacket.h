@@ -10,7 +10,7 @@
 #define PODRUM_NETWORK_RAKNET_RAKPACKET_H
 
 #include <stdint.h>
-#include "./rakmisc.h"
+#include <podrum/network/raknet/rakmisc.h>
 
 #define ID_UNCONNECTED_PING 0x01
 #define ID_UNCONNECTED_PING_OPEN_CONNECTIONS 0x02

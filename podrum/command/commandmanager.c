@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "commandmanager.h"
+#include <podrum/command/commandmanager.h>
 
 void register_command(command_t command, command_manager_t *manager)
 {

@@ -9,7 +9,7 @@
 #ifndef PODRUM_MISC_JWT_H
 #define PODRUM_MISC_JWT_H
 
-#include "./json.h"
+#include <podrum/misc/json.h>
 
 json_root_t jwt_decode(char *token);
 

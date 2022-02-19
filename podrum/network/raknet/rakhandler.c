@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./rakhandler.h"
+#include <podrum/network/raknet/rakhandler.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -159,7 +159,6 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		handle_fragmented_frame(frame, server, connection);
 		return;
 	}
-	/* printf("-> 0x%X\n", frame.stream.buffer[0] & 0xff); */
 	if ((frame.stream.buffer[0] & 0xff) == ID_CONNECTION_REQUEST) {
 		misc_frame_t output_frame;
 		output_frame.is_fragmented = 0;

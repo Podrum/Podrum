@@ -11,7 +11,7 @@
 
 #include <cbinarystream/binary_stream.h>
 #include <stdlib.h>
-#include "./mcmisc.h"
+#include <podrum/network/minecraft/mcmisc.h>
 #include <cnbt/nbt.h>
 
 #define GAME_VERSION "1.18.10"

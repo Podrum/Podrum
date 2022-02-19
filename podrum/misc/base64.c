@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./base64.h"
+#include <podrum/misc/base64.h>
 #include <string.h>
 #include <stdint.h>
 #include <stdlib.h>

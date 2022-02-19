@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./mcpackets.h"
+#include <podrum/network/minecraft/mcpackets.h>
 #include <czlibhelper/zlib_helper.h>
 #include <stdlib.h>
 

@@ -6,9 +6,10 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./mcmisc.h"
+#include <podrum/network/minecraft/mcmisc.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 
 char *get_misc_string_var_int(binary_stream_t *stream)
 {
@@ -493,5 +494,82 @@ void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *st
 		put_misc_item_extra_data(value.extra, value.network_id == 355 ? 1 : 0, &temp_stream);
 		put_misc_byte_array_var_int(temp_stream, stream);
 		free(temp_stream.buffer);
+	}
+}
+
+void put_misc_block_storage(block_storage_t *value, binary_stream_t *stream)
+{
+	int32_t bits_per_block = (int32_t) ceil(log2((double) value->palette_size));
+	int32_t *version;
+	switch (bits_per_block) {
+	case 0:
+	case 1:
+		version = BITARRAY_V1;
+		break;
+	case 2:
+		version = BITARRAY_V2;
+		break;
+	case 3:
+		version = BITARRAY_V3;
+		break;
+	case 4:
+		version = BITARRAY_V4;
+		break;
+	case 5:
+		version = BITARRAY_V5;
+		break;
+	case 6:
+		version = BITARRAY_V6;
+		break;
+	case 7:
+	case 8:
+		version = BITARRAY_V8;
+		break;
+	default:
+		if (bits_per_block > 8) {
+			version = BITARRAY_V16;
+		}
+		break;
+	}
+	put_unsigned_byte((uint8_t) ((version[0] << 1) | 1), stream);
+	int32_t position = 0;
+	int32_t i;
+	for (i = 0; i < version[2]; ++i) {
+		uint32_t word = 0;
+		int32_t ii;
+		for (ii = 0; ii < version[1]; ++ii) {
+			if (position >= 4096) {
+				break;
+			}
+			int32_t state = (int32_t) value->blocks[position];
+			word |= state << ((uint32_t) (version[0] * ii));
+			++position;
+		}
+		put_unsigned_int_le(word, stream);
+	}
+	put_signed_var_int(value->palette_size, stream);
+	for (i = 0; i < value->palette_size; ++i) {
+		put_signed_var_int(value->palette[i], stream);
+	}
+}
+
+void put_misc_sub_chunk(sub_chunk_t *value, binary_stream_t *stream)
+{
+	put_unsigned_byte(SUB_CHUNK_VERSION, stream);
+	put_unsigned_byte(value->block_storages_count, stream);
+	uint8_t i;
+	for (i = 0; i < value->block_storages_count; ++i) {
+		put_misc_block_storage((&(value->block_storages[i])), stream);
+	}
+}
+
+void put_misc_chunk(chunk_t *value, uint32_t sub_chunk_count, binary_stream_t *stream)
+{
+	uint32_t i;
+	for (i = 0; i < sub_chunk_count; ++i) {
+		put_misc_sub_chunk((&(value->sub_chunks[i])), stream);
+	}
+	for (i = 0; i < 25; ++i) {
+		put_misc_block_storage((&(value->biomes[i])), stream);
 	}
 }

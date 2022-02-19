@@ -6,14 +6,13 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./blockstorage.h"
+#include <podrum/world/chunk/blockstorage.h>
 #include <stdlib.h>
 #include <string.h>
 
-block_storage_t new_block_storage(mapping_block_states_t block_states)
+block_storage_t new_block_storage(int32_t air_runtime_id)
 {
 	block_storage_t block_storage;
-	int32_t air_runtime_id = block_state_to_runtime_id("minecraft:air", 0, block_states);
 	memset(block_storage.blocks, 0, 4096);
 	block_storage.palette_size = 1;
 	block_storage.palette = (int32_t *) malloc(block_storage.palette_size * sizeof(int32_t));

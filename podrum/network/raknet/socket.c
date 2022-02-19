@@ -21,7 +21,7 @@
 
 #endif
 
-#include "./socket.h"
+#include <podrum/network/raknet/socket.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>

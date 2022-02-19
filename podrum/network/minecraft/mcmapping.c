@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
  
-#include "./mcmapping.h"
+#include <podrum/network/minecraft/mcmapping.h>
 #include <string.h>
 
 mapping_block_state_t runtime_id_to_block_state(int32_t runtime_id, mapping_block_states_t states)

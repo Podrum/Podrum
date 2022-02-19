@@ -6,13 +6,13 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./resourcemanager.h"
-#include "./json.h"
-#include "./logger.h"
+#include <podrum/misc/resourcemanager.h>
+#include <podrum/misc/json.h>
+#include <podrum/misc/logger.h>
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
-#include "./base64.h"
+#include <podrum/misc/base64.h>
 
 binary_stream_t read_file(char *path)
 {

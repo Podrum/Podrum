@@ -10,7 +10,6 @@
 #define PODRUM_WORLD_CHUNK_BLOCKSTORAGE_H
 
 #include <stdint.h>
-#include "../../network/minecraft/mcmapping.h"
 
 #define BLOCK_STORAGE_EMPTY -1
 
@@ -20,7 +19,7 @@ typedef struct {
 	int32_t *palette;
 } block_storage_t;
 
-block_storage_t new_block_storage(mapping_block_states_t block_states);
+block_storage_t new_block_storage(int32_t air_runtime_id);
 
 block_storage_t new_biome_storage();
 

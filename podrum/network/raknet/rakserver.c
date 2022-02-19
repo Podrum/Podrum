@@ -6,8 +6,8 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./rakserver.h"
-#include "./rakhandler.h"
+#include <podrum/network/raknet/rakserver.h>
+#include <podrum/network/raknet/rakhandler.h>
 #include <string.h>
 #include <time.h>
 #include <stdio.h>

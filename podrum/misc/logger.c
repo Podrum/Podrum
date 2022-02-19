@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./textformat.h"
+#include <podrum/misc/textformat.h>
 #include <stdio.h>
 #include <time.h>
 

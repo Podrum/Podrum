@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./rakpacket.h"
+#include <podrum/network/raknet/rakpacket.h>
 #include <string.h>
 #include <stdlib.h>
 

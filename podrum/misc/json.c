@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./json.h"
+#include <podrum/misc/json.h>
 #include <string.h>
 #include <stdio.h>
 #include <ctype.h>

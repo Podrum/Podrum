@@ -12,6 +12,7 @@
 #include <stdint.h>
 #include <cbinarystream/binary_stream.h>
 #include <cnbt/nbt.h>
+#include <podrum/world/chunk/chunk.h>
 
 #define GAMEMODE_SURVIVAL 0
 #define GAMEMODE_CREATIVE 1
@@ -91,6 +92,15 @@
 #define WINDOW_TYPE_HUD 31
 #define WINDOW_TYPE_JIGSAW_EDITOR 32
 #define WINDOW_TYPE_SMITHING_TABLE 33
+
+static int32_t BITARRAY_V1[4] = {1, 32, 128, 0};
+static int32_t BITARRAY_V2[4] = {2, 16, 256, 0};
+static int32_t BITARRAY_V3[4] = {3, 10, 410, 2};
+static int32_t BITARRAY_V4[4] = {4, 8, 512, 0};
+static int32_t BITARRAY_V5[4] = {5, 6, 683, 2};
+static int32_t BITARRAY_V6[4] = {6, 5, 820, 2};
+static int32_t BITARRAY_V8[4] = {8, 4, 1024, 0};
+static int32_t BITARRAY_V16[4] = {16, 2, 2048, 0};
 
 typedef struct {
 	char *identity;
@@ -302,5 +312,11 @@ void put_misc_lnbt_tag(nbt_compound_t value, binary_stream_t *stream);
 void put_misc_item_extra_data(misc_item_extra_data_t value, uint8_t has_blocking_tick, binary_stream_t *stream);
 
 void put_misc_item(misc_item_t value, uint8_t with_stack_id, binary_stream_t *stream);
+
+void put_misc_block_storage(block_storage_t *value, binary_stream_t *stream);
+
+void put_misc_sub_chunk(sub_chunk_t *value, binary_stream_t *stream);
+
+void put_misc_chunk(chunk_t *value, uint32_t sub_chunk_count, binary_stream_t *stream);
 
 #endif

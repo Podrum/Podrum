@@ -10,18 +10,18 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include "./misc/logger.h"
-#include "command/commandmanager.h"
-#include "./network/raknet/rakserver.h"
-#include "./worker.h"
-#include "./network/minecraft/mcpackets.h"
-#include "./misc/json.h"
-#include "./misc/base64.h"
-#include "./misc/jwt.h"
-#include "./misc/resourcemanager.h"
-#include "./network/minecraft/mcplayermanager.h"
-#include "./network/minecraft/mchandler.h"
-#include "./network/minecraft/mcplayer.h"
+#include <podrum/misc/logger.h>
+#include <podrum/command/commandmanager.h>
+#include <podrum/network/raknet/rakserver.h>
+#include <podrum/worker.h>
+#include <podrum/network/minecraft/mcpackets.h>
+#include <podrum/misc/json.h>
+#include <podrum/misc/base64.h>
+#include <podrum/misc/jwt.h>
+#include <podrum/misc/resourcemanager.h>
+#include <podrum/network/minecraft/mcplayermanager.h>
+#include <podrum/network/minecraft/mchandler.h>
+#include <podrum/network/minecraft/mcplayer.h>
 #include <cnbt/nbt.h>
 
 #ifdef _WIN32
@@ -216,7 +216,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				}
 				free(resource_pack_client_response.resource_pack_ids.ids);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_REQUEST_CHUNK_RADIUS) {
-				handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, &player_manager);
+				handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, &player_manager, &resources);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_INTERACT) {
 				handle_packet_interact((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_CONTAINER_CLOSE) {

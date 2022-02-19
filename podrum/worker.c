@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./worker.h"
+#include <podrum/worker.h>
 
 worker_t create_worker(worker_executor_t executor)
 {

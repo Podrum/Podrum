@@ -11,8 +11,8 @@
 
 #include <cbinarystream/binary_stream.h>
 #include <cnbt/nbt.h>
-#include "../network/minecraft/mcmisc.h"
-#include "../network/minecraft/mcmapping.h"
+#include <podrum/network/minecraft/mcmisc.h>
+#include <podrum/network/minecraft/mcmapping.h>
 
 typedef struct {
 	nbt_compound_t biome_definitions;

@@ -6,16 +6,17 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./subchunk.h"
+#include <podrum/world/chunk/subchunk.h>
+#include <stdlib.h>
 
-sub_chunk_t new_sub_chunk(mapping_block_states_t block_states)
+sub_chunk_t new_sub_chunk(int32_t air_runtime_id)
 {
 	sub_chunk_t sub_chunk;
 	sub_chunk.block_storages_count = 2;
 	sub_chunk.block_storages = (block_storage_t *) malloc(sub_chunk.block_storages_count * sizeof(block_storage_t));
 	uint8_t i;
 	for (i = 0; i < sub_chunk.block_storages_count; ++i) {
-		sub_chunk.block_storages[i] = new_block_storage(block_states);
+		sub_chunk.block_storages[i] = new_block_storage(air_runtime_id);
 	}
 	return sub_chunk;
 }

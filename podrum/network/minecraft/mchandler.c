@@ -6,13 +6,13 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./mchandler.h"
-#include "./mcpackets.h"
-#include "../../misc/logger.h"
-#include "./mcmisc.h"
-#include "./mcplayer.h"
-#include "../../misc/json.h"
-#include "../../misc/jwt.h"
+#include <podrum/network/minecraft/mchandler.h>
+#include <podrum/network/minecraft/mcpackets.h>
+#include <podrum/misc/logger.h>
+#include <podrum/network/minecraft/mcmisc.h>
+#include <podrum/network/minecraft/mcplayer.h>
+#include <podrum/misc/json.h>
+#include <podrum/misc/jwt.h>
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
@@ -28,7 +28,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	player.identity[0] = 0;
 	player.xuid = (char *) malloc(1);
 	player.xuid[0] = 0;
-	player.gamemode = 0;
+	player.gamemode = 1;
 	player.view_distance = 8;
 	player.address = connection->address;
 	player.x = 0.0;
@@ -170,7 +170,7 @@ void handle_packet_window_close(binary_stream_t *stream, connection_t *connectio
 	free(streams);
 }
 
-void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager)
+void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
 {
 	size_t i;
 	size_t streams_count = 2;
@@ -194,4 +194,5 @@ void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *c
 		free(streams[i].buffer);
 	}
 	free(streams);
+	send_chunks(resources->block_states, player, connection, server);
 }

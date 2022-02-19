@@ -11,7 +11,7 @@
 
 #include <stdint.h>
 #include <stdlib.h>
-#include "./mcmisc.h"
+#include <podrum/network/minecraft/mcmisc.h>
 
 typedef struct {
 	char *name;

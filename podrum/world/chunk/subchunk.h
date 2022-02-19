@@ -9,7 +9,7 @@
 #ifndef PODRUM_WORLD_CHUNK_SUBCHUNK_H
 #define PODRUM_WORLD_CHUNK_SUBCHUNK_H
 
-#include "./blockstorage.h"
+#include <podrum/world/chunk/blockstorage.h>
 
 #define SUB_CHUNK_VERSION 8
 #define SUB_CHUNK_LAYER_NOT_PRESENT -2
@@ -19,7 +19,7 @@ typedef struct {
 	block_storage_t *block_storages;
 } sub_chunk_t;
 
-sub_chunk_t new_sub_chunk(mapping_block_states_t block_states);
+sub_chunk_t new_sub_chunk(int32_t air_runtime_id);
 
 int32_t get_sub_chunk_block_runtime_id(uint8_t x, uint8_t y, uint8_t z, uint8_t layer, sub_chunk_t *sub_chunk);
 

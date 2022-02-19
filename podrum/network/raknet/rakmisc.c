@@ -6,7 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#include "./rakmisc.h"
+#include <podrum/network/raknet/rakmisc.h>
 #include <stdlib.h>
 #include <stdio.h>
 
