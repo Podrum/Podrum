@@ -24,8 +24,9 @@ block_storage_t new_biome_storage()
 {
 	block_storage_t block_storage;
 	memset(block_storage.blocks, 0, 4096);
-	block_storage.palette_size = 0;
-	block_storage.palette = (int32_t *) malloc(0);
+	block_storage.palette_size = 1;
+	block_storage.palette = (int32_t *) malloc(block_storage.palette_size * sizeof(int32_t));
+	block_storage.palette[0] = 1; /* plains */
 	return block_storage;
 }
 
