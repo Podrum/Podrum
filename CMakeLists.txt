@@ -20,4 +20,5 @@ add_executable(PodrumR3
 
 IF(NOT ("${CMAKE_SYSTEM}" MATCHES "Windows"))
 	TARGET_LINK_LIBRARIES(PodrumR3 pthread)
+	TARGET_LINK_LIBRARIES(PodrumR3 m)
 endif()
