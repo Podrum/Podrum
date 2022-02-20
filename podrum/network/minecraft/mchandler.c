@@ -103,7 +103,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	send_minecraft_packet(streams, 1, connection, server);
 	free(streams[0].buffer);
 	free(streams);
-	printf("%s logged in with entity id %ld\n", player.display_name, player.entity_id);
+	printf("%s logged in with entity id %lld\n", player.display_name, player.entity_id);
 	if (got_xuid) {
 		printf("%s is your xuid\n", player.xuid);
 	}

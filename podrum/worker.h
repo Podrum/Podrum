@@ -35,7 +35,7 @@ typedef void *(*worker_executor_t)(void *argv);
 
 #endif
 
-worker_t create_worker(worker_executor_t executor);
+worker_t create_worker(worker_executor_t executor, void *args);
 
 void join_worker(worker_t worker);
 

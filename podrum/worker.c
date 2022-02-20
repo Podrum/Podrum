@@ -8,17 +8,17 @@
 
 #include <podrum/worker.h>
 
-worker_t create_worker(worker_executor_t executor)
+worker_t create_worker(worker_executor_t executor, void *args)
 {
 	#ifdef _WIN32
 	DWORD thread_id;
 
-	return CreateThread(NULL, 0, executor, NULL, 0, &thread_id);
+	return CreateThread(NULL, 0, executor, args, 0, &thread_id);
 
 	#else
 
 	worker_t worker;
-	pthread_create(&worker, NULL, executor, NULL);
+	pthread_create(&worker, NULL, executor, args);
 	return worker;
 
 	#endif

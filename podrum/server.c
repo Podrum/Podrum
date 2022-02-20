@@ -22,6 +22,7 @@
 #include <podrum/network/minecraft/mcplayermanager.h>
 #include <podrum/network/minecraft/mchandler.h>
 #include <podrum/network/minecraft/mcplayer.h>
+#include <podrum/world/chunk/chunk.h>
 #include <cnbt/nbt.h>
 
 #ifdef _WIN32
@@ -36,6 +37,8 @@
 minecraft_player_manager_t player_manager;
 
 resources_t resources;
+
+raknet_server_t raknet_server;
 
 void cmd1executor(int argc, char **argv)
 {
@@ -73,7 +76,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 		packet_game_t game = get_packet_game(((&(frame.stream))));
 		size_t i;
 		for (i = 0; i < game.streams_count; ++i) {
-			printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff);
+			/* printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff); */
 			if ((game.streams[i].buffer[0] & 0xFF) == ID_LOGIN) {
 				handle_packet_login((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x9C) {
@@ -84,7 +87,6 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				printf("\n");
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_RESOURCE_PACK_CLIENT_RESPONSE) {
 				packet_resource_pack_client_response_t resource_pack_client_response = get_packet_resource_pack_client_response(((&(game.streams[i]))));
-				printf("RESOURCE PACKS RESONSE: %d\n", resource_pack_client_response.response_status);
 				if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_NONE || resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS) {
 					size_t streams_count = 1;
 					binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
@@ -242,7 +244,6 @@ int main(int argc, char **argv)
 	resources = get_resources();
 	player_manager.size = 0;
 	player_manager.players = (minecraft_player_t *) malloc(0);
-	raknet_server_t raknet_server;
 	raknet_server.address.version = 4;
 	raknet_server.address.address = "0.0.0.0";
 	raknet_server.address.port = 19132;
