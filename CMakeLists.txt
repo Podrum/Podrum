@@ -7,7 +7,7 @@ file(GLOB CBINARYSTREAM cbinarystream/*.c)
 file(GLOB CNBT cnbt/*.c)
 file(GLOB CZLIBHELPER czlibhelper/*.c)
 file(GLOB MINIZ miniz/*.c)
-file(GLOB PODRUM podrum/*.c podrum/misc/*.c podrum/world/*.c podrum/command/*.c podrum/network/minecraft/*.c podrum/network/raknet/*.c)
+file(GLOB PODRUM podrum/*.c podrum/misc/*.c podrum/world/*.c podrum/world/chunk/*.c podrum/command/*.c podrum/network/minecraft/*.c podrum/network/raknet/*.c)
 
 include_directories(.)
 
