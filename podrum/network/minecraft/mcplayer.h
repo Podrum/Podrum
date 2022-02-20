@@ -20,6 +20,8 @@ void send_network_chunk_publisher_update(minecraft_player_t *player, connection_
 
 void send_chunk(chunk_t *chunk, minecraft_player_t *player, connection_t *connection, raknet_server_t *server);
 
+void send_play_status(int32_t status, connection_t *connection, raknet_server_t *server);
+
 void send_chunks(mapping_block_states_t block_states, minecraft_player_t *player, connection_t *connection, raknet_server_t *server);
 
 #endif

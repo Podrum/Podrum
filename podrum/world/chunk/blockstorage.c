@@ -10,23 +10,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-block_storage_t new_block_storage(int32_t air_runtime_id)
+block_storage_t new_block_storage(int32_t runtime_id)
 {
 	block_storage_t block_storage;
-	memset(block_storage.blocks, 0, 4096);
+	int i;
+	for (i = 0; i < 4096; ++i) {
+		block_storage.blocks[i] = 0;
+	}
 	block_storage.palette_size = 1;
 	block_storage.palette = (int32_t *) malloc(block_storage.palette_size * sizeof(int32_t));
-	block_storage.palette[0] = air_runtime_id;
-	return block_storage;
-}
-
-block_storage_t new_biome_storage()
-{
-	block_storage_t block_storage;
-	memset(block_storage.blocks, 0, 4096);
-	block_storage.palette_size = 1;
-	block_storage.palette = (int32_t *) malloc(block_storage.palette_size * sizeof(int32_t));
-	block_storage.palette[0] = 1; /* plains */
+	block_storage.palette[0] = runtime_id;
 	return block_storage;
 }
 

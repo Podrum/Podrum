@@ -65,6 +65,20 @@ void send_chunk(chunk_t *chunk, minecraft_player_t *player, connection_t *connec
 	free(streams);
 }
 
+void send_play_status(int32_t status, connection_t *connection, raknet_server_t *server)
+{
+	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+	streams[0].buffer = (int8_t *) malloc(0);
+	streams[0].size = 0;
+	streams[0].offset = 0;
+	packet_play_status_t play_status;
+	play_status.status = status;
+	put_packet_play_status(play_status, (&(streams[0])));
+	send_minecraft_packet(streams, 1, connection, server);
+	free(streams[0].buffer);
+	free(streams);
+}
+
 void send_chunks(mapping_block_states_t block_states, minecraft_player_t *player, connection_t *connection, raknet_server_t *server)
 {
 	send_network_chunk_publisher_update(player, connection, server);

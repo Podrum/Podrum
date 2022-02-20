@@ -88,27 +88,20 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	free(login.tokens.client);
 	free(login.tokens.identity);
 	add_minecraft_player(player, player_manager);
-	size_t streams_count = 2;
-	binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
-	for (i = 0; i < streams_count; ++i) {
-		streams[i].buffer = (int8_t *) malloc(0);
-		streams[i].size = 0;
-		streams[i].offset = 0;
-	}
-	packet_play_status_t play_status;
-	play_status.status = PLAY_STATUS_LOGIN_SUCCESS;
-	put_packet_play_status(play_status, (&(streams[0])));
+	send_play_status(PLAY_STATUS_LOGIN_SUCCESS, connection, server);
+	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+	streams[0].buffer = (int8_t *) malloc(0);
+	streams[0].size = 0;
+	streams[0].offset = 0;
 	packet_resource_packs_info_t resource_packs_info;
 	resource_packs_info.must_accept = 0;
 	resource_packs_info.has_scripts = 0;
 	resource_packs_info.force_server_packs = 0;
 	resource_packs_info.behavior_packs.size = 0;
 	resource_packs_info.texture_packs.size = 0;
-	put_packet_resource_packs_info(resource_packs_info, (&(streams[1])));
-	send_minecraft_packet(streams, streams_count, connection, server);
-	for (i = 0; i < streams_count; ++i) {
-		free(streams[i].buffer);
-	}
+	put_packet_resource_packs_info(resource_packs_info, (&(streams[0])));
+	send_minecraft_packet(streams, 1, connection, server);
+	free(streams[0].buffer);
 	free(streams);
 	printf("%s logged in with entity id %ld\n", player.display_name, player.entity_id);
 	if (got_xuid) {
@@ -172,27 +165,19 @@ void handle_packet_window_close(binary_stream_t *stream, connection_t *connectio
 
 void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
 {
-	size_t i;
-	size_t streams_count = 2;
-	binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
-	for (i = 0; i < streams_count; ++i) {
-		streams[i].buffer = (int8_t *) malloc(0);
-		streams[i].size = 0;
-		streams[i].offset = 0;
-	}
+	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+	streams[0].buffer = (int8_t *) malloc(0);
+	streams[0].size = 0;
+	streams[0].offset = 0;
 	packet_request_chunk_radius_t request_chunk_radius = get_packet_request_chunk_radius(stream);
 	packet_chunk_radius_updated_t chunk_radius_updated;
 	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 8.0); /* server_chunk_radius = 8 */
 	put_packet_chunk_radius_updated(chunk_radius_updated, (&(streams[0])));
 	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 	player->view_distance = chunk_radius_updated.chunk_radius;
-	packet_play_status_t play_status;
-	play_status.status = PLAY_STATUS_PLAYER_SPAWN;
-	put_packet_play_status(play_status, (&(streams[1])));
-	send_minecraft_packet(streams, streams_count, connection, server);
-	for (i = 0; i < streams_count; ++i) {
-		free(streams[i].buffer);
-	}
+	send_minecraft_packet(streams, 1, connection, server);
+	free(streams[0].buffer);
 	free(streams);
+	send_play_status(PLAY_STATUS_PLAYER_SPAWN, connection, server);
 	send_chunks(resources->block_states, player, connection, server);
 }

@@ -52,9 +52,12 @@ void add_raknet_connection(misc_address_t address, uint16_t mtu_size, uint64_t g
 		connection.receiver_sequence_number = 0;
 		connection.recovery_queue = (packet_frame_set_t *) malloc(0);
 		connection.recovery_queue_size = 0;
-		memset(connection.sender_order_channels, 0, sizeof(connection.sender_order_channels));
+		uint8_t i;
+		for (i = 0; i < 32; ++i) {
+			connection.sender_order_channels[i] = 0;
+			connection.sender_sequence_channels[i] = 0;
+		}
 		connection.sender_reliable_frame_index = 0;
-		memset(connection.sender_sequence_channels, 0, sizeof(connection.sender_order_channels));
 		connection.sender_sequence_number = 0;
 		++server->connections_count;
 		server->connections = (connection_t *) realloc(server->connections, server->connections_count * sizeof(connection_t));
@@ -251,7 +254,6 @@ void send_raknet_ack_queue(connection_t *connection, raknet_server_t *server)
 		output_socket_data.address = connection->address;
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
-		memset(&output_socket_data, 0, sizeof(socket_data_t));
 		connection->ack_queue = (uint32_t *) realloc(connection->ack_queue, 0);
 		connection->ack_queue_size = 0;
 	}
@@ -271,7 +273,6 @@ void send_raknet_nack_queue(connection_t *connection, raknet_server_t *server)
 		output_socket_data.address = connection->address;
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
-		memset(&output_socket_data, 0, sizeof(socket_data_t));
 		connection->nack_queue = (uint32_t *) realloc(connection->nack_queue, 0);
 		connection->nack_queue_size = 0;
 	}
@@ -291,7 +292,6 @@ void send_raknet_queue(connection_t *connection, raknet_server_t *server)
 		output_socket_data.address = connection->address;
 		send_data(server->sock, output_socket_data);
 		free(output_socket_data.stream.buffer);
-		memset(&output_socket_data, 0, sizeof(socket_data_t));
 		connection->queue.frames = (misc_frame_t *) malloc(0);
 		connection->queue.frames_count = 0;
 	}
@@ -359,7 +359,6 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		}
 		++connection->compound_id;
 		free(frame.stream.buffer);
-		memset(&frame, 0, sizeof(misc_frame_t));
 	} else {
 		if (is_reliable(frame.reliability) == 1) {
 			frame.reliable_frame_index = connection->sender_reliable_frame_index;
@@ -455,21 +454,18 @@ void handle_raknet_packet(raknet_server_t *server)
 			output_socket_data.address = socket_data.address;
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
-			memset(&output_socket_data, 0, sizeof(socket_data_t));
 		} else if ((socket_data.stream.buffer[0] & 0xff) == ID_OPEN_CONNECTION_REQUEST_1) {
 			socket_data_t output_socket_data;
 			output_socket_data.stream = handle_open_connection_request_1((&(socket_data.stream)), server);
 			output_socket_data.address = socket_data.address;
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
-			memset(&output_socket_data, 0, sizeof(socket_data_t));
 		} else if ((socket_data.stream.buffer[0] & 0xff) == ID_OPEN_CONNECTION_REQUEST_2) {
 			socket_data_t output_socket_data;
 			output_socket_data.stream = handle_open_connection_request_2((&(socket_data.stream)), server, socket_data.address);
 			output_socket_data.address = socket_data.address;
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
-			memset(&output_socket_data, 0, sizeof(socket_data_t));
 		} else if ((socket_data.stream.buffer[0] & 0xff) == ID_ACK) {
 			connection_t *connection = get_raknet_connection(socket_data.address, server);
 			if (connection != NULL) {
@@ -488,7 +484,6 @@ void handle_raknet_packet(raknet_server_t *server)
 		}
 	}
 	free(socket_data.stream.buffer);
-	memset(&socket_data, 0, sizeof(socket_data_t));
 	size_t i;
 	for (i = 0; i < server->connections_count; ++i) {
 		send_raknet_ack_queue((&(server->connections[i])), server);

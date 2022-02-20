@@ -17,7 +17,7 @@ chunk_t new_chunk(int32_t x, int32_t z, int32_t air_runtime_id)
 	uint8_t i;
 	for (i = 0; i < 25; ++i) {
 		chunk.sub_chunks[i] = new_sub_chunk(air_runtime_id);
-		chunk.biomes[i] = new_biome_storage();
+		chunk.biomes[i] = new_block_storage(1); /* biome_planes = 1 */
 	}
 	return chunk;
 }

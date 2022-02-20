@@ -19,9 +19,7 @@ typedef struct {
 	int32_t *palette;
 } block_storage_t;
 
-block_storage_t new_block_storage(int32_t air_runtime_id);
-
-block_storage_t new_biome_storage();
+block_storage_t new_block_storage(int32_t runtime_id);
 
 int32_t get_block_storage_block_runtime_id(uint8_t x, uint8_t y, uint8_t z, block_storage_t *block_storage);
 

@@ -62,7 +62,6 @@ int create_socket(misc_address_t address)
 	int sock = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 	set_nb_socket(sock, 1);
 	struct sockaddr_in s_address;
-	memset(&s_address, 0, sizeof(s_address));
 	s_address.sin_family = AF_INET;
 	s_address.sin_addr.s_addr = inet_addr(address.address);
 	s_address.sin_port = htons(address.port);
@@ -79,7 +78,6 @@ socket_data_t receive_data(int sock)
 	result.stream.size = 65535;
 	result.stream.buffer = (int8_t *) malloc(result.stream.size);
 	struct sockaddr_in s_address;
-	memset(&s_address, 0, sizeof(s_address));
 	socklen_t s_address_length = sizeof(s_address);
 	int length = recvfrom(sock, result.stream.buffer, result.stream.size, 0, (struct sockaddr *) &s_address, &s_address_length);
 	if (length != -1 && length < result.stream.size) {
@@ -102,7 +100,6 @@ socket_data_t receive_data(int sock)
 void send_data(int sock, socket_data_t socket_data)
 {
 	struct sockaddr_in s_address;
-	memset(&s_address, 0, sizeof(s_address));
 	s_address.sin_family = AF_INET;
 	s_address.sin_addr.s_addr = inet_addr(socket_data.address.address);
 	s_address.sin_port = htons(socket_data.address.port);
