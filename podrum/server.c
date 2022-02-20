@@ -185,7 +185,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 					start_game.block_properties.size = 0;
 					start_game.item_states = resources.item_states;
 					start_game.multiplayer_correlation_id = "";
-					start_game.server_authoritative_inventory = 1;
+					start_game.server_authoritative_inventory = 0;
 					start_game.engine = GAME_ENGINE;
 					start_game.block_pallete_checksum = 0;
 					put_packet_start_game(start_game, (&(streams[0])));
