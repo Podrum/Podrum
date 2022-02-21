@@ -30,7 +30,12 @@
 #define ID_CONNECTED_PONG 0x03
 #define ID_DISCONNECT_NOTIFICATION 0x15
 
-#define MAGIC "\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78"
+static uint8_t MAGIC[16] = {
+	'\x00', '\xff', '\xff', '\x00',
+	'\xfe', '\xfe', '\xfe', '\xfe',
+	'\xfd', '\xfd', '\xfd', '\xfd',
+	'\x12', '\x34', '\x56', '\x78'
+};
 
 typedef struct {
 	uint64_t timestamp;
