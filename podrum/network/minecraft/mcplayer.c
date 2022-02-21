@@ -60,6 +60,7 @@ void send_chunk(chunk_t *chunk, minecraft_player_t *player, connection_t *connec
 	level_chunk.payload.offset = 0;
 	put_misc_chunk(chunk, level_chunk.sub_chunk_count, &level_chunk.payload);
 	put_packet_level_chunk(level_chunk, (&(streams[0])));
+	free(level_chunk.payload.buffer);
 	send_minecraft_packet(streams, 1, connection, server);
 	free(streams[0].buffer);
 	free(streams);
@@ -89,7 +90,7 @@ void send_chunks(mapping_block_states_t block_states, minecraft_player_t *player
 	int32_t current_x = ((int32_t) floor(player->x)) >> 4;
 	int32_t current_z = ((int32_t) floor(player->z)) >> 4;
 	int32_t x;
-	static chunk_t chunk;
+	chunk_t chunk;
 	for (x = current_x - player->view_distance; x < (current_x + player->view_distance); ++x) {
 		int32_t z;
 		for (z = current_z - player->view_distance; z < (current_z + player->view_distance); ++z) {
