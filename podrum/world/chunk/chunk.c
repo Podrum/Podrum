@@ -89,4 +89,6 @@ void destroy_chunk(chunk_t *chunk)
 		free(chunk->biomes[i].palette);
 		free(chunk->biomes[i].blocks);
 	}
+	free(chunk->biomes);
+	free(chunk->sub_chunks);
 }

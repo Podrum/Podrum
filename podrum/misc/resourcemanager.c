@@ -150,6 +150,7 @@ resources_t get_resources()
 			item.extra.nbt_version = 1;
 			binary_stream_t nbt_stream = base64_decode(json_nbt.entry.json_string);
 			item.extra.nbt = get_misc_lnbt_tag(&nbt_stream);
+			free(nbt_stream.buffer);
 		} else {
 			item.extra.with_nbt = ITEM_EXTRA_DATA_WITHOUT_NBT;
 		}
@@ -161,4 +162,25 @@ resources_t get_resources()
 	log_success("Creative Items loaded.");
 	log_success("Resources loaded.");
 	return resources;
+}
+
+void destroy_resources(resources_t resources)
+{
+	destroy_nbt_compound(resources.biome_definitions);
+	destroy_nbt_compound(resources.entity_identifiers);
+	size_t i;
+	for (i = 0; i < resources.item_states.size; ++i) {
+		free(resources.item_states.entries[i].name);
+	}
+	free(resources.item_states.entries);
+	for (i = 0; i < resources.block_states.size; ++i) {
+		free(resources.block_states.entries[i].name);
+	}
+	free(resources.block_states.entries);
+	for (i = 0; i < resources.creative_items.size; ++i) {
+		if (resources.creative_items.entries[i].extra.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
+			destroy_nbt_compound(resources.creative_items.entries[i].extra.nbt);
+		}
+	}
+	free(resources.creative_items.entries);
 }

@@ -83,6 +83,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 				}
 			}
 		}
+		destroy_json_object(entry);
 	}
 	destroy_json_root(json_root);
 	free(login.tokens.client);

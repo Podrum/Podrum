@@ -26,4 +26,6 @@ binary_stream_t read_file(char *path);
 
 resources_t get_resources();
 
+void destroy_resources(resources_t resources);
+
 #endif

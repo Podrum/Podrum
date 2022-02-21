@@ -44,5 +44,8 @@ json_root_t jwt_decode(char *token)
 	json_input_t json_input;
 	json_input.json = (char *) stream.buffer;
 	json_input.offset = 0;
-	return parse_json_root(&json_input);
+	free(payload);
+	json_root_t json_root = parse_json_root(&json_input);
+	free(stream.buffer);
+	return json_root;
 }
