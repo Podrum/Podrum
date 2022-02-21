@@ -21,4 +21,6 @@ void handle_packet_window_close(binary_stream_t *stream, connection_t *connectio
 
 void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources);
 
+void handle_packet_move_player(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources);
+
 #endif

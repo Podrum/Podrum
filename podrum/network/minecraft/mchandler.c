@@ -36,6 +36,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	player.z = 0.0;
 	player.pitch = 0.0;
 	player.yaw = 0.0;
+	player.spawned = 0;
 	srand(time(NULL));
 	player.entity_id = rand();
 	while (has_minecraft_player_entity_id(player.entity_id, player_manager)) {
@@ -181,4 +182,21 @@ void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *c
 	free(streams);
 	send_chunks(resources->block_states, player, connection, server);
 	send_play_status(PLAY_STATUS_PLAYER_SPAWN, connection, server);
+	player->spawned = 1;
+}
+
+void handle_packet_move_player(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
+{
+	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
+	packet_move_player_t move_player = get_packet_move_player(stream);
+	if (player->spawned == 1) {
+		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
+			send_chunks(resources->block_states, player, connection, server);
+		}
+	}
+	player->x = move_player.position_x;
+	player->y = move_player.position_y;
+	player->z = move_player.position_z;
+	player->pitch = move_player.pitch;
+	player->yaw = move_player.yaw;
 }

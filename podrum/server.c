@@ -223,6 +223,8 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 				handle_packet_interact((&(game.streams[i])), connection, server, &player_manager);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_CONTAINER_CLOSE) {
 				handle_packet_window_close((&(game.streams[i])), connection, server);
+			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_MOVE_PLAYER) {
+				handle_packet_move_player((&(game.streams[i])), connection, server, &player_manager, &resources);
 			}
 			free(game.streams[i].buffer);
 		}

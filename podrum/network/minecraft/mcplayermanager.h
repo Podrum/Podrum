@@ -26,6 +26,7 @@ typedef struct {
 	float yaw;
 	int32_t gamemode;
 	int32_t view_distance;
+	uint8_t spawned;
 } minecraft_player_t;
 
 typedef struct {
