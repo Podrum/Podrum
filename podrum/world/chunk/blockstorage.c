@@ -14,6 +14,7 @@ block_storage_t new_block_storage(int32_t runtime_id)
 {
 	block_storage_t block_storage;
 	int i;
+	block_storage.blocks = (uint32_t *) malloc(BLOCK_STORAGE_BLOCKS_SIZE * sizeof(uint32_t));
 	for (i = 0; i < 4096; ++i) {
 		block_storage.blocks[i] = 0;
 	}

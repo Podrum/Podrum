@@ -12,9 +12,10 @@
 #include <stdint.h>
 
 #define BLOCK_STORAGE_EMPTY -1
+#define BLOCK_STORAGE_BLOCKS_SIZE 4096
 
 typedef struct {
-	uint32_t blocks[4096];
+	uint32_t *blocks;
 	int32_t palette_size;
 	int32_t *palette;
 } block_storage_t;

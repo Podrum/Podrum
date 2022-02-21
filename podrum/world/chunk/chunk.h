@@ -12,12 +12,13 @@
 #include <podrum/world/chunk/subchunk.h>
 
 #define CHUNK_EMPTY -3
+#define CHUNK_SUB_CHUNK_SIZE 25
 
 typedef struct {
 	int32_t x;
 	int32_t z;
-	sub_chunk_t sub_chunks[25];
-	block_storage_t biomes[25];
+	sub_chunk_t *sub_chunks;
+	block_storage_t *biomes;
 } chunk_t;
 
 chunk_t new_chunk(int32_t x, int32_t z, int32_t air_runtime_id);
