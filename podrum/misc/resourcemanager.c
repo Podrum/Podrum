@@ -63,7 +63,7 @@ resources_t get_resources()
 	}
 	destroy_json_root(json_root);
 	log_success("Loaded Item States");
-	binary_stream_t block_states_stream = read_file("./resource/canonical_block_states.nbt");
+	binary_stream_t block_states_stream = read_file("./resource/block_states.nbt");
 	nbt_compound_t block_states_compound = get_misc_nbt_tag(&block_states_stream);
 	free(block_states_stream.buffer);
 	resources.block_states.size = block_states_compound.size;
