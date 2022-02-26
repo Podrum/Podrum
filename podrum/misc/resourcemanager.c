@@ -40,22 +40,23 @@ resources_t get_resources()
 	resources.entity_identifiers = get_misc_nbt_tag(&entity_identifiers_stream);
 	free(entity_identifiers_stream.buffer);
 	log_success("Loaded Entity Identifiers");
-	binary_stream_t item_states_stream = read_file("./resource/required_item_list.json");
+	binary_stream_t item_states_stream = read_file("./resource/item_states.json");
 	put_unsigned_byte(0, &item_states_stream);
 	json_input_t json_input;
 	json_input.json = (char *) item_states_stream.buffer;
 	json_input.offset = 0;
 	json_root_t json_root = parse_json_root(&json_input);
 	free(item_states_stream.buffer);
-	resources.item_states.size = json_root.entry.json_object.size;
+	resources.item_states.size = json_root.entry.json_array.size;
 	resources.item_states.entries = (misc_item_state_t *) malloc(resources.item_states.size * sizeof(misc_item_state_t));
 	size_t i;
 	for (i = 0; i < resources.item_states.size; ++i) {
-		json_object_t json_object = json_root.entry.json_object.members[i].json_object;
+		json_object_t json_object = json_root.entry.json_array.members[i].json_object;
 		misc_item_state_t item_state;
-		size_t size = strlen(json_root.entry.json_object.keys[i]) + 1;
+		char *name = get_json_object_value("name", json_object).entry.json_string;
+		size_t size = strlen(name) + 1;
 		item_state.name = (char *) malloc(size);
-		memcpy(item_state.name, json_root.entry.json_object.keys[i], size);
+		memcpy(item_state.name, name, size);
 		item_state.runtime_id = get_json_object_value("runtime_id", json_object).entry.json_number.number.int_number;
 		item_state.component_based = get_json_object_value("component_based", json_object).entry.json_bool;
 		resources.item_states.entries[i] = item_state;
