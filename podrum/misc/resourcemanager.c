@@ -32,11 +32,11 @@ resources_t get_resources()
 {
 	log_info("Loading resources...");
 	resources_t resources;
-	binary_stream_t biome_definitions_stream = read_file("./resource/biome_definitions.nbt");
+	binary_stream_t biome_definitions_stream = read_file("./resource/biome_definition_list.nbt");
 	resources.biome_definitions = get_misc_nbt_tag(&biome_definitions_stream);
 	free(biome_definitions_stream.buffer);
 	log_success("Loaded Biome Definitions");
-	binary_stream_t entity_identifiers_stream = read_file("./resource/entity_identifiers.nbt");
+	binary_stream_t entity_identifiers_stream = read_file("./resource/available_entity_identifiers.nbt");
 	resources.entity_identifiers = get_misc_nbt_tag(&entity_identifiers_stream);
 	free(entity_identifiers_stream.buffer);
 	log_success("Loaded Entity Identifiers");
