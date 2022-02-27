@@ -75,6 +75,12 @@ union _nbt_multi {
 	nbt_compound_t compound_tag;
 };
 
+typedef struct {
+	char *name;
+	int8_t tag_id;
+	nbt_multi_t data;
+} nbt_named_t;
+
 int8_t get_nbt_byte_tag(binary_stream_t *stream);
 
 int16_t get_nbt_short_tag(uint8_t endianess, binary_stream_t *stream);
@@ -100,6 +106,8 @@ nbt_compound_t get_nbt_compound_tag(uint8_t endianess, binary_stream_t *stream);
 nbt_int_array_t get_nbt_int_array_tag(uint8_t endianess, binary_stream_t *stream);
 
 nbt_long_array_t get_nbt_long_array_tag(uint8_t endianess, binary_stream_t *stream);
+
+nbt_named_t get_nbt_named_tag(uint8_t endianess, binary_stream_t *stream);
 
 void put_nbt_byte_tag(int8_t value, binary_stream_t *stream);
 
@@ -127,8 +135,12 @@ void put_nbt_int_array_tag(nbt_int_array_t value, uint8_t endianess, binary_stre
 
 void put_nbt_long_array_tag(nbt_long_array_t value, uint8_t endianess, binary_stream_t *stream);
 
+void put_nbt_named_tag(nbt_named_t value, uint8_t endianess, binary_stream_t *stream);
+
 void destroy_nbt_list(nbt_list_t value);
 
 void destroy_nbt_compound(nbt_compound_t value);
+
+void destroy_nbt_named(nbt_named_t value);
 
 #endif

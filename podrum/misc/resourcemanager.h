@@ -15,8 +15,8 @@
 #include <podrum/network/minecraft/mcmapping.h>
 
 typedef struct {
-	nbt_compound_t biome_definitions;
-	nbt_compound_t entity_identifiers;
+	nbt_named_t biome_definitions;
+	nbt_named_t entity_identifiers;
 	misc_item_states_t item_states;
 	mapping_block_states_t block_states;
 	mapping_creative_items_t creative_items;

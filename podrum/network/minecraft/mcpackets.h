@@ -174,11 +174,11 @@ typedef struct {
 } packet_start_game_t;
 
 typedef struct {
-	nbt_compound_t nbt;
+	nbt_named_t nbt;
 } packet_biome_definition_list_t;
 
 typedef struct {
-	nbt_compound_t nbt;
+	nbt_named_t nbt;
 } packet_available_entity_identifiers_t;
 
 typedef struct {

@@ -29,6 +29,7 @@ binary_stream_t read_file(char *path)
 }
 
 resources_t get_resources()
+
 {
 	log_info("Loading resources...");
 	resources_t resources;
@@ -64,7 +65,7 @@ resources_t get_resources()
 	destroy_json_root(json_root);
 	log_success("Loaded Item States");
 	binary_stream_t block_states_stream = read_file("./resource/block_states.nbt");
-	nbt_compound_t block_states_compound = get_misc_nbt_tag(&block_states_stream);
+	nbt_compound_t block_states_compound = get_nbt_compound_tag(E_NETWORK_ENDIAN, &block_states_stream);
 	free(block_states_stream.buffer);
 	resources.block_states.size = block_states_compound.size;
 	resources.block_states.entries = (mapping_block_state_t *) malloc(resources.block_states.size * sizeof(mapping_block_state_t));
@@ -167,8 +168,8 @@ resources_t get_resources()
 
 void destroy_resources(resources_t resources)
 {
-	destroy_nbt_compound(resources.biome_definitions);
-	destroy_nbt_compound(resources.entity_identifiers);
+	destroy_nbt_named(resources.biome_definitions);
+	destroy_nbt_named(resources.entity_identifiers);
 	size_t i;
 	for (i = 0; i < resources.item_states.size; ++i) {
 		free(resources.item_states.entries[i].name);
@@ -180,7 +181,7 @@ void destroy_resources(resources_t resources)
 	free(resources.block_states.entries);
 	for (i = 0; i < resources.creative_items.size; ++i) {
 		if (resources.creative_items.entries[i].extra.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
-			destroy_nbt_compound(resources.creative_items.entries[i].extra.nbt);
+			destroy_nbt_named(resources.creative_items.entries[i].extra.nbt);
 		}
 	}
 	free(resources.creative_items.entries);

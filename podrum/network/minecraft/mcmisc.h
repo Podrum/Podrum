@@ -200,7 +200,7 @@ typedef struct {
 
 typedef struct {
 	char *name;
-	nbt_compound_t nbt;
+	nbt_named_t nbt;
 } misc_block_property_t;
 
 typedef struct {
@@ -211,7 +211,7 @@ typedef struct {
 typedef struct {
 	uint16_t with_nbt;
 	uint8_t nbt_version;
-	nbt_compound_t nbt;
+	nbt_named_t nbt;
 	int32_t can_place_on_size;
 	binary_stream_t *can_place_on;
 	int32_t can_destroy_size;
@@ -263,9 +263,9 @@ misc_item_states_t get_misc_item_states(binary_stream_t *stream);
 
 misc_block_properties_t get_misc_block_properties(binary_stream_t *stream);
 
-nbt_compound_t get_misc_nbt_tag(binary_stream_t *stream);
+nbt_named_t get_misc_nbt_tag(binary_stream_t *stream);
 
-nbt_compound_t get_misc_lnbt_tag(binary_stream_t *stream);
+nbt_named_t get_misc_lnbt_tag(binary_stream_t *stream);
 
 misc_item_extra_data_t get_misc_item_extra_data(uint8_t has_blocking_tick, binary_stream_t *stream);
 
@@ -305,9 +305,9 @@ void put_misc_item_states(misc_item_states_t value, binary_stream_t *stream);
 
 void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *stream);
 
-void put_misc_nbt_tag(nbt_compound_t value, binary_stream_t *stream);
+void put_misc_nbt_tag(nbt_named_t value, binary_stream_t *stream);
 
-void put_misc_lnbt_tag(nbt_compound_t value, binary_stream_t *stream);
+void put_misc_lnbt_tag(nbt_named_t value, binary_stream_t *stream);
 
 void put_misc_item_extra_data(misc_item_extra_data_t value, uint8_t has_blocking_tick, binary_stream_t *stream);
 

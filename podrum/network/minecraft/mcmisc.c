@@ -225,14 +225,14 @@ misc_block_properties_t get_misc_block_properties(binary_stream_t *stream)
 	return block_properties;
 }
 
-nbt_compound_t get_misc_nbt_tag(binary_stream_t *stream)
+nbt_named_t get_misc_nbt_tag(binary_stream_t *stream)
 {
-	return get_nbt_compound_tag(E_NETWORK_ENDIAN, stream);
+	return get_nbt_named_tag(E_NETWORK_ENDIAN, stream);
 }
 
-nbt_compound_t get_misc_lnbt_tag(binary_stream_t *stream)
+nbt_named_t get_misc_lnbt_tag(binary_stream_t *stream)
 {
-	return get_nbt_compound_tag(E_LITTLE_ENDIAN, stream);
+	return get_nbt_named_tag(E_LITTLE_ENDIAN, stream);
 }
 
 misc_item_extra_data_t get_misc_item_extra_data(uint8_t has_blocking_tick, binary_stream_t *stream)
@@ -443,14 +443,14 @@ void put_misc_block_properties(misc_block_properties_t value, binary_stream_t *s
 	}
 }
 
-void put_misc_nbt_tag(nbt_compound_t value, binary_stream_t *stream)
+void put_misc_nbt_tag(nbt_named_t value, binary_stream_t *stream)
 {
-	put_nbt_compound_tag(value, E_NETWORK_ENDIAN, stream);
+	put_nbt_named_tag(value, E_NETWORK_ENDIAN, stream);
 }
 
-void put_misc_lnbt_tag(nbt_compound_t value, binary_stream_t *stream)
+void put_misc_lnbt_tag(nbt_named_t value, binary_stream_t *stream)
 {
-	put_nbt_compound_tag(value, E_LITTLE_ENDIAN, stream);
+	put_nbt_named_tag(value, E_LITTLE_ENDIAN, stream);
 }
 
 void put_misc_item_extra_data(misc_item_extra_data_t value, uint8_t has_blocking_tick, binary_stream_t *stream)
