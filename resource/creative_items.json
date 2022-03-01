@@ -1,0 +1,5207 @@
+[
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5800
+    },
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5801
+    },
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5802
+    },
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5803
+    },
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5804
+    },
+    {
+        "name": "minecraft:planks",
+        "block_runtime_id": 5805
+    },
+    {
+        "name": "minecraft:crimson_planks",
+        "block_runtime_id": 3840
+    },
+    {
+        "name": "minecraft:warped_planks",
+        "block_runtime_id": 7596
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1319
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1320
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1321
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1322
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1323
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1324
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1331
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1326
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1327
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1325
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1328
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1332
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1329
+    },
+    {
+        "name": "minecraft:cobblestone_wall",
+        "block_runtime_id": 1330
+    },
+    {
+        "name": "minecraft:blackstone_wall",
+        "block_runtime_id": 507
+    },
+    {
+        "name": "minecraft:polished_blackstone_wall",
+        "block_runtime_id": 6044
+    },
+    {
+        "name": "minecraft:polished_blackstone_brick_wall",
+        "block_runtime_id": 5841
+    },
+    {
+        "name": "minecraft:cobbled_deepslate_wall",
+        "block_runtime_id": 1156
+    },
+    {
+        "name": "minecraft:deepslate_tile_wall",
+        "block_runtime_id": 4298
+    },
+    {
+        "name": "minecraft:polished_deepslate_wall",
+        "block_runtime_id": 6219
+    },
+    {
+        "name": "minecraft:deepslate_brick_wall",
+        "block_runtime_id": 4115
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4774
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4775
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4776
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4777
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4778
+    },
+    {
+        "name": "minecraft:fence",
+        "block_runtime_id": 4779
+    },
+    {
+        "name": "minecraft:nether_brick_fence",
+        "block_runtime_id": 5690
+    },
+    {
+        "name": "minecraft:crimson_fence",
+        "block_runtime_id": 3818
+    },
+    {
+        "name": "minecraft:warped_fence",
+        "block_runtime_id": 7574
+    },
+    {
+        "name": "minecraft:fence_gate",
+        "block_runtime_id": 4780
+    },
+    {
+        "name": "minecraft:spruce_fence_gate",
+        "block_runtime_id": 7007
+    },
+    {
+        "name": "minecraft:birch_fence_gate",
+        "block_runtime_id": 400
+    },
+    {
+        "name": "minecraft:jungle_fence_gate",
+        "block_runtime_id": 5254
+    },
+    {
+        "name": "minecraft:acacia_fence_gate",
+        "block_runtime_id": 44
+    },
+    {
+        "name": "minecraft:dark_oak_fence_gate",
+        "block_runtime_id": 3981
+    },
+    {
+        "name": "minecraft:crimson_fence_gate",
+        "block_runtime_id": 3819
+    },
+    {
+        "name": "minecraft:warped_fence_gate",
+        "block_runtime_id": 7575
+    },
+    {
+        "name": "minecraft:normal_stone_stairs",
+        "block_runtime_id": 5709
+    },
+    {
+        "name": "minecraft:stone_stairs",
+        "block_runtime_id": 7278
+    },
+    {
+        "name": "minecraft:mossy_cobblestone_stairs",
+        "block_runtime_id": 5669
+    },
+    {
+        "name": "minecraft:oak_stairs",
+        "block_runtime_id": 5718
+    },
+    {
+        "name": "minecraft:spruce_stairs",
+        "block_runtime_id": 7039
+    },
+    {
+        "name": "minecraft:birch_stairs",
+        "block_runtime_id": 432
+    },
+    {
+        "name": "minecraft:jungle_stairs",
+        "block_runtime_id": 5286
+    },
+    {
+        "name": "minecraft:acacia_stairs",
+        "block_runtime_id": 76
+    },
+    {
+        "name": "minecraft:dark_oak_stairs",
+        "block_runtime_id": 4013
+    },
+    {
+        "name": "minecraft:stone_brick_stairs",
+        "block_runtime_id": 7184
+    },
+    {
+        "name": "minecraft:mossy_stone_brick_stairs",
+        "block_runtime_id": 5677
+    },
+    {
+        "name": "minecraft:sandstone_stairs",
+        "block_runtime_id": 6713
+    },
+    {
+        "name": "minecraft:smooth_sandstone_stairs",
+        "block_runtime_id": 6900
+    },
+    {
+        "name": "minecraft:red_sandstone_stairs",
+        "block_runtime_id": 6640
+    },
+    {
+        "name": "minecraft:smooth_red_sandstone_stairs",
+        "block_runtime_id": 6892
+    },
+    {
+        "name": "minecraft:granite_stairs",
+        "block_runtime_id": 4990
+    },
+    {
+        "name": "minecraft:polished_granite_stairs",
+        "block_runtime_id": 6389
+    },
+    {
+        "name": "minecraft:diorite_stairs",
+        "block_runtime_id": 4476
+    },
+    {
+        "name": "minecraft:polished_diorite_stairs",
+        "block_runtime_id": 6381
+    },
+    {
+        "name": "minecraft:andesite_stairs",
+        "block_runtime_id": 144
+    },
+    {
+        "name": "minecraft:polished_andesite_stairs",
+        "block_runtime_id": 5817
+    },
+    {
+        "name": "minecraft:brick_stairs",
+        "block_runtime_id": 876
+    },
+    {
+        "name": "minecraft:nether_brick_stairs",
+        "block_runtime_id": 5691
+    },
+    {
+        "name": "minecraft:red_nether_brick_stairs",
+        "block_runtime_id": 6628
+    },
+    {
+        "name": "minecraft:end_brick_stairs",
+        "block_runtime_id": 4720
+    },
+    {
+        "name": "minecraft:quartz_stairs",
+        "block_runtime_id": 6562
+    },
+    {
+        "name": "minecraft:smooth_quartz_stairs",
+        "block_runtime_id": 6884
+    },
+    {
+        "name": "minecraft:purpur_stairs",
+        "block_runtime_id": 6540
+    },
+    {
+        "name": "minecraft:prismarine_stairs",
+        "block_runtime_id": 6452
+    },
+    {
+        "name": "minecraft:dark_prismarine_stairs",
+        "block_runtime_id": 4037
+    },
+    {
+        "name": "minecraft:prismarine_bricks_stairs",
+        "block_runtime_id": 6444
+    },
+    {
+        "name": "minecraft:crimson_stairs",
+        "block_runtime_id": 3860
+    },
+    {
+        "name": "minecraft:warped_stairs",
+        "block_runtime_id": 7616
+    },
+    {
+        "name": "minecraft:blackstone_stairs",
+        "block_runtime_id": 499
+    },
+    {
+        "name": "minecraft:polished_blackstone_stairs",
+        "block_runtime_id": 6036
+    },
+    {
+        "name": "minecraft:polished_blackstone_brick_stairs",
+        "block_runtime_id": 5833
+    },
+    {
+        "name": "minecraft:cut_copper_stairs",
+        "block_runtime_id": 3913
+    },
+    {
+        "name": "minecraft:exposed_cut_copper_stairs",
+        "block_runtime_id": 4756
+    },
+    {
+        "name": "minecraft:weathered_cut_copper_stairs",
+        "block_runtime_id": 7743
+    },
+    {
+        "name": "minecraft:oxidized_cut_copper_stairs",
+        "block_runtime_id": 5760
+    },
+    {
+        "name": "minecraft:waxed_cut_copper_stairs",
+        "block_runtime_id": 7687
+    },
+    {
+        "name": "minecraft:waxed_exposed_cut_copper_stairs",
+        "block_runtime_id": 7701
+    },
+    {
+        "name": "minecraft:waxed_weathered_cut_copper_stairs",
+        "block_runtime_id": 7729
+    },
+    {
+        "name": "minecraft:waxed_oxidized_cut_copper_stairs",
+        "block_runtime_id": 7715
+    },
+    {
+        "name": "minecraft:cobbled_deepslate_stairs",
+        "block_runtime_id": 1148
+    },
+    {
+        "name": "minecraft:deepslate_tile_stairs",
+        "block_runtime_id": 4290
+    },
+    {
+        "name": "minecraft:polished_deepslate_stairs",
+        "block_runtime_id": 6211
+    },
+    {
+        "name": "minecraft:deepslate_brick_stairs",
+        "block_runtime_id": 4107
+    },
+    {
+        "name": "minecraft:wooden_door"
+    },
+    {
+        "name": "minecraft:spruce_door"
+    },
+    {
+        "name": "minecraft:birch_door"
+    },
+    {
+        "name": "minecraft:jungle_door"
+    },
+    {
+        "name": "minecraft:acacia_door"
+    },
+    {
+        "name": "minecraft:dark_oak_door"
+    },
+    {
+        "name": "minecraft:iron_door"
+    },
+    {
+        "name": "minecraft:crimson_door"
+    },
+    {
+        "name": "minecraft:warped_door"
+    },
+    {
+        "name": "minecraft:trapdoor",
+        "block_runtime_id": 7360
+    },
+    {
+        "name": "minecraft:spruce_trapdoor",
+        "block_runtime_id": 7063
+    },
+    {
+        "name": "minecraft:birch_trapdoor",
+        "block_runtime_id": 456
+    },
+    {
+        "name": "minecraft:jungle_trapdoor",
+        "block_runtime_id": 5310
+    },
+    {
+        "name": "minecraft:acacia_trapdoor",
+        "block_runtime_id": 100
+    },
+    {
+        "name": "minecraft:dark_oak_trapdoor",
+        "block_runtime_id": 4021
+    },
+    {
+        "name": "minecraft:iron_trapdoor",
+        "block_runtime_id": 5169
+    },
+    {
+        "name": "minecraft:crimson_trapdoor",
+        "block_runtime_id": 3887
+    },
+    {
+        "name": "minecraft:warped_trapdoor",
+        "block_runtime_id": 7643
+    },
+    {
+        "name": "minecraft:iron_bars",
+        "block_runtime_id": 5134
+    },
+    {
+        "name": "minecraft:glass",
+        "block_runtime_id": 4884
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7085
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7093
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7092
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7100
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7097
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7099
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7086
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7089
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7090
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7098
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7094
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7088
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7096
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7095
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7087
+    },
+    {
+        "name": "minecraft:stained_glass",
+        "block_runtime_id": 7091
+    },
+    {
+        "name": "minecraft:tinted_glass",
+        "block_runtime_id": 7349
+    },
+    {
+        "name": "minecraft:glass_pane",
+        "block_runtime_id": 4885
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7101
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7109
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7108
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7116
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7113
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7115
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7102
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7105
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7106
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7114
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7110
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7104
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7112
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7111
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7103
+    },
+    {
+        "name": "minecraft:stained_glass_pane",
+        "block_runtime_id": 7107
+    },
+    {
+        "name": "minecraft:ladder",
+        "block_runtime_id": 5358
+    },
+    {
+        "name": "minecraft:scaffolding",
+        "block_runtime_id": 6733
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7220
+    },
+    {
+        "name": "minecraft:double_stone_slab4",
+        "block_runtime_id": 7270
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7223
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7241
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7901
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7902
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7903
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7904
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7905
+    },
+    {
+        "name": "minecraft:wooden_slab",
+        "block_runtime_id": 7906
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7225
+    },
+    {
+        "name": "minecraft:double_stone_slab4",
+        "block_runtime_id": 7268
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7221
+    },
+    {
+        "name": "minecraft:double_stone_slab4",
+        "block_runtime_id": 7271
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7242
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7236
+    },
+    {
+        "name": "minecraft:double_stone_slab4",
+        "block_runtime_id": 7272
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7253
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7258
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7259
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7256
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7257
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7255
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7254
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7224
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7227
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7243
+    },
+    {
+        "name": "minecraft:double_stone_slab3",
+        "block_runtime_id": 7252
+    },
+    {
+        "name": "minecraft:double_stone_slab",
+        "block_runtime_id": 7226
+    },
+    {
+        "name": "minecraft:double_stone_slab4",
+        "block_runtime_id": 7269
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7237
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7238
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7239
+    },
+    {
+        "name": "minecraft:double_stone_slab2",
+        "block_runtime_id": 7240
+    },
+    {
+        "name": "minecraft:crimson_slab",
+        "block_runtime_id": 3858
+    },
+    {
+        "name": "minecraft:warped_slab",
+        "block_runtime_id": 7614
+    },
+    {
+        "name": "minecraft:blackstone_slab",
+        "block_runtime_id": 497
+    },
+    {
+        "name": "minecraft:polished_blackstone_slab",
+        "block_runtime_id": 6034
+    },
+    {
+        "name": "minecraft:polished_blackstone_brick_slab",
+        "block_runtime_id": 5831
+    },
+    {
+        "name": "minecraft:cut_copper_slab",
+        "block_runtime_id": 3911
+    },
+    {
+        "name": "minecraft:exposed_cut_copper_slab",
+        "block_runtime_id": 4754
+    },
+    {
+        "name": "minecraft:weathered_cut_copper_slab",
+        "block_runtime_id": 7741
+    },
+    {
+        "name": "minecraft:oxidized_cut_copper_slab",
+        "block_runtime_id": 5758
+    },
+    {
+        "name": "minecraft:waxed_cut_copper_slab",
+        "block_runtime_id": 7685
+    },
+    {
+        "name": "minecraft:waxed_exposed_cut_copper_slab",
+        "block_runtime_id": 7699
+    },
+    {
+        "name": "minecraft:waxed_weathered_cut_copper_slab",
+        "block_runtime_id": 7727
+    },
+    {
+        "name": "minecraft:waxed_oxidized_cut_copper_slab",
+        "block_runtime_id": 7713
+    },
+    {
+        "name": "minecraft:cobbled_deepslate_slab",
+        "block_runtime_id": 1146
+    },
+    {
+        "name": "minecraft:polished_deepslate_slab",
+        "block_runtime_id": 6209
+    },
+    {
+        "name": "minecraft:deepslate_tile_slab",
+        "block_runtime_id": 4288
+    },
+    {
+        "name": "minecraft:deepslate_brick_slab",
+        "block_runtime_id": 4105
+    },
+    {
+        "name": "minecraft:brick_block",
+        "block_runtime_id": 875
+    },
+    {
+        "name": "minecraft:chiseled_nether_bricks",
+        "block_runtime_id": 1130
+    },
+    {
+        "name": "minecraft:cracked_nether_bricks",
+        "block_runtime_id": 3769
+    },
+    {
+        "name": "minecraft:quartz_bricks",
+        "block_runtime_id": 6560
+    },
+    {
+        "name": "minecraft:stonebrick",
+        "block_runtime_id": 7286
+    },
+    {
+        "name": "minecraft:stonebrick",
+        "block_runtime_id": 7287
+    },
+    {
+        "name": "minecraft:stonebrick",
+        "block_runtime_id": 7288
+    },
+    {
+        "name": "minecraft:stonebrick",
+        "block_runtime_id": 7289
+    },
+    {
+        "name": "minecraft:end_bricks",
+        "block_runtime_id": 4728
+    },
+    {
+        "name": "minecraft:prismarine",
+        "block_runtime_id": 6443
+    },
+    {
+        "name": "minecraft:polished_blackstone_bricks",
+        "block_runtime_id": 6003
+    },
+    {
+        "name": "minecraft:cracked_polished_blackstone_bricks",
+        "block_runtime_id": 3770
+    },
+    {
+        "name": "minecraft:gilded_blackstone",
+        "block_runtime_id": 4883
+    },
+    {
+        "name": "minecraft:chiseled_polished_blackstone",
+        "block_runtime_id": 1131
+    },
+    {
+        "name": "minecraft:deepslate_tiles",
+        "block_runtime_id": 4460
+    },
+    {
+        "name": "minecraft:cracked_deepslate_tiles",
+        "block_runtime_id": 3768
+    },
+    {
+        "name": "minecraft:deepslate_bricks",
+        "block_runtime_id": 4277
+    },
+    {
+        "name": "minecraft:cracked_deepslate_bricks",
+        "block_runtime_id": 3767
+    },
+    {
+        "name": "minecraft:chiseled_deepslate",
+        "block_runtime_id": 1129
+    },
+    {
+        "name": "minecraft:cobblestone",
+        "block_runtime_id": 1318
+    },
+    {
+        "name": "minecraft:mossy_cobblestone",
+        "block_runtime_id": 5668
+    },
+    {
+        "name": "minecraft:cobbled_deepslate",
+        "block_runtime_id": 1143
+    },
+    {
+        "name": "minecraft:smooth_stone",
+        "block_runtime_id": 6908
+    },
+    {
+        "name": "minecraft:sandstone",
+        "block_runtime_id": 6709
+    },
+    {
+        "name": "minecraft:sandstone",
+        "block_runtime_id": 6710
+    },
+    {
+        "name": "minecraft:sandstone",
+        "block_runtime_id": 6711
+    },
+    {
+        "name": "minecraft:sandstone",
+        "block_runtime_id": 6712
+    },
+    {
+        "name": "minecraft:red_sandstone",
+        "block_runtime_id": 6636
+    },
+    {
+        "name": "minecraft:red_sandstone",
+        "block_runtime_id": 6637
+    },
+    {
+        "name": "minecraft:red_sandstone",
+        "block_runtime_id": 6638
+    },
+    {
+        "name": "minecraft:red_sandstone",
+        "block_runtime_id": 6639
+    },
+    {
+        "name": "minecraft:coal_block",
+        "block_runtime_id": 1141
+    },
+    {
+        "name": "minecraft:dried_kelp_block",
+        "block_runtime_id": 4584
+    },
+    {
+        "name": "minecraft:gold_block",
+        "block_runtime_id": 4976
+    },
+    {
+        "name": "minecraft:iron_block",
+        "block_runtime_id": 5135
+    },
+    {
+        "name": "minecraft:copper_block",
+        "block_runtime_id": 3677
+    },
+    {
+        "name": "minecraft:exposed_copper",
+        "block_runtime_id": 4752
+    },
+    {
+        "name": "minecraft:weathered_copper",
+        "block_runtime_id": 7739
+    },
+    {
+        "name": "minecraft:oxidized_copper",
+        "block_runtime_id": 5756
+    },
+    {
+        "name": "minecraft:waxed_copper",
+        "block_runtime_id": 7683
+    },
+    {
+        "name": "minecraft:waxed_exposed_copper",
+        "block_runtime_id": 7697
+    },
+    {
+        "name": "minecraft:waxed_weathered_copper",
+        "block_runtime_id": 7725
+    },
+    {
+        "name": "minecraft:waxed_oxidized_copper",
+        "block_runtime_id": 7711
+    },
+    {
+        "name": "minecraft:cut_copper",
+        "block_runtime_id": 3910
+    },
+    {
+        "name": "minecraft:exposed_cut_copper",
+        "block_runtime_id": 4753
+    },
+    {
+        "name": "minecraft:weathered_cut_copper",
+        "block_runtime_id": 7740
+    },
+    {
+        "name": "minecraft:oxidized_cut_copper",
+        "block_runtime_id": 5757
+    },
+    {
+        "name": "minecraft:waxed_cut_copper",
+        "block_runtime_id": 7684
+    },
+    {
+        "name": "minecraft:waxed_exposed_cut_copper",
+        "block_runtime_id": 7698
+    },
+    {
+        "name": "minecraft:waxed_weathered_cut_copper",
+        "block_runtime_id": 7726
+    },
+    {
+        "name": "minecraft:waxed_oxidized_cut_copper",
+        "block_runtime_id": 7712
+    },
+    {
+        "name": "minecraft:emerald_block",
+        "block_runtime_id": 4717
+    },
+    {
+        "name": "minecraft:diamond_block",
+        "block_runtime_id": 4474
+    },
+    {
+        "name": "minecraft:lapis_block",
+        "block_runtime_id": 5366
+    },
+    {
+        "name": "minecraft:raw_iron_block",
+        "block_runtime_id": 6582
+    },
+    {
+        "name": "minecraft:raw_copper_block",
+        "block_runtime_id": 6580
+    },
+    {
+        "name": "minecraft:raw_gold_block",
+        "block_runtime_id": 6581
+    },
+    {
+        "name": "minecraft:quartz_block",
+        "block_runtime_id": 6548
+    },
+    {
+        "name": "minecraft:quartz_block",
+        "block_runtime_id": 6550
+    },
+    {
+        "name": "minecraft:quartz_block",
+        "block_runtime_id": 6549
+    },
+    {
+        "name": "minecraft:quartz_block",
+        "block_runtime_id": 6551
+    },
+    {
+        "name": "minecraft:prismarine",
+        "block_runtime_id": 6441
+    },
+    {
+        "name": "minecraft:prismarine",
+        "block_runtime_id": 6442
+    },
+    {
+        "name": "minecraft:slime",
+        "block_runtime_id": 6861
+    },
+    {
+        "name": "minecraft:honey_block",
+        "block_runtime_id": 5113
+    },
+    {
+        "name": "minecraft:honeycomb_block",
+        "block_runtime_id": 5114
+    },
+    {
+        "name": "minecraft:hay_block",
+        "block_runtime_id": 5085
+    },
+    {
+        "name": "minecraft:bone_block",
+        "block_runtime_id": 692
+    },
+    {
+        "name": "minecraft:nether_brick",
+        "block_runtime_id": 5689
+    },
+    {
+        "name": "minecraft:red_nether_brick",
+        "block_runtime_id": 6627
+    },
+    {
+        "name": "minecraft:netherite_block",
+        "block_runtime_id": 5706
+    },
+    {
+        "name": "minecraft:lodestone",
+        "block_runtime_id": 5564
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7913
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7921
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7920
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7928
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7925
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7927
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7914
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7917
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7918
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7926
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7922
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7916
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7924
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7923
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7915
+    },
+    {
+        "name": "minecraft:wool",
+        "block_runtime_id": 7919
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 963
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 971
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 970
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 978
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 975
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 977
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 964
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 967
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 968
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 976
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 972
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 966
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 974
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 973
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 965
+    },
+    {
+        "name": "minecraft:carpet",
+        "block_runtime_id": 969
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3660
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3668
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3667
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3675
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3672
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3674
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3661
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3664
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3665
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3673
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3669
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3663
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3671
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3670
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3662
+    },
+    {
+        "name": "minecraft:concrete_powder",
+        "block_runtime_id": 3666
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3644
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3652
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3651
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3659
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3656
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3658
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3645
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3648
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3649
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3657
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3653
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3647
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3655
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3654
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3646
+    },
+    {
+        "name": "minecraft:concrete",
+        "block_runtime_id": 3650
+    },
+    {
+        "name": "minecraft:clay",
+        "block_runtime_id": 1139
+    },
+    {
+        "name": "minecraft:hardened_clay",
+        "block_runtime_id": 5084
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7117
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7125
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7124
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7132
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7129
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7131
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7118
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7121
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7122
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7130
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7126
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7120
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7128
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7127
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7119
+    },
+    {
+        "name": "minecraft:stained_hardened_clay",
+        "block_runtime_id": 7123
+    },
+    {
+        "name": "minecraft:white_glazed_terracotta",
+        "block_runtime_id": 7798
+    },
+    {
+        "name": "minecraft:silver_glazed_terracotta",
+        "block_runtime_id": 6849
+    },
+    {
+        "name": "minecraft:gray_glazed_terracotta",
+        "block_runtime_id": 5011
+    },
+    {
+        "name": "minecraft:black_glazed_terracotta",
+        "block_runtime_id": 488
+    },
+    {
+        "name": "minecraft:brown_glazed_terracotta",
+        "block_runtime_id": 894
+    },
+    {
+        "name": "minecraft:red_glazed_terracotta",
+        "block_runtime_id": 6604
+    },
+    {
+        "name": "minecraft:orange_glazed_terracotta",
+        "block_runtime_id": 5750
+    },
+    {
+        "name": "minecraft:yellow_glazed_terracotta",
+        "block_runtime_id": 7940
+    },
+    {
+        "name": "minecraft:lime_glazed_terracotta",
+        "block_runtime_id": 5533
+    },
+    {
+        "name": "minecraft:green_glazed_terracotta",
+        "block_runtime_id": 5027
+    },
+    {
+        "name": "minecraft:cyan_glazed_terracotta",
+        "block_runtime_id": 3931
+    },
+    {
+        "name": "minecraft:light_blue_glazed_terracotta",
+        "block_runtime_id": 5485
+    },
+    {
+        "name": "minecraft:blue_glazed_terracotta",
+        "block_runtime_id": 685
+    },
+    {
+        "name": "minecraft:purple_glazed_terracotta",
+        "block_runtime_id": 6522
+    },
+    {
+        "name": "minecraft:magenta_glazed_terracotta",
+        "block_runtime_id": 5597
+    },
+    {
+        "name": "minecraft:pink_glazed_terracotta",
+        "block_runtime_id": 5782
+    },
+    {
+        "name": "minecraft:purpur_block",
+        "block_runtime_id": 6528
+    },
+    {
+        "name": "minecraft:purpur_block",
+        "block_runtime_id": 6530
+    },
+    {
+        "name": "minecraft:nether_wart_block",
+        "block_runtime_id": 5705
+    },
+    {
+        "name": "minecraft:warped_wart_block",
+        "block_runtime_id": 7665
+    },
+    {
+        "name": "minecraft:shroomlight",
+        "block_runtime_id": 6832
+    },
+    {
+        "name": "minecraft:crimson_nylium",
+        "block_runtime_id": 3839
+    },
+    {
+        "name": "minecraft:warped_nylium",
+        "block_runtime_id": 7595
+    },
+    {
+        "name": "minecraft:basalt",
+        "block_runtime_id": 214
+    },
+    {
+        "name": "minecraft:polished_basalt",
+        "block_runtime_id": 5825
+    },
+    {
+        "name": "minecraft:smooth_basalt",
+        "block_runtime_id": 6883
+    },
+    {
+        "name": "minecraft:soul_soil",
+        "block_runtime_id": 6953
+    },
+    {
+        "name": "minecraft:dirt",
+        "block_runtime_id": 4484
+    },
+    {
+        "name": "minecraft:dirt",
+        "block_runtime_id": 4485
+    },
+    {
+        "name": "minecraft:farmland",
+        "block_runtime_id": 4766
+    },
+    {
+        "name": "minecraft:grass",
+        "block_runtime_id": 4998
+    },
+    {
+        "name": "minecraft:grass_path",
+        "block_runtime_id": 4999
+    },
+    {
+        "name": "minecraft:podzol",
+        "block_runtime_id": 5806
+    },
+    {
+        "name": "minecraft:mycelium",
+        "block_runtime_id": 5686
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7177
+    },
+    {
+        "name": "minecraft:iron_ore",
+        "block_runtime_id": 5168
+    },
+    {
+        "name": "minecraft:gold_ore",
+        "block_runtime_id": 4977
+    },
+    {
+        "name": "minecraft:diamond_ore",
+        "block_runtime_id": 4475
+    },
+    {
+        "name": "minecraft:lapis_ore",
+        "block_runtime_id": 5367
+    },
+    {
+        "name": "minecraft:redstone_ore",
+        "block_runtime_id": 6650
+    },
+    {
+        "name": "minecraft:coal_ore",
+        "block_runtime_id": 1142
+    },
+    {
+        "name": "minecraft:copper_ore",
+        "block_runtime_id": 3678
+    },
+    {
+        "name": "minecraft:emerald_ore",
+        "block_runtime_id": 4718
+    },
+    {
+        "name": "minecraft:quartz_ore",
+        "block_runtime_id": 6561
+    },
+    {
+        "name": "minecraft:nether_gold_ore",
+        "block_runtime_id": 5699
+    },
+    {
+        "name": "minecraft:ancient_debris",
+        "block_runtime_id": 143
+    },
+    {
+        "name": "minecraft:deepslate_iron_ore",
+        "block_runtime_id": 4283
+    },
+    {
+        "name": "minecraft:deepslate_gold_ore",
+        "block_runtime_id": 4282
+    },
+    {
+        "name": "minecraft:deepslate_diamond_ore",
+        "block_runtime_id": 4280
+    },
+    {
+        "name": "minecraft:deepslate_lapis_ore",
+        "block_runtime_id": 4284
+    },
+    {
+        "name": "minecraft:deepslate_redstone_ore",
+        "block_runtime_id": 4285
+    },
+    {
+        "name": "minecraft:deepslate_emerald_ore",
+        "block_runtime_id": 4281
+    },
+    {
+        "name": "minecraft:deepslate_coal_ore",
+        "block_runtime_id": 4278
+    },
+    {
+        "name": "minecraft:deepslate_copper_ore",
+        "block_runtime_id": 4279
+    },
+    {
+        "name": "minecraft:gravel",
+        "block_runtime_id": 5000
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7178
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7180
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7182
+    },
+    {
+        "name": "minecraft:blackstone",
+        "block_runtime_id": 494
+    },
+    {
+        "name": "minecraft:deepslate",
+        "block_runtime_id": 4100
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7179
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7181
+    },
+    {
+        "name": "minecraft:stone",
+        "block_runtime_id": 7183
+    },
+    {
+        "name": "minecraft:polished_blackstone",
+        "block_runtime_id": 5828
+    },
+    {
+        "name": "minecraft:polished_deepslate",
+        "block_runtime_id": 6206
+    },
+    {
+        "name": "minecraft:sand",
+        "block_runtime_id": 6707
+    },
+    {
+        "name": "minecraft:sand",
+        "block_runtime_id": 6708
+    },
+    {
+        "name": "minecraft:cactus",
+        "block_runtime_id": 920
+    },
+    {
+        "name": "minecraft:log",
+        "block_runtime_id": 5565
+    },
+    {
+        "name": "minecraft:stripped_oak_log",
+        "block_runtime_id": 7316
+    },
+    {
+        "name": "minecraft:log",
+        "block_runtime_id": 5566
+    },
+    {
+        "name": "minecraft:stripped_spruce_log",
+        "block_runtime_id": 7319
+    },
+    {
+        "name": "minecraft:log",
+        "block_runtime_id": 5567
+    },
+    {
+        "name": "minecraft:stripped_birch_log",
+        "block_runtime_id": 7301
+    },
+    {
+        "name": "minecraft:log",
+        "block_runtime_id": 5568
+    },
+    {
+        "name": "minecraft:stripped_jungle_log",
+        "block_runtime_id": 7313
+    },
+    {
+        "name": "minecraft:log2",
+        "block_runtime_id": 5577
+    },
+    {
+        "name": "minecraft:stripped_acacia_log",
+        "block_runtime_id": 7298
+    },
+    {
+        "name": "minecraft:log2",
+        "block_runtime_id": 5578
+    },
+    {
+        "name": "minecraft:stripped_dark_oak_log",
+        "block_runtime_id": 7310
+    },
+    {
+        "name": "minecraft:crimson_stem",
+        "block_runtime_id": 3884
+    },
+    {
+        "name": "minecraft:stripped_crimson_stem",
+        "block_runtime_id": 7307
+    },
+    {
+        "name": "minecraft:warped_stem",
+        "block_runtime_id": 7640
+    },
+    {
+        "name": "minecraft:stripped_warped_stem",
+        "block_runtime_id": 7325
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7805
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7811
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7806
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7812
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7807
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7813
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7808
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7814
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7809
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7815
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7810
+    },
+    {
+        "name": "minecraft:wood",
+        "block_runtime_id": 7816
+    },
+    {
+        "name": "minecraft:crimson_hyphae",
+        "block_runtime_id": 3836
+    },
+    {
+        "name": "minecraft:stripped_crimson_hyphae",
+        "block_runtime_id": 7304
+    },
+    {
+        "name": "minecraft:warped_hyphae",
+        "block_runtime_id": 7592
+    },
+    {
+        "name": "minecraft:stripped_warped_hyphae",
+        "block_runtime_id": 7322
+    },
+    {
+        "name": "minecraft:leaves",
+        "block_runtime_id": 5411
+    },
+    {
+        "name": "minecraft:leaves",
+        "block_runtime_id": 5412
+    },
+    {
+        "name": "minecraft:leaves",
+        "block_runtime_id": 5413
+    },
+    {
+        "name": "minecraft:leaves",
+        "block_runtime_id": 5414
+    },
+    {
+        "name": "minecraft:leaves2",
+        "block_runtime_id": 5427
+    },
+    {
+        "name": "minecraft:leaves2",
+        "block_runtime_id": 5428
+    },
+    {
+        "name": "minecraft:azalea_leaves",
+        "block_runtime_id": 169
+    },
+    {
+        "name": "minecraft:azalea_leaves_flowered",
+        "block_runtime_id": 173
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6721
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6722
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6723
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6724
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6725
+    },
+    {
+        "name": "minecraft:sapling",
+        "block_runtime_id": 6726
+    },
+    {
+        "name": "minecraft:bee_nest",
+        "block_runtime_id": 236
+    },
+    {
+        "name": "minecraft:wheat_seeds"
+    },
+    {
+        "name": "minecraft:pumpkin_seeds"
+    },
+    {
+        "name": "minecraft:melon_seeds"
+    },
+    {
+        "name": "minecraft:beetroot_seeds"
+    },
+    {
+        "name": "minecraft:wheat"
+    },
+    {
+        "name": "minecraft:beetroot"
+    },
+    {
+        "name": "minecraft:potato"
+    },
+    {
+        "name": "minecraft:poisonous_potato"
+    },
+    {
+        "name": "minecraft:carrot"
+    },
+    {
+        "name": "minecraft:golden_carrot"
+    },
+    {
+        "name": "minecraft:apple"
+    },
+    {
+        "name": "minecraft:golden_apple"
+    },
+    {
+        "name": "minecraft:enchanted_golden_apple"
+    },
+    {
+        "name": "minecraft:melon_block",
+        "block_runtime_id": 5610
+    },
+    {
+        "name": "minecraft:melon_slice"
+    },
+    {
+        "name": "minecraft:glistering_melon_slice"
+    },
+    {
+        "name": "minecraft:sweet_berries"
+    },
+    {
+        "name": "minecraft:glow_berries"
+    },
+    {
+        "name": "minecraft:pumpkin",
+        "block_runtime_id": 6460
+    },
+    {
+        "name": "minecraft:carved_pumpkin",
+        "block_runtime_id": 988
+    },
+    {
+        "name": "minecraft:lit_pumpkin",
+        "block_runtime_id": 5552
+    },
+    {
+        "name": "minecraft:honeycomb"
+    },
+    {
+        "name": "minecraft:tallgrass",
+        "block_runtime_id": 7346
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4504
+    },
+    {
+        "name": "minecraft:tallgrass",
+        "block_runtime_id": 7345
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4503
+    },
+    {
+        "name": "minecraft:nether_sprouts"
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3682
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3680
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3681
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3679
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3683
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3687
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3685
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3686
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3684
+    },
+    {
+        "name": "minecraft:coral",
+        "block_runtime_id": 3688
+    },
+    {
+        "name": "minecraft:coral_fan",
+        "block_runtime_id": 3702
+    },
+    {
+        "name": "minecraft:coral_fan",
+        "block_runtime_id": 3700
+    },
+    {
+        "name": "minecraft:coral_fan",
+        "block_runtime_id": 3701
+    },
+    {
+        "name": "minecraft:coral_fan",
+        "block_runtime_id": 3699
+    },
+    {
+        "name": "minecraft:coral_fan",
+        "block_runtime_id": 3703
+    },
+    {
+        "name": "minecraft:coral_fan_dead",
+        "block_runtime_id": 3712
+    },
+    {
+        "name": "minecraft:coral_fan_dead",
+        "block_runtime_id": 3710
+    },
+    {
+        "name": "minecraft:coral_fan_dead",
+        "block_runtime_id": 3711
+    },
+    {
+        "name": "minecraft:coral_fan_dead",
+        "block_runtime_id": 3709
+    },
+    {
+        "name": "minecraft:coral_fan_dead",
+        "block_runtime_id": 3713
+    },
+    {
+        "name": "minecraft:kelp"
+    },
+    {
+        "name": "minecraft:seagrass",
+        "block_runtime_id": 6828
+    },
+    {
+        "name": "minecraft:crimson_roots",
+        "block_runtime_id": 3857
+    },
+    {
+        "name": "minecraft:warped_roots",
+        "block_runtime_id": 7613
+    },
+    {
+        "name": "minecraft:yellow_flower",
+        "block_runtime_id": 7939
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6593
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6594
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6595
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6596
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6597
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6598
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6599
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6600
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6601
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6602
+    },
+    {
+        "name": "minecraft:red_flower",
+        "block_runtime_id": 6603
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4501
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4502
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4505
+    },
+    {
+        "name": "minecraft:double_plant",
+        "block_runtime_id": 4506
+    },
+    {
+        "name": "minecraft:wither_rose",
+        "block_runtime_id": 7804
+    },
+    {
+        "name": "minecraft:white_dye"
+    },
+    {
+        "name": "minecraft:light_gray_dye"
+    },
+    {
+        "name": "minecraft:gray_dye"
+    },
+    {
+        "name": "minecraft:black_dye"
+    },
+    {
+        "name": "minecraft:brown_dye"
+    },
+    {
+        "name": "minecraft:red_dye"
+    },
+    {
+        "name": "minecraft:orange_dye"
+    },
+    {
+        "name": "minecraft:yellow_dye"
+    },
+    {
+        "name": "minecraft:lime_dye"
+    },
+    {
+        "name": "minecraft:green_dye"
+    },
+    {
+        "name": "minecraft:cyan_dye"
+    },
+    {
+        "name": "minecraft:light_blue_dye"
+    },
+    {
+        "name": "minecraft:blue_dye"
+    },
+    {
+        "name": "minecraft:purple_dye"
+    },
+    {
+        "name": "minecraft:magenta_dye"
+    },
+    {
+        "name": "minecraft:pink_dye"
+    },
+    {
+        "name": "minecraft:ink_sac"
+    },
+    {
+        "name": "minecraft:glow_ink_sac"
+    },
+    {
+        "name": "minecraft:cocoa_beans"
+    },
+    {
+        "name": "minecraft:lapis_lazuli"
+    },
+    {
+        "name": "minecraft:bone_meal"
+    },
+    {
+        "name": "minecraft:vine",
+        "block_runtime_id": 7500
+    },
+    {
+        "name": "minecraft:weeping_vines",
+        "block_runtime_id": 7754
+    },
+    {
+        "name": "minecraft:twisting_vines",
+        "block_runtime_id": 7427
+    },
+    {
+        "name": "minecraft:waterlily",
+        "block_runtime_id": 7682
+    },
+    {
+        "name": "minecraft:deadbush",
+        "block_runtime_id": 4099
+    },
+    {
+        "name": "minecraft:bamboo",
+        "block_runtime_id": 177
+    },
+    {
+        "name": "minecraft:snow",
+        "block_runtime_id": 6909
+    },
+    {
+        "name": "minecraft:ice",
+        "block_runtime_id": 5127
+    },
+    {
+        "name": "minecraft:packed_ice",
+        "block_runtime_id": 5770
+    },
+    {
+        "name": "minecraft:blue_ice",
+        "block_runtime_id": 691
+    },
+    {
+        "name": "minecraft:snow_layer",
+        "block_runtime_id": 6910
+    },
+    {
+        "name": "minecraft:pointed_dripstone",
+        "block_runtime_id": 5812
+    },
+    {
+        "name": "minecraft:dripstone_block",
+        "block_runtime_id": 4585
+    },
+    {
+        "name": "minecraft:moss_carpet",
+        "block_runtime_id": 5667
+    },
+    {
+        "name": "minecraft:moss_block",
+        "block_runtime_id": 5666
+    },
+    {
+        "name": "minecraft:dirt_with_roots",
+        "block_runtime_id": 4486
+    },
+    {
+        "name": "minecraft:hanging_roots",
+        "block_runtime_id": 5049
+    },
+    {
+        "name": "minecraft:big_dripleaf",
+        "block_runtime_id": 328
+    },
+    {
+        "name": "minecraft:small_dripleaf_block",
+        "block_runtime_id": 6875
+    },
+    {
+        "name": "minecraft:spore_blossom",
+        "block_runtime_id": 6962
+    },
+    {
+        "name": "minecraft:azalea",
+        "block_runtime_id": 168
+    },
+    {
+        "name": "minecraft:flowering_azalea",
+        "block_runtime_id": 4815
+    },
+    {
+        "name": "minecraft:glow_lichen",
+        "block_runtime_id": 4973
+    },
+    {
+        "name": "minecraft:amethyst_block",
+        "block_runtime_id": 136
+    },
+    {
+        "name": "minecraft:budding_amethyst",
+        "block_runtime_id": 919
+    },
+    {
+        "name": "minecraft:amethyst_cluster",
+        "block_runtime_id": 138
+    },
+    {
+        "name": "minecraft:large_amethyst_bud",
+        "block_runtime_id": 5369
+    },
+    {
+        "name": "minecraft:medium_amethyst_bud",
+        "block_runtime_id": 5605
+    },
+    {
+        "name": "minecraft:small_amethyst_bud",
+        "block_runtime_id": 6863
+    },
+    {
+        "name": "minecraft:tuff",
+        "block_runtime_id": 7414
+    },
+    {
+        "name": "minecraft:calcite",
+        "block_runtime_id": 943
+    },
+    {
+        "name": "minecraft:chicken"
+    },
+    {
+        "name": "minecraft:porkchop"
+    },
+    {
+        "name": "minecraft:beef"
+    },
+    {
+        "name": "minecraft:mutton"
+    },
+    {
+        "name": "minecraft:rabbit"
+    },
+    {
+        "name": "minecraft:cod"
+    },
+    {
+        "name": "minecraft:salmon"
+    },
+    {
+        "name": "minecraft:tropical_fish"
+    },
+    {
+        "name": "minecraft:pufferfish"
+    },
+    {
+        "name": "minecraft:brown_mushroom",
+        "block_runtime_id": 900
+    },
+    {
+        "name": "minecraft:red_mushroom",
+        "block_runtime_id": 6610
+    },
+    {
+        "name": "minecraft:crimson_fungus",
+        "block_runtime_id": 3835
+    },
+    {
+        "name": "minecraft:warped_fungus",
+        "block_runtime_id": 7591
+    },
+    {
+        "name": "minecraft:brown_mushroom_block",
+        "block_runtime_id": 915
+    },
+    {
+        "name": "minecraft:red_mushroom_block",
+        "block_runtime_id": 6625
+    },
+    {
+        "name": "minecraft:brown_mushroom_block",
+        "block_runtime_id": 916
+    },
+    {
+        "name": "minecraft:brown_mushroom_block",
+        "block_runtime_id": 901
+    },
+    {
+        "name": "minecraft:egg"
+    },
+    {
+        "name": "minecraft:sugar_cane"
+    },
+    {
+        "name": "minecraft:sugar"
+    },
+    {
+        "name": "minecraft:rotten_flesh"
+    },
+    {
+        "name": "minecraft:bone"
+    },
+    {
+        "name": "minecraft:web",
+        "block_runtime_id": 7753
+    },
+    {
+        "name": "minecraft:spider_eye"
+    },
+    {
+        "name": "minecraft:mob_spawner",
+        "block_runtime_id": 5659
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5660
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5661
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5662
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5663
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5664
+    },
+    {
+        "name": "minecraft:monster_egg",
+        "block_runtime_id": 5665
+    },
+    {
+        "name": "minecraft:infested_deepslate",
+        "block_runtime_id": 5128
+    },
+    {
+        "name": "minecraft:dragon_egg",
+        "block_runtime_id": 4583
+    },
+    {
+        "name": "minecraft:turtle_egg",
+        "block_runtime_id": 7415
+    },
+    {
+        "name": "minecraft:chicken_spawn_egg"
+    },
+    {
+        "name": "minecraft:bee_spawn_egg"
+    },
+    {
+        "name": "minecraft:cow_spawn_egg"
+    },
+    {
+        "name": "minecraft:pig_spawn_egg"
+    },
+    {
+        "name": "minecraft:sheep_spawn_egg"
+    },
+    {
+        "name": "minecraft:wolf_spawn_egg"
+    },
+    {
+        "name": "minecraft:polar_bear_spawn_egg"
+    },
+    {
+        "name": "minecraft:ocelot_spawn_egg"
+    },
+    {
+        "name": "minecraft:cat_spawn_egg"
+    },
+    {
+        "name": "minecraft:mooshroom_spawn_egg"
+    },
+    {
+        "name": "minecraft:bat_spawn_egg"
+    },
+    {
+        "name": "minecraft:parrot_spawn_egg"
+    },
+    {
+        "name": "minecraft:rabbit_spawn_egg"
+    },
+    {
+        "name": "minecraft:llama_spawn_egg"
+    },
+    {
+        "name": "minecraft:horse_spawn_egg"
+    },
+    {
+        "name": "minecraft:donkey_spawn_egg"
+    },
+    {
+        "name": "minecraft:mule_spawn_egg"
+    },
+    {
+        "name": "minecraft:skeleton_horse_spawn_egg"
+    },
+    {
+        "name": "minecraft:zombie_horse_spawn_egg"
+    },
+    {
+        "name": "minecraft:tropical_fish_spawn_egg"
+    },
+    {
+        "name": "minecraft:cod_spawn_egg"
+    },
+    {
+        "name": "minecraft:pufferfish_spawn_egg"
+    },
+    {
+        "name": "minecraft:salmon_spawn_egg"
+    },
+    {
+        "name": "minecraft:dolphin_spawn_egg"
+    },
+    {
+        "name": "minecraft:turtle_spawn_egg"
+    },
+    {
+        "name": "minecraft:panda_spawn_egg"
+    },
+    {
+        "name": "minecraft:fox_spawn_egg"
+    },
+    {
+        "name": "minecraft:creeper_spawn_egg"
+    },
+    {
+        "name": "minecraft:enderman_spawn_egg"
+    },
+    {
+        "name": "minecraft:silverfish_spawn_egg"
+    },
+    {
+        "name": "minecraft:skeleton_spawn_egg"
+    },
+    {
+        "name": "minecraft:wither_skeleton_spawn_egg"
+    },
+    {
+        "name": "minecraft:stray_spawn_egg"
+    },
+    {
+        "name": "minecraft:slime_spawn_egg"
+    },
+    {
+        "name": "minecraft:spider_spawn_egg"
+    },
+    {
+        "name": "minecraft:zombie_spawn_egg"
+    },
+    {
+        "name": "minecraft:zombie_pigman_spawn_egg"
+    },
+    {
+        "name": "minecraft:husk_spawn_egg"
+    },
+    {
+        "name": "minecraft:drowned_spawn_egg"
+    },
+    {
+        "name": "minecraft:squid_spawn_egg"
+    },
+    {
+        "name": "minecraft:glow_squid_spawn_egg"
+    },
+    {
+        "name": "minecraft:cave_spider_spawn_egg"
+    },
+    {
+        "name": "minecraft:witch_spawn_egg"
+    },
+    {
+        "name": "minecraft:guardian_spawn_egg"
+    },
+    {
+        "name": "minecraft:elder_guardian_spawn_egg"
+    },
+    {
+        "name": "minecraft:endermite_spawn_egg"
+    },
+    {
+        "name": "minecraft:magma_cube_spawn_egg"
+    },
+    {
+        "name": "minecraft:strider_spawn_egg"
+    },
+    {
+        "name": "minecraft:hoglin_spawn_egg"
+    },
+    {
+        "name": "minecraft:piglin_spawn_egg"
+    },
+    {
+        "name": "minecraft:zoglin_spawn_egg"
+    },
+    {
+        "name": "minecraft:piglin_brute_spawn_egg"
+    },
+    {
+        "name": "minecraft:goat_spawn_egg"
+    },
+    {
+        "name": "minecraft:axolotl_spawn_egg"
+    },
+    {
+        "name": "minecraft:ghast_spawn_egg"
+    },
+    {
+        "name": "minecraft:blaze_spawn_egg"
+    },
+    {
+        "name": "minecraft:shulker_spawn_egg"
+    },
+    {
+        "name": "minecraft:vindicator_spawn_egg"
+    },
+    {
+        "name": "minecraft:evoker_spawn_egg"
+    },
+    {
+        "name": "minecraft:vex_spawn_egg"
+    },
+    {
+        "name": "minecraft:villager_spawn_egg"
+    },
+    {
+        "name": "minecraft:wandering_trader_spawn_egg"
+    },
+    {
+        "name": "minecraft:zombie_villager_spawn_egg"
+    },
+    {
+        "name": "minecraft:phantom_spawn_egg"
+    },
+    {
+        "name": "minecraft:pillager_spawn_egg"
+    },
+    {
+        "name": "minecraft:ravager_spawn_egg"
+    },
+    {
+        "name": "minecraft:obsidian",
+        "block_runtime_id": 5738
+    },
+    {
+        "name": "minecraft:crying_obsidian",
+        "block_runtime_id": 3909
+    },
+    {
+        "name": "minecraft:bedrock",
+        "block_runtime_id": 234
+    },
+    {
+        "name": "minecraft:soul_sand",
+        "block_runtime_id": 6952
+    },
+    {
+        "name": "minecraft:netherrack",
+        "block_runtime_id": 5707
+    },
+    {
+        "name": "minecraft:magma",
+        "block_runtime_id": 5603
+    },
+    {
+        "name": "minecraft:nether_wart"
+    },
+    {
+        "name": "minecraft:end_stone",
+        "block_runtime_id": 4745
+    },
+    {
+        "name": "minecraft:chorus_flower",
+        "block_runtime_id": 1132
+    },
+    {
+        "name": "minecraft:chorus_plant",
+        "block_runtime_id": 1138
+    },
+    {
+        "name": "minecraft:chorus_fruit"
+    },
+    {
+        "name": "minecraft:popped_chorus_fruit"
+    },
+    {
+        "name": "minecraft:sponge",
+        "block_runtime_id": 6960
+    },
+    {
+        "name": "minecraft:sponge",
+        "block_runtime_id": 6961
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3689
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3690
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3691
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3692
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3693
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3694
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3695
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3696
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3697
+    },
+    {
+        "name": "minecraft:coral_block",
+        "block_runtime_id": 3698
+    },
+    {
+        "name": "minecraft:leather_helmet"
+    },
+    {
+        "name": "minecraft:chainmail_helmet"
+    },
+    {
+        "name": "minecraft:iron_helmet"
+    },
+    {
+        "name": "minecraft:golden_helmet"
+    },
+    {
+        "name": "minecraft:diamond_helmet"
+    },
+    {
+        "name": "minecraft:netherite_helmet"
+    },
+    {
+        "name": "minecraft:leather_chestplate"
+    },
+    {
+        "name": "minecraft:chainmail_chestplate"
+    },
+    {
+        "name": "minecraft:iron_chestplate"
+    },
+    {
+        "name": "minecraft:golden_chestplate"
+    },
+    {
+        "name": "minecraft:diamond_chestplate"
+    },
+    {
+        "name": "minecraft:netherite_chestplate"
+    },
+    {
+        "name": "minecraft:leather_leggings"
+    },
+    {
+        "name": "minecraft:chainmail_leggings"
+    },
+    {
+        "name": "minecraft:iron_leggings"
+    },
+    {
+        "name": "minecraft:golden_leggings"
+    },
+    {
+        "name": "minecraft:diamond_leggings"
+    },
+    {
+        "name": "minecraft:netherite_leggings"
+    },
+    {
+        "name": "minecraft:leather_boots"
+    },
+    {
+        "name": "minecraft:chainmail_boots"
+    },
+    {
+        "name": "minecraft:iron_boots"
+    },
+    {
+        "name": "minecraft:golden_boots"
+    },
+    {
+        "name": "minecraft:diamond_boots"
+    },
+    {
+        "name": "minecraft:netherite_boots"
+    },
+    {
+        "name": "minecraft:wooden_sword"
+    },
+    {
+        "name": "minecraft:stone_sword"
+    },
+    {
+        "name": "minecraft:iron_sword"
+    },
+    {
+        "name": "minecraft:golden_sword"
+    },
+    {
+        "name": "minecraft:diamond_sword"
+    },
+    {
+        "name": "minecraft:netherite_sword"
+    },
+    {
+        "name": "minecraft:wooden_axe"
+    },
+    {
+        "name": "minecraft:stone_axe"
+    },
+    {
+        "name": "minecraft:iron_axe"
+    },
+    {
+        "name": "minecraft:golden_axe"
+    },
+    {
+        "name": "minecraft:diamond_axe"
+    },
+    {
+        "name": "minecraft:netherite_axe"
+    },
+    {
+        "name": "minecraft:wooden_pickaxe"
+    },
+    {
+        "name": "minecraft:stone_pickaxe"
+    },
+    {
+        "name": "minecraft:iron_pickaxe"
+    },
+    {
+        "name": "minecraft:golden_pickaxe"
+    },
+    {
+        "name": "minecraft:diamond_pickaxe"
+    },
+    {
+        "name": "minecraft:netherite_pickaxe"
+    },
+    {
+        "name": "minecraft:wooden_shovel"
+    },
+    {
+        "name": "minecraft:stone_shovel"
+    },
+    {
+        "name": "minecraft:iron_shovel"
+    },
+    {
+        "name": "minecraft:golden_shovel"
+    },
+    {
+        "name": "minecraft:diamond_shovel"
+    },
+    {
+        "name": "minecraft:netherite_shovel"
+    },
+    {
+        "name": "minecraft:wooden_hoe"
+    },
+    {
+        "name": "minecraft:stone_hoe"
+    },
+    {
+        "name": "minecraft:iron_hoe"
+    },
+    {
+        "name": "minecraft:golden_hoe"
+    },
+    {
+        "name": "minecraft:diamond_hoe"
+    },
+    {
+        "name": "minecraft:netherite_hoe"
+    },
+    {
+        "name": "minecraft:bow"
+    },
+    {
+        "name": "minecraft:crossbow"
+    },
+    {
+        "name": "minecraft:arrow"
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 16
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 17
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 18
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 19
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 20
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 21
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 22
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 23
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 24
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 25
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 26
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 27
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 28
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 29
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 30
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 31
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 32
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 33
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 34
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 35
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 36
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 37
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 38
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 39
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 40
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 41
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 42
+    },
+    {
+        "name": "minecraft:arrow",
+        "metadata": 43
+    },
+    {
+        "name": "minecraft:shield"
+    },
+    {
+        "name": "minecraft:cooked_chicken"
+    },
+    {
+        "name": "minecraft:cooked_porkchop"
+    },
+    {
+        "name": "minecraft:cooked_beef"
+    },
+    {
+        "name": "minecraft:cooked_mutton"
+    },
+    {
+        "name": "minecraft:cooked_rabbit"
+    },
+    {
+        "name": "minecraft:cooked_cod"
+    },
+    {
+        "name": "minecraft:cooked_salmon"
+    },
+    {
+        "name": "minecraft:bread"
+    },
+    {
+        "name": "minecraft:mushroom_stew"
+    },
+    {
+        "name": "minecraft:beetroot_soup"
+    },
+    {
+        "name": "minecraft:rabbit_stew"
+    },
+    {
+        "name": "minecraft:baked_potato"
+    },
+    {
+        "name": "minecraft:cookie"
+    },
+    {
+        "name": "minecraft:pumpkin_pie"
+    },
+    {
+        "name": "minecraft:cake"
+    },
+    {
+        "name": "minecraft:dried_kelp"
+    },
+    {
+        "name": "minecraft:fishing_rod"
+    },
+    {
+        "name": "minecraft:carrot_on_a_stick"
+    },
+    {
+        "name": "minecraft:warped_fungus_on_a_stick"
+    },
+    {
+        "name": "minecraft:snowball"
+    },
+    {
+        "name": "minecraft:shears"
+    },
+    {
+        "name": "minecraft:flint_and_steel"
+    },
+    {
+        "name": "minecraft:lead"
+    },
+    {
+        "name": "minecraft:clock"
+    },
+    {
+        "name": "minecraft:compass"
+    },
+    {
+        "name": "minecraft:empty_map"
+    },
+    {
+        "name": "minecraft:empty_map",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:saddle"
+    },
+    {
+        "name": "minecraft:leather_horse_armor"
+    },
+    {
+        "name": "minecraft:iron_horse_armor"
+    },
+    {
+        "name": "minecraft:golden_horse_armor"
+    },
+    {
+        "name": "minecraft:diamond_horse_armor"
+    },
+    {
+        "name": "minecraft:trident"
+    },
+    {
+        "name": "minecraft:turtle_helmet"
+    },
+    {
+        "name": "minecraft:elytra"
+    },
+    {
+        "name": "minecraft:totem_of_undying"
+    },
+    {
+        "name": "minecraft:glass_bottle"
+    },
+    {
+        "name": "minecraft:experience_bottle"
+    },
+    {
+        "name": "minecraft:potion"
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 16
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 17
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 18
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 19
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 20
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 21
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 22
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 23
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 24
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 25
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 26
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 27
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 28
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 29
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 30
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 31
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 32
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 33
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 34
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 35
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 36
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 37
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 38
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 39
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 40
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 41
+    },
+    {
+        "name": "minecraft:potion",
+        "metadata": 42
+    },
+    {
+        "name": "minecraft:splash_potion"
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 16
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 17
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 18
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 19
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 20
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 21
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 22
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 23
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 24
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 25
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 26
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 27
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 28
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 29
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 30
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 31
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 32
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 33
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 34
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 35
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 36
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 37
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 38
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 39
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 40
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 41
+    },
+    {
+        "name": "minecraft:splash_potion",
+        "metadata": 42
+    },
+    {
+        "name": "minecraft:lingering_potion"
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 16
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 17
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 18
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 19
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 20
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 21
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 22
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 23
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 24
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 25
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 26
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 27
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 28
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 29
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 30
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 31
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 32
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 33
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 34
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 35
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 36
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 37
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 38
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 39
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 40
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 41
+    },
+    {
+        "name": "minecraft:lingering_potion",
+        "metadata": 42
+    },
+    {
+        "name": "minecraft:spyglass"
+    },
+    {
+        "name": "minecraft:stick"
+    },
+    {
+        "name": "minecraft:bed"
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:bed",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:torch",
+        "block_runtime_id": 7354
+    },
+    {
+        "name": "minecraft:soul_torch",
+        "block_runtime_id": 6954
+    },
+    {
+        "name": "minecraft:sea_pickle",
+        "block_runtime_id": 6820
+    },
+    {
+        "name": "minecraft:lantern",
+        "block_runtime_id": 5364
+    },
+    {
+        "name": "minecraft:soul_lantern",
+        "block_runtime_id": 6950
+    },
+    {
+        "name": "minecraft:candle",
+        "block_runtime_id": 953
+    },
+    {
+        "name": "minecraft:white_candle",
+        "block_runtime_id": 7788
+    },
+    {
+        "name": "minecraft:orange_candle",
+        "block_runtime_id": 5740
+    },
+    {
+        "name": "minecraft:magenta_candle",
+        "block_runtime_id": 5587
+    },
+    {
+        "name": "minecraft:light_blue_candle",
+        "block_runtime_id": 5475
+    },
+    {
+        "name": "minecraft:yellow_candle",
+        "block_runtime_id": 7929
+    },
+    {
+        "name": "minecraft:lime_candle",
+        "block_runtime_id": 5523
+    },
+    {
+        "name": "minecraft:pink_candle",
+        "block_runtime_id": 5772
+    },
+    {
+        "name": "minecraft:gray_candle",
+        "block_runtime_id": 5001
+    },
+    {
+        "name": "minecraft:light_gray_candle",
+        "block_runtime_id": 5491
+    },
+    {
+        "name": "minecraft:cyan_candle",
+        "block_runtime_id": 3921
+    },
+    {
+        "name": "minecraft:purple_candle",
+        "block_runtime_id": 6512
+    },
+    {
+        "name": "minecraft:blue_candle",
+        "block_runtime_id": 675
+    },
+    {
+        "name": "minecraft:brown_candle",
+        "block_runtime_id": 884
+    },
+    {
+        "name": "minecraft:green_candle",
+        "block_runtime_id": 5017
+    },
+    {
+        "name": "minecraft:red_candle",
+        "block_runtime_id": 6583
+    },
+    {
+        "name": "minecraft:black_candle",
+        "block_runtime_id": 478
+    },
+    {
+        "name": "minecraft:crafting_table",
+        "block_runtime_id": 3771
+    },
+    {
+        "name": "minecraft:cartography_table",
+        "block_runtime_id": 987
+    },
+    {
+        "name": "minecraft:fletching_table",
+        "block_runtime_id": 4812
+    },
+    {
+        "name": "minecraft:smithing_table",
+        "block_runtime_id": 6876
+    },
+    {
+        "name": "minecraft:beehive",
+        "block_runtime_id": 260
+    },
+    {
+        "name": "minecraft:campfire"
+    },
+    {
+        "name": "minecraft:soul_campfire"
+    },
+    {
+        "name": "minecraft:furnace",
+        "block_runtime_id": 4877
+    },
+    {
+        "name": "minecraft:blast_furnace",
+        "block_runtime_id": 669
+    },
+    {
+        "name": "minecraft:smoker",
+        "block_runtime_id": 6877
+    },
+    {
+        "name": "minecraft:respawn_anchor",
+        "block_runtime_id": 6702
+    },
+    {
+        "name": "minecraft:brewing_stand"
+    },
+    {
+        "name": "minecraft:anvil",
+        "block_runtime_id": 152
+    },
+    {
+        "name": "minecraft:anvil",
+        "block_runtime_id": 156
+    },
+    {
+        "name": "minecraft:anvil",
+        "block_runtime_id": 160
+    },
+    {
+        "name": "minecraft:grindstone",
+        "block_runtime_id": 5033
+    },
+    {
+        "name": "minecraft:enchanting_table",
+        "block_runtime_id": 4719
+    },
+    {
+        "name": "minecraft:bookshelf",
+        "block_runtime_id": 704
+    },
+    {
+        "name": "minecraft:lectern",
+        "block_runtime_id": 5435
+    },
+    {
+        "name": "minecraft:cauldron"
+    },
+    {
+        "name": "minecraft:composter",
+        "block_runtime_id": 3635
+    },
+    {
+        "name": "minecraft:chest",
+        "block_runtime_id": 1123
+    },
+    {
+        "name": "minecraft:trapped_chest",
+        "block_runtime_id": 7376
+    },
+    {
+        "name": "minecraft:ender_chest",
+        "block_runtime_id": 4746
+    },
+    {
+        "name": "minecraft:barrel",
+        "block_runtime_id": 201
+    },
+    {
+        "name": "minecraft:undyed_shulker_box",
+        "block_runtime_id": 7459
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6833
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6841
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6840
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6848
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6845
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6847
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6834
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6837
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6838
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6846
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6842
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6836
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6844
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6843
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6835
+    },
+    {
+        "name": "minecraft:shulker_box",
+        "block_runtime_id": 6839
+    },
+    {
+        "name": "minecraft:armor_stand"
+    },
+    {
+        "name": "minecraft:noteblock",
+        "block_runtime_id": 5717
+    },
+    {
+        "name": "minecraft:jukebox",
+        "block_runtime_id": 5209
+    },
+    {
+        "name": "minecraft:music_disc_13"
+    },
+    {
+        "name": "minecraft:music_disc_cat"
+    },
+    {
+        "name": "minecraft:music_disc_blocks"
+    },
+    {
+        "name": "minecraft:music_disc_chirp"
+    },
+    {
+        "name": "minecraft:music_disc_far"
+    },
+    {
+        "name": "minecraft:music_disc_mall"
+    },
+    {
+        "name": "minecraft:music_disc_mellohi"
+    },
+    {
+        "name": "minecraft:music_disc_stal"
+    },
+    {
+        "name": "minecraft:music_disc_strad"
+    },
+    {
+        "name": "minecraft:music_disc_ward"
+    },
+    {
+        "name": "minecraft:music_disc_11"
+    },
+    {
+        "name": "minecraft:music_disc_wait"
+    },
+    {
+        "name": "minecraft:music_disc_otherside"
+    },
+    {
+        "name": "minecraft:music_disc_pigstep"
+    },
+    {
+        "name": "minecraft:glowstone_dust"
+    },
+    {
+        "name": "minecraft:glowstone",
+        "block_runtime_id": 4975
+    },
+    {
+        "name": "minecraft:redstone_lamp",
+        "block_runtime_id": 6649
+    },
+    {
+        "name": "minecraft:sealantern",
+        "block_runtime_id": 6831
+    },
+    {
+        "name": "minecraft:oak_sign"
+    },
+    {
+        "name": "minecraft:spruce_sign"
+    },
+    {
+        "name": "minecraft:birch_sign"
+    },
+    {
+        "name": "minecraft:jungle_sign"
+    },
+    {
+        "name": "minecraft:acacia_sign"
+    },
+    {
+        "name": "minecraft:dark_oak_sign"
+    },
+    {
+        "name": "minecraft:crimson_sign"
+    },
+    {
+        "name": "minecraft:warped_sign"
+    },
+    {
+        "name": "minecraft:painting"
+    },
+    {
+        "name": "minecraft:frame"
+    },
+    {
+        "name": "minecraft:glow_frame"
+    },
+    {
+        "name": "minecraft:honey_bottle"
+    },
+    {
+        "name": "minecraft:flower_pot"
+    },
+    {
+        "name": "minecraft:bowl"
+    },
+    {
+        "name": "minecraft:bucket"
+    },
+    {
+        "name": "minecraft:milk_bucket"
+    },
+    {
+        "name": "minecraft:water_bucket"
+    },
+    {
+        "name": "minecraft:lava_bucket"
+    },
+    {
+        "name": "minecraft:cod_bucket"
+    },
+    {
+        "name": "minecraft:salmon_bucket"
+    },
+    {
+        "name": "minecraft:tropical_fish_bucket"
+    },
+    {
+        "name": "minecraft:pufferfish_bucket"
+    },
+    {
+        "name": "minecraft:powder_snow_bucket"
+    },
+    {
+        "name": "minecraft:axolotl_bucket"
+    },
+    {
+        "name": "minecraft:skull",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:skull",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:skull",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:skull",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:skull"
+    },
+    {
+        "name": "minecraft:skull",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:beacon",
+        "block_runtime_id": 217
+    },
+    {
+        "name": "minecraft:bell",
+        "block_runtime_id": 292
+    },
+    {
+        "name": "minecraft:conduit",
+        "block_runtime_id": 3676
+    },
+    {
+        "name": "minecraft:stonecutter_block",
+        "block_runtime_id": 7292
+    },
+    {
+        "name": "minecraft:end_portal_frame",
+        "block_runtime_id": 4731
+    },
+    {
+        "name": "minecraft:coal"
+    },
+    {
+        "name": "minecraft:charcoal"
+    },
+    {
+        "name": "minecraft:diamond"
+    },
+    {
+        "name": "minecraft:iron_nugget"
+    },
+    {
+        "name": "minecraft:raw_iron"
+    },
+    {
+        "name": "minecraft:raw_gold"
+    },
+    {
+        "name": "minecraft:raw_copper"
+    },
+    {
+        "name": "minecraft:copper_ingot"
+    },
+    {
+        "name": "minecraft:iron_ingot"
+    },
+    {
+        "name": "minecraft:netherite_scrap"
+    },
+    {
+        "name": "minecraft:netherite_ingot"
+    },
+    {
+        "name": "minecraft:gold_nugget"
+    },
+    {
+        "name": "minecraft:gold_ingot"
+    },
+    {
+        "name": "minecraft:emerald"
+    },
+    {
+        "name": "minecraft:quartz"
+    },
+    {
+        "name": "minecraft:clay_ball"
+    },
+    {
+        "name": "minecraft:brick"
+    },
+    {
+        "name": "minecraft:netherbrick"
+    },
+    {
+        "name": "minecraft:prismarine_shard"
+    },
+    {
+        "name": "minecraft:amethyst_shard"
+    },
+    {
+        "name": "minecraft:prismarine_crystals"
+    },
+    {
+        "name": "minecraft:nautilus_shell"
+    },
+    {
+        "name": "minecraft:heart_of_the_sea"
+    },
+    {
+        "name": "minecraft:scute"
+    },
+    {
+        "name": "minecraft:phantom_membrane"
+    },
+    {
+        "name": "minecraft:string"
+    },
+    {
+        "name": "minecraft:feather"
+    },
+    {
+        "name": "minecraft:flint"
+    },
+    {
+        "name": "minecraft:gunpowder"
+    },
+    {
+        "name": "minecraft:leather"
+    },
+    {
+        "name": "minecraft:rabbit_hide"
+    },
+    {
+        "name": "minecraft:rabbit_foot"
+    },
+    {
+        "name": "minecraft:fire_charge"
+    },
+    {
+        "name": "minecraft:blaze_rod"
+    },
+    {
+        "name": "minecraft:blaze_powder"
+    },
+    {
+        "name": "minecraft:magma_cream"
+    },
+    {
+        "name": "minecraft:fermented_spider_eye"
+    },
+    {
+        "name": "minecraft:dragon_breath"
+    },
+    {
+        "name": "minecraft:shulker_shell"
+    },
+    {
+        "name": "minecraft:ghast_tear"
+    },
+    {
+        "name": "minecraft:slime_ball"
+    },
+    {
+        "name": "minecraft:ender_pearl"
+    },
+    {
+        "name": "minecraft:ender_eye"
+    },
+    {
+        "name": "minecraft:nether_star"
+    },
+    {
+        "name": "minecraft:end_rod",
+        "block_runtime_id": 4739
+    },
+    {
+        "name": "minecraft:lightning_rod",
+        "block_runtime_id": 5517
+    },
+    {
+        "name": "minecraft:end_crystal"
+    },
+    {
+        "name": "minecraft:paper"
+    },
+    {
+        "name": "minecraft:book"
+    },
+    {
+        "name": "minecraft:writable_book"
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQAAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQAAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQAAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQAAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQBAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQBAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQBAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQBAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQCAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQCAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQCAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQCAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQDAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQDAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQDAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQDAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQEAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQEAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQEAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQEAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQFAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQFAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQFAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQGAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQGAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQGAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQHAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQHAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQHAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQIAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQJAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQJAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQJAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQJAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQJAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQKAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQKAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQKAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQKAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQKAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQLAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQLAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQLAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQLAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQLAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQMAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQMAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQNAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQNAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQOAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQOAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQOAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQPAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQPAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQPAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQPAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQPAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQQAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQRAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQRAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQRAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQSAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQSAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQSAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQTAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQTAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQTAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQTAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQTAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQUAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQUAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQVAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQWAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQXAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQXAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQXAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQYAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQYAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQYAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQZAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQZAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQaAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQbAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQcAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQdAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQdAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQdAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQdAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQdAAIDAGx2bAUAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQeAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQeAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQeAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQfAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQfAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQfAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQgAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQhAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQiAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQiAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQiAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQiAAIDAGx2bAQAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQjAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQjAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQjAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQkAAIDAGx2bAEAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQkAAIDAGx2bAIAAAA="
+    },
+    {
+        "name": "minecraft:enchanted_book",
+        "nbt_b64": "CgAACQQAZW5jaAoBAAAAAgIAaWQkAAIDAGx2bAMAAAA="
+    },
+    {
+        "name": "minecraft:oak_boat"
+    },
+    {
+        "name": "minecraft:spruce_boat"
+    },
+    {
+        "name": "minecraft:birch_boat"
+    },
+    {
+        "name": "minecraft:jungle_boat"
+    },
+    {
+        "name": "minecraft:acacia_boat"
+    },
+    {
+        "name": "minecraft:dark_oak_boat"
+    },
+    {
+        "name": "minecraft:rail",
+        "block_runtime_id": 6570
+    },
+    {
+        "name": "minecraft:golden_rail",
+        "block_runtime_id": 4978
+    },
+    {
+        "name": "minecraft:detector_rail",
+        "block_runtime_id": 4462
+    },
+    {
+        "name": "minecraft:activator_rail",
+        "block_runtime_id": 122
+    },
+    {
+        "name": "minecraft:minecart"
+    },
+    {
+        "name": "minecraft:chest_minecart"
+    },
+    {
+        "name": "minecraft:hopper_minecart"
+    },
+    {
+        "name": "minecraft:tnt_minecart"
+    },
+    {
+        "name": "minecraft:redstone"
+    },
+    {
+        "name": "minecraft:redstone_block",
+        "block_runtime_id": 6648
+    },
+    {
+        "name": "minecraft:redstone_torch",
+        "block_runtime_id": 6651
+    },
+    {
+        "name": "minecraft:lever",
+        "block_runtime_id": 5443
+    },
+    {
+        "name": "minecraft:wooden_button",
+        "block_runtime_id": 7841
+    },
+    {
+        "name": "minecraft:spruce_button",
+        "block_runtime_id": 6963
+    },
+    {
+        "name": "minecraft:birch_button",
+        "block_runtime_id": 356
+    },
+    {
+        "name": "minecraft:jungle_button",
+        "block_runtime_id": 5210
+    },
+    {
+        "name": "minecraft:acacia_button"
+    },
+    {
+        "name": "minecraft:dark_oak_button",
+        "block_runtime_id": 3937
+    },
+    {
+        "name": "minecraft:stone_button",
+        "block_runtime_id": 7192
+    },
+    {
+        "name": "minecraft:crimson_button",
+        "block_runtime_id": 3772
+    },
+    {
+        "name": "minecraft:warped_button",
+        "block_runtime_id": 7528
+    },
+    {
+        "name": "minecraft:polished_blackstone_button",
+        "block_runtime_id": 6004
+    },
+    {
+        "name": "minecraft:tripwire_hook",
+        "block_runtime_id": 7398
+    },
+    {
+        "name": "minecraft:wooden_pressure_plate",
+        "block_runtime_id": 7885
+    },
+    {
+        "name": "minecraft:spruce_pressure_plate",
+        "block_runtime_id": 7023
+    },
+    {
+        "name": "minecraft:birch_pressure_plate",
+        "block_runtime_id": 416
+    },
+    {
+        "name": "minecraft:jungle_pressure_plate",
+        "block_runtime_id": 5270
+    },
+    {
+        "name": "minecraft:acacia_pressure_plate",
+        "block_runtime_id": 60
+    },
+    {
+        "name": "minecraft:dark_oak_pressure_plate",
+        "block_runtime_id": 3997
+    },
+    {
+        "name": "minecraft:crimson_pressure_plate",
+        "block_runtime_id": 3841
+    },
+    {
+        "name": "minecraft:warped_pressure_plate",
+        "block_runtime_id": 7597
+    },
+    {
+        "name": "minecraft:stone_pressure_plate",
+        "block_runtime_id": 7204
+    },
+    {
+        "name": "minecraft:light_weighted_pressure_plate",
+        "block_runtime_id": 5501
+    },
+    {
+        "name": "minecraft:heavy_weighted_pressure_plate",
+        "block_runtime_id": 5097
+    },
+    {
+        "name": "minecraft:polished_blackstone_pressure_plate",
+        "block_runtime_id": 6018
+    },
+    {
+        "name": "minecraft:observer",
+        "block_runtime_id": 5726
+    },
+    {
+        "name": "minecraft:daylight_detector",
+        "block_runtime_id": 4067
+    },
+    {
+        "name": "minecraft:repeater"
+    },
+    {
+        "name": "minecraft:comparator"
+    },
+    {
+        "name": "minecraft:hopper"
+    },
+    {
+        "name": "minecraft:dropper",
+        "block_runtime_id": 4589
+    },
+    {
+        "name": "minecraft:dispenser",
+        "block_runtime_id": 4490
+    },
+    {
+        "name": "minecraft:piston",
+        "block_runtime_id": 5789
+    },
+    {
+        "name": "minecraft:sticky_piston",
+        "block_runtime_id": 7166
+    },
+    {
+        "name": "minecraft:tnt",
+        "block_runtime_id": 7350
+    },
+    {
+        "name": "minecraft:name_tag"
+    },
+    {
+        "name": "minecraft:loom",
+        "block_runtime_id": 5583
+    },
+    {
+        "name": "minecraft:banner"
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 8
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 7
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 15
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 12
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 14
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 1
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 4
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 5
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 13
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 9
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 3
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 11
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 10
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 2
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 6
+    },
+    {
+        "name": "minecraft:banner",
+        "metadata": 15,
+        "nbt_b64": "CgAAAwQAVHlwZQEAAAAA"
+    },
+    {
+        "name": "minecraft:creeper_banner_pattern"
+    },
+    {
+        "name": "minecraft:skull_banner_pattern"
+    },
+    {
+        "name": "minecraft:flower_banner_pattern"
+    },
+    {
+        "name": "minecraft:mojang_banner_pattern"
+    },
+    {
+        "name": "minecraft:field_masoned_banner_pattern"
+    },
+    {
+        "name": "minecraft:bordure_indented_banner_pattern"
+    },
+    {
+        "name": "minecraft:piglin_banner_pattern"
+    },
+    {
+        "name": "minecraft:globe_banner_pattern"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwAAAAAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAABwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAIBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAHBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAPBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAMBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAOBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAABBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAEBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAFBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAANBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAJBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAADBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAALBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAKBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAACBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_rocket",
+        "nbt_b64": "CgAACgkARmlyZXdvcmtzCQoARXhwbG9zaW9ucwoBAAAABw0ARmlyZXdvcmtDb2xvcgEAAAAGBwwARmlyZXdvcmtGYWRlAAAAAAEPAEZpcmV3b3JrRmxpY2tlcgABDQBGaXJld29ya1RyYWlsAAEMAEZpcmV3b3JrVHlwZQAAAQYARmxpZ2h0AQAA"
+    },
+    {
+        "name": "minecraft:firework_star",
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAAAAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yIR0d/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 8,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAACAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yUk9H/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 7,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAABwcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yl52d/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 15,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAADwcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9y8PDw/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 12,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAADAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9y2rM6/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 14,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAADgcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yHYD5/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 1,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAAAQcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yJi6w/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 4,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAABAcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yqkQ8/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 5,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAABQcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yuDKJ/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 13,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAADQcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yvU7H/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 9,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAACQcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yqovz/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 3,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAAAwcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yMlSD/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 11,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAACwcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yPdj+/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 10,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAACgcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yH8eA/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 2,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAAAgcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9yFnxe/wA="
+    },
+    {
+        "name": "minecraft:firework_star",
+        "metadata": 6,
+        "nbt_b64": "CgAACg0ARmlyZXdvcmtzSXRlbQcNAEZpcmV3b3JrQ29sb3IBAAAABgcMAEZpcmV3b3JrRmFkZQAAAAABDwBGaXJld29ya0ZsaWNrZXIAAQ0ARmlyZXdvcmtUcmFpbAABDABGaXJld29ya1R5cGUAAAMLAGN1c3RvbUNvbG9ynJwW/wA="
+    },
+    {
+        "name": "minecraft:chain"
+    },
+    {
+        "name": "minecraft:target",
+        "block_runtime_id": 7348
+    },
+    {
+        "name": "minecraft:lodestone_compass"
+    }
+]
