@@ -78,22 +78,7 @@ resources_t get_resources()
 		size_t ii;
 		for (ii = 0; ii < nbt_compound.size; ++ii) {
 			if (strcmp(nbt_compound.names[ii], "name") == 0) {
-				binary_stream_t stream;
-				stream.buffer = (int8_t *) malloc(0);
-				stream.size = 0;
-				uint8_t is_concrete_powder = 0;
-				if (strcmp(nbt_compound.data[ii].string_tag, "minecraft:concretePowder") == 0) is_concrete_powder = 1;
-				size_t iii;
-				for (iii = 0; iii < strlen(nbt_compound.data[ii].string_tag); ++iii) {
-					if(isupper(nbt_compound.data[ii].string_tag[iii])) {
-						if (i != 0 && is_concrete_powder) put_unsigned_byte('_', &stream);
-						put_unsigned_byte(tolower(nbt_compound.data[ii].string_tag[iii]), &stream);
-					} else {
-						put_unsigned_byte(nbt_compound.data[ii].string_tag[iii], &stream);
-					}
-				}
-				put_unsigned_byte(0, &stream);
-				name = (char *) stream.buffer;
+				name = nbt_compound.data[ii].string_tag;
 				break;
 			}
 		}
@@ -101,7 +86,9 @@ resources_t get_resources()
 			log_error("Does not contain name key");
 			exit(0);
 		}
-		block_state.name = name;
+		size_t size = strlen(name) + 1;
+		block_state.name = (char *) malloc(size);
+		memcpy(block_state.name, name, size);
 		if (strcmp(old_name, block_state.name) != 0) {
 			metadata_counter = 0;
 		}
@@ -132,9 +119,10 @@ resources_t get_resources()
 		} else {
 			item.metadata = 0;
 		}
-		json_root_t json_block_runtime_id = get_json_object_value("block_runtime_id", json_object);
-		if (json_block_runtime_id.type != JSON_EMPTY) {
-			item.block_runtime_id = json_block_runtime_id.entry.json_number.number.int_number;
+		json_root_t json_block_state_name = get_json_object_value("block_state_name", json_object);
+		json_root_t json_block_state_metadata = get_json_object_value("block_state_metadata", json_object);
+		if (json_block_state_name.type != JSON_EMPTY && json_block_state_metadata.type != JSON_EMPTY) {
+			item.block_runtime_id = block_state_to_runtime_id(json_block_state_name.entry.json_string, json_block_state_metadata.entry.json_number.number.int_number, resources.block_states);
 		} else {
 			item.block_runtime_id = 0;
 		}
