@@ -390,13 +390,14 @@ void put_nbt_compound_tag(nbt_compound_t value, uint8_t endianess, binary_stream
 {
 	size_t i;
 	for (i = 0; i < value.size; ++i) {
-		put_nbt_byte_tag(value.tag_ids[i], stream);
 		if (value.tag_ids[i] == END_TAG) {
 			break;
 		}
+		put_nbt_byte_tag(value.tag_ids[i], stream);
 		put_nbt_string_tag(value.names[i], endianess, stream);
 		put_nbt_multi_tag(value.data[i], value.tag_ids[i], endianess, stream);
 	}
+	put_nbt_byte_tag(END_TAG, stream);
 }
 
 void put_nbt_int_array_tag(nbt_int_array_t value, uint8_t endianess, binary_stream_t *stream)
