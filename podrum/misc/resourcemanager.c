@@ -120,31 +120,23 @@ resources_t get_resources()
 	free(creative_items_stream.buffer);
 	resources.creative_items.size = json_root.entry.json_array.size;
 	resources.creative_items.entries = (misc_item_t *) malloc(resources.creative_items.size * sizeof(misc_item_t));
-	int16_t id = -1;
-	uint8_t metadata = 0;
 	for (i = 0; i < resources.creative_items.size; ++i) {
 		json_object_t json_object = get_json_array_value(i, json_root.entry.json_array).entry.json_object;
 		misc_item_t item;
-		char *name = get_json_object_value("id", json_object).entry.json_string;
+		char *name = get_json_object_value("name", json_object).entry.json_string;
 		item.network_id = item_state_to_runtime_id(name, resources.item_states);
 		item.count = 1;
-		json_root_t json_metadata = get_json_object_value("damage", json_object);
+		json_root_t json_metadata = get_json_object_value("metadata", json_object);
 		if (json_metadata.type != JSON_EMPTY) {
 			item.metadata = json_metadata.entry.json_number.number.int_number;
-			metadata = 0;
 		} else {
-			if (id != item.network_id) {
-				metadata = 0;
-			}
-			item.metadata = metadata;
-			++metadata;
-			id = item.network_id;
+			item.metadata = 0;
 		}
-		int64_t block_runtime_id = block_state_to_runtime_id(name, item.metadata, resources.block_states);
-		if (block_runtime_id == -1) {
-			item.block_runtime_id = 0;
+		json_root_t json_block_runtime_id = get_json_object_value("block_runtime_id", json_object);
+		if (json_block_runtime_id.type != JSON_EMPTY) {
+			item.block_runtime_id = json_block_runtime_id.entry.json_number.number.int_number;
 		} else {
-			item.block_runtime_id = block_runtime_id;
+			item.block_runtime_id = 0;
 		}
 		json_root_t json_nbt = get_json_object_value("nbt_b64", json_object);
 		if (json_nbt.type != JSON_EMPTY) {
