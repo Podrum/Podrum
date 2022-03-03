@@ -36,3 +36,55 @@ void join_worker(worker_t worker)
 
 	#endif
 }
+
+void worker_create_mutex(worker_mutex_t *lock)
+{
+	#ifdef _WIN32
+
+	*lock = CreateMutex(NULL, FALSE, NULL);
+
+	#else
+
+	pthread_mutex_init(lock, NULL);
+
+	#endif
+}
+
+void worker_destroy_mutex(worker_mutex_t *lock)
+{
+	#ifdef _WIN32
+
+	CloseHandle(*lock);
+
+	#else
+
+	pthread_mutex_destroy(lock);
+
+	#endif
+}
+
+void worker_mutex_lock(worker_mutex_t *lock)
+{
+	#ifdef _WIN32
+
+	WaitForSingleObject(*lock, INFINITE);
+
+	#else
+
+	pthread_mutex_lock(lock);
+
+	#endif
+}
+
+void worker_mutex_unlock(worker_mutex_t *lock)
+{
+	#ifdef _WIN32
+
+	ReleaseMutex(*lock);
+
+	#else
+
+	pthread_mutex_unlock(lock);
+
+	#endif
+}

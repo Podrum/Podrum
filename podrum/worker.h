@@ -25,6 +25,7 @@ typedef HANDLE worker_t;
 #define RETURN_WORKER_EXECUTOR DWORD WINAPI
 #define ARGS_WORKER_EXECUTOR LPVOID
 typedef DWORD (WINAPI *worker_executor_t)(LPVOID argvp);
+typedef HANDLE worker_mutex_t;
 
 #else
 
@@ -32,6 +33,7 @@ typedef pthread_t worker_t;
 #define RETURN_WORKER_EXECUTOR void *
 #define ARGS_WORKER_EXECUTOR void *
 typedef void *(*worker_executor_t)(void *argv);
+typedef pthread_mutex_t worker_mutex_t;
 
 #endif
 
