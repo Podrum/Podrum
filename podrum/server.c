@@ -253,7 +253,7 @@ int main(int argc, char **argv)
 	raknet_server.connections = (connection_t *) malloc(0);
 	raknet_server.connections_count = 0;
 	raknet_server.guid = 1325386089232893086;
-	raknet_server.message = "MCPE;Dedicated Server;440;1.17.0;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
+	raknet_server.message = "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	raknet_server.epoch = time(NULL) * 1000;
 	raknet_server.on_disconnect_notification_executor = on_dn;
 	raknet_server.on_frame_executor = on_f;
