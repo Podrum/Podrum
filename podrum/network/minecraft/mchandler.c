@@ -175,15 +175,13 @@ void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *c
 	streams[0].offset = 0;
 	packet_request_chunk_radius_t request_chunk_radius = get_packet_request_chunk_radius(stream);
 	packet_chunk_radius_updated_t chunk_radius_updated;
-	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 8.0); /* server_chunk_radius = 2 */
+	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 4.0); /* server_chunk_radius = 2 */
 	put_packet_chunk_radius_updated(chunk_radius_updated, (&(streams[0])));
 	player->view_distance = chunk_radius_updated.chunk_radius;
 	send_minecraft_packet(streams, 1, connection, server);
 	free(streams[0].buffer);
 	free(streams);
-	puts("start");
 	send_chunks(resources->block_states, player, connection, server);
-	puts("end");
 	send_play_status(PLAY_STATUS_PLAYER_SPAWN, connection, server);
 	player->spawned = 1;
 }
