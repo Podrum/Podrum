@@ -187,11 +187,9 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	deduct_raknet_nack_queue(frame_set.sequence_number, connection);
 	append_raknet_ack_queue(frame_set.sequence_number, connection);
 	uint32_t hole_size = frame_set.sequence_number - connection->receiver_sequence_number;
-	printf("%u\n", hole_size);
 	if (hole_size != 0) {
 		uint32_t sequence_number;
 		for (sequence_number = connection->receiver_sequence_number + 1; sequence_number < frame_set.sequence_number; ++sequence_number) {
-			printf("%u\n", sequence_number);
 			append_raknet_nack_queue(sequence_number, connection);
 		}
 	}
@@ -201,20 +199,7 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 		if (has_raknet_connection(address, server) == 0) {
 			break;
 		}
-//		if (is_reliable(frame_set.frames[i].reliability) == 0) {
-			handle_frame(frame_set.frames[i], server, connection);
-//		} else {
-//			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
-//			if (hole_size == 0) {
-//				handle_frame(frame_set.frames[i], server, connection);
-//				if (has_raknet_connection(address, server) == 0) {
-//					break;
-//				}
-//				++connection->receiver_reliable_frame_index;
-//			} else {
-//				free(frame_set.frames[i].stream.buffer); /* Kick out of the memory unused frames */
-//			}
-//		}
+		handle_frame(frame_set.frames[i], server, connection);
 	}
 	free(frame_set.frames);
 }
