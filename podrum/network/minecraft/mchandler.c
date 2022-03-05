@@ -167,20 +167,23 @@ void handle_packet_window_close(binary_stream_t *stream, connection_t *connectio
 
 void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
 {
+	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
+	if (player->spawned == 1) return;
 	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
 	streams[0].buffer = (int8_t *) malloc(0);
 	streams[0].size = 0;
 	streams[0].offset = 0;
 	packet_request_chunk_radius_t request_chunk_radius = get_packet_request_chunk_radius(stream);
 	packet_chunk_radius_updated_t chunk_radius_updated;
-	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 2.0); /* server_chunk_radius = 2 */
+	chunk_radius_updated.chunk_radius = (int32_t) fmin((double) request_chunk_radius.chunk_radius, 8.0); /* server_chunk_radius = 2 */
 	put_packet_chunk_radius_updated(chunk_radius_updated, (&(streams[0])));
-	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 	player->view_distance = chunk_radius_updated.chunk_radius;
 	send_minecraft_packet(streams, 1, connection, server);
 	free(streams[0].buffer);
 	free(streams);
+	puts("start");
 	send_chunks(resources->block_states, player, connection, server);
+	puts("end");
 	send_play_status(PLAY_STATUS_PLAYER_SPAWN, connection, server);
 	player->spawned = 1;
 }

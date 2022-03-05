@@ -115,6 +115,7 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 		packet_frame_set_t frame_set = pop_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 		if (frame_set.sequence_number != 0 && frame_set.frames_count != 0 && frame_set.frames != NULL) {
 			frame_set.sequence_number = connection->sender_sequence_number;
+			++connection->sender_sequence_number;
 			socket_data_t output_socket_data;
 			output_socket_data.stream.buffer = (int8_t *) malloc(0);
 			output_socket_data.stream.offset = 0;
@@ -123,9 +124,7 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 			output_socket_data.address = connection->address;
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
-			memset(&output_socket_data, 0, sizeof(socket_data_t));
 			free(frame_set.frames);
-			memset(&frame_set, 0, sizeof(packet_frame_set_t));
 		}
 	}
 	free(acknowledge.sequence_numbers);
@@ -147,7 +146,6 @@ void handle_fragmented_frame(misc_frame_t frame, raknet_server_t *server, connec
 			misc_frame_t compound_entry = pop_raknet_compound_entry(frame.compound_id, i, connection);
 			put_bytes(compound_entry.stream.buffer, compound_entry.stream.size, ((&(output_frame.stream))));
 			free(compound_entry.stream.buffer);
-			memset(&compound_entry, 0, sizeof(misc_frame_t));
 		}
 		handle_frame(output_frame, server, connection);
 	}
@@ -189,32 +187,34 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 	deduct_raknet_nack_queue(frame_set.sequence_number, connection);
 	append_raknet_ack_queue(frame_set.sequence_number, connection);
 	uint32_t hole_size = frame_set.sequence_number - connection->receiver_sequence_number;
-	if (hole_size > 0) {
+	printf("%u\n", hole_size);
+	if (hole_size != 0) {
 		uint32_t sequence_number;
-		for (sequence_number = connection->receiver_sequence_number + 1; sequence_number < hole_size; ++sequence_number) {
+		for (sequence_number = connection->receiver_sequence_number + 1; sequence_number < frame_set.sequence_number; ++sequence_number) {
+			printf("%u\n", sequence_number);
 			append_raknet_nack_queue(sequence_number, connection);
 		}
 	}
-	connection->receiver_sequence_number = frame_set.sequence_number;
+	connection->receiver_sequence_number = frame_set.sequence_number + 1;
 	size_t i;
 	for (i = 0; i < frame_set.frames_count; ++i) {
 		if (has_raknet_connection(address, server) == 0) {
 			break;
 		}
-		if (is_reliable(frame_set.frames[i].reliability) == 0) {
+//		if (is_reliable(frame_set.frames[i].reliability) == 0) {
 			handle_frame(frame_set.frames[i], server, connection);
-		} else {
-			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
-			if (hole_size == 0) {
-				handle_frame(frame_set.frames[i], server, connection);
-				if (has_raknet_connection(address, server) == 0) {
-					break;
-				}
-				++connection->receiver_reliable_frame_index;
-			} else {
-				free(frame_set.frames[i].stream.buffer); /* Kick out of the memory unused frames */
-			}
-		}
+//		} else {
+//			hole_size = frame_set.frames[i].reliable_frame_index - connection->receiver_reliable_frame_index;
+//			if (hole_size == 0) {
+//				handle_frame(frame_set.frames[i], server, connection);
+//				if (has_raknet_connection(address, server) == 0) {
+//					break;
+//				}
+//				++connection->receiver_reliable_frame_index;
+//			} else {
+//				free(frame_set.frames[i].stream.buffer); /* Kick out of the memory unused frames */
+//			}
+//		}
 	}
 	free(frame_set.frames);
 }
