@@ -24,8 +24,8 @@ typedef struct {
 	uint32_t receiver_sequence_number;
 	uint32_t sender_reliable_frame_index;
 	uint32_t receiver_reliable_frame_index;
-	uint8_t sender_order_channels[32];
-	uint8_t sender_sequence_channels[32];
+	uint32_t sender_order_channels[32];
+	uint32_t sender_sequence_channels[32];
 	packet_frame_set_t queue;
 	uint32_t *ack_queue;
 	uint16_t ack_queue_size;

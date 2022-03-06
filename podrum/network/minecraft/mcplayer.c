@@ -18,7 +18,7 @@ void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, conne
 	game.streams_count = streams_count;
 	misc_frame_t frame;
 	frame.is_fragmented = 0;
-	frame.reliability = RELIABILITY_RELIABLE;
+	frame.reliability = RELIABILITY_RELIABLE_ORDERED;
 	frame.order_channel = 0;
 	frame.stream.buffer = (int8_t *) malloc(0);
 	frame.stream.offset = 0;

@@ -322,7 +322,7 @@ void add_to_raknet_queue(misc_frame_t frame, connection_t *connection, raknet_se
 		++connection->sender_order_channels[frame.order_channel];
 	} else if (is_sequenced(frame.reliability) == 1) {
 		frame.ordered_frame_index = connection->sender_order_channels[frame.order_channel];
-		frame.ordered_frame_index = connection->sender_sequence_channels[frame.order_channel];
+		frame.sequenced_frame_index = connection->sender_sequence_channels[frame.order_channel];
 		++connection->sender_sequence_channels[frame.order_channel];
 	}
 	uint16_t max_size = connection->mtu_size - 60;
