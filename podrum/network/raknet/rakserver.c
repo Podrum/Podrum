@@ -8,9 +8,53 @@
 
 #include <podrum/network/raknet/rakserver.h>
 #include <podrum/network/raknet/rakhandler.h>
+#include <podrum/network/raknet/rakinternal.h>
 #include <string.h>
 #include <time.h>
 #include <stdio.h>
+
+void set_raknet_option(char *name, char *option, raknet_server_t *server)
+{
+	if (strcmp(name, "name") == 0) {
+		server->message = option;
+	}
+}
+
+void send_set_raknet_option(char *name, char *option, raknet_server_t *server)
+{
+	binary_stream_t stream;
+	stream.buffer = (int8_t *) malloc(0);
+	stream.offset = 0;
+	stream.size = 0;
+	internal_set_option_t internal_set_option;
+	internal_set_option.name = name;
+	internal_set_option.option = option;
+	put_internal_set_option(internal_set_option, &stream);
+	put_queue(stream.buffer, (&(server->threaded_to_main)));
+}
+
+void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server)
+{
+	binary_stream_t stream;
+	stream.buffer = (int8_t *) malloc(0);
+	stream.offset = 0;
+	stream.size = 0;
+	internal_frame_t internal_frame;
+	internal_frame.frame = frame;
+	internal_frame.address = address;
+	put_internal_frame(internal_frame, &stream);
+	put_queue(stream.buffer, (&(server->threaded_to_main)));
+}
+
+void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server)
+{
+	binary_stream_t stream;
+	stream.buffer = (int8_t *) malloc(0);
+	stream.offset = 0;
+	stream.size = 0;
+	put_internal_disconnect_notification(address, &stream);
+	put_queue(stream.buffer, (&(server->threaded_to_main)));
+}
 
 double get_raknet_timestamp(raknet_server_t *server)
 {
@@ -443,6 +487,41 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	remove_raknet_connection(connection->address, server);
 }
 
+uint8_t handle_raknet_internal(raknet_server_t *server)
+{
+	binary_stream_t internal_stream;
+	internal_stream.buffer = (int8_t *) get_queue(&(server->threaded_to_main));
+	internal_stream.offset = 0;
+	if (internal_stream.buffer != NULL) {
+		if ((internal_stream.buffer[0] & 0xff) == INTERNAL_FRAME) {
+			internal_frame_t internal_frame = get_internal_frame(&internal_stream);
+			connection_t *connection = get_raknet_connection(internal_frame.address, server);
+			if (connection != NULL) {
+				add_to_raknet_queue(internal_frame.frame, connection, server);
+			}
+		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_SET_OPTION) {
+			internal_set_option_t internal_set_option = get_internal_set_option(&internal_stream);
+			set_raknet_option(internal_set_option.name, internal_set_option.option, server);
+		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_DISCONNECT_NOTIFICATION) {
+			misc_address_t disconnected_address = get_internal_disconnect_notification(&internal_stream);
+			remove_raknet_connection(disconnected_address, server);
+		}
+		free(internal_stream.buffer);
+		return 1;
+	}
+	return 0;
+}
+
+void update_raknet_connections(raknet_server_t *server)
+{
+	size_t i;
+	for (i = 0; i < server->connections_count; ++i) {
+		send_raknet_ack_queue((&(server->connections[i])), server);
+		send_raknet_nack_queue((&(server->connections[i])), server);
+		send_raknet_queue((&(server->connections[i])), server);
+	}
+}
+
 void handle_raknet_packet(raknet_server_t *server)
 {
 	socket_data_t socket_data = receive_data(server->sock);
@@ -484,10 +563,11 @@ void handle_raknet_packet(raknet_server_t *server)
 		}
 	}
 	free(socket_data.stream.buffer);
-	size_t i;
-	for (i = 0; i < server->connections_count; ++i) {
-		send_raknet_ack_queue((&(server->connections[i])), server);
-		send_raknet_nack_queue((&(server->connections[i])), server);
-		send_raknet_queue((&(server->connections[i])), server);
-	}
+}
+
+void tick_raknet(raknet_server_t *server)
+{
+	handle_raknet_packet(server);
+	while (handle_raknet_internal(server) == 1);
+	update_raknet_connections(server);
 }

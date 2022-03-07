@@ -15,6 +15,7 @@
 #include <podrum/network/raknet/rakmisc.h>
 #include <podrum/network/raknet/rakpacket.h>
 #include <podrum/network/raknet/socket.h>
+#include <podrum/queue.h>
 
 typedef struct {
 	uint16_t mtu_size;
@@ -62,7 +63,17 @@ struct _raknet_server {
 	char *message;
 	int sock;
 	double epoch;
+	queue_t threaded_to_main;
+	queue_t main_to_threaded;
 };
+
+void set_raknet_option(char *name, char *option, raknet_server_t *server);
+
+void send_set_raknet_option(char *name, char *option, raknet_server_t *server);
+
+void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server);
+
+void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server);
 
 double get_raknet_timestamp(raknet_server_t *server);
 
@@ -112,6 +123,12 @@ misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, con
 
 void disconnect_raknet_client(connection_t *connection, raknet_server_t *server);
 
+uint8_t handle_raknet_internal(raknet_server_t *server);
+
+void update_raknet_connections(raknet_server_t *server);
+
 void handle_raknet_packet(raknet_server_t *server);
+
+void tick_raknet(raknet_server_t *server);
 
 #endif

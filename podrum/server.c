@@ -253,17 +253,18 @@ int main(int argc, char **argv)
 	raknet_server.connections = (connection_t *) malloc(0);
 	raknet_server.connections_count = 0;
 	raknet_server.guid = 1325386089232893086;
-	raknet_server.message = "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
+	//raknet_server.message = "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	raknet_server.epoch = time(NULL) * 1000;
 	raknet_server.on_disconnect_notification_executor = on_dn;
 	raknet_server.on_frame_executor = on_f;
 	raknet_server.on_new_incoming_connection_executor = on_nic;
+	send_set_raknet_option("name", "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
 	while (1) {
-		handle_raknet_packet(&raknet_server);
+		tick_raknet(&raknet_server);
 	}
 	return 0;
 }
