@@ -41,4 +41,12 @@ worker_t create_worker(worker_executor_t executor, void *args);
 
 void join_worker(worker_t worker);
 
+void worker_create_mutex(worker_mutex_t *lock);
+
+void worker_destroy_mutex(worker_mutex_t *lock);
+
+void worker_mutex_lock(worker_mutex_t *lock);
+
+void worker_mutex_unlock(worker_mutex_t *lock);
+
 #endif
