@@ -25,6 +25,7 @@ void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, conne
 	frame.stream.size = 0;
 	put_packet_game(game, (&(frame.stream)));
 	send_raknet_frame(frame, connection->address, server);
+	free(frame.stream.buffer);
 }
 
 void send_network_chunk_publisher_update(minecraft_player_t *player, connection_t *connection, raknet_server_t *server)

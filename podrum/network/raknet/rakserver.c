@@ -496,15 +496,18 @@ uint8_t handle_raknet_internal(raknet_server_t *server)
 		if ((internal_stream.buffer[0] & 0xff) == INTERNAL_FRAME) {
 			internal_frame_t internal_frame = get_internal_frame(&internal_stream);
 			connection_t *connection = get_raknet_connection(internal_frame.address, server);
+			free(internal_frame.address.address);
 			if (connection != NULL) {
 				add_to_raknet_queue(internal_frame.frame, connection, server);
 			}
 		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_SET_OPTION) {
 			internal_set_option_t internal_set_option = get_internal_set_option(&internal_stream);
 			set_raknet_option(internal_set_option.name, internal_set_option.option, server);
+			free(internal_set_option.name);
 		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_DISCONNECT_NOTIFICATION) {
 			misc_address_t disconnected_address = get_internal_disconnect_notification(&internal_stream);
 			remove_raknet_connection(disconnected_address, server);
+			free(disconnected_address.address);
 		}
 		free(internal_stream.buffer);
 		return 1;
