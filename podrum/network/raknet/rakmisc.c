@@ -46,16 +46,6 @@ int is_sequenced(int reliability)
 
 int is_ordered(int reliability)
 {
-	if (reliability == RELIABILITY_RELIABLE_ORDERED ||
-	    reliability == RELIABILITY_RELIABLE_ORDERED_WITH_ACK_RECEIPT
-	) {
-		return 1;
-	}
-	return 0;
-}
-
-int is_sequenced_or_ordered(int reliability)
-{
 	if (reliability == RELIABILITY_UNRELIABLE_SEQUENCED ||
 	    reliability == RELIABILITY_RELIABLE_ORDERED ||
 	    reliability == RELIABILITY_RELIABLE_SEQUENCED ||
@@ -81,7 +71,7 @@ misc_frame_t get_misc_frame(binary_stream_t *stream)
 	if (is_sequenced(frame.reliability) == 1) {
 		frame.sequenced_frame_index = get_unsigned_triad_le(stream);
 	}
-	if (is_sequenced_or_ordered(frame.reliability) == 1) {
+	if (is_ordered(frame.reliability) == 1) {
 		frame.ordered_frame_index = get_unsigned_triad_le(stream);
 		frame.order_channel = get_unsigned_byte(stream);
 	}
@@ -126,7 +116,7 @@ void put_misc_frame(misc_frame_t frame, binary_stream_t *stream)
 	if (is_sequenced(frame.reliability) == 1) {
 		put_unsigned_triad_le(frame.sequenced_frame_index, stream);
 	}
-	if (is_sequenced_or_ordered(frame.reliability) == 1) {
+	if (is_ordered(frame.reliability) == 1) {
 		put_unsigned_triad_le(frame.ordered_frame_index, stream);
 		put_unsigned_byte(frame.order_channel, stream);
 	}
@@ -161,7 +151,7 @@ size_t get_frame_size(misc_frame_t frame)
 	if (is_sequenced(frame.reliability) == 1) {
 		size += 3;
 	}
-	if (is_sequenced_or_ordered(frame.reliability) == 1) {
+	if (is_ordered(frame.reliability) == 1) {
 		size += 4;
 	}
 	if (frame.is_fragmented != 0) {

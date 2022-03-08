@@ -15,6 +15,7 @@
 #define INTERNAL_NEW_INCOMING_CONNECTION 0x01
 #define INTERNAL_DISCONNECT_NOTIFICATION 0x02
 #define INTERNAL_SET_OPTION 0x03
+#define INTERNAL_SHUTDOWN 0x04
 
 typedef struct {
 	misc_address_t address;

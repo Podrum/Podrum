@@ -46,8 +46,6 @@ int is_sequenced(int reliability);
 
 int is_ordered(int reliability);
 
-int is_sequenced_or_ordered(int reliability);
-
 misc_frame_t get_misc_frame(binary_stream_t *stream);
 
 misc_address_t get_misc_address(binary_stream_t *stream);

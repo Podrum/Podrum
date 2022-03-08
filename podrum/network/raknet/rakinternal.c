@@ -32,7 +32,7 @@ internal_frame_t get_internal_frame(binary_stream_t *stream)
 	if (is_sequenced(internal_frame.frame.reliability) == 1) {
 		internal_frame.frame.sequenced_frame_index = get_unsigned_triad_le(stream);
 	}
-	if (is_sequenced_or_ordered(internal_frame.frame.reliability) == 1) {
+	if (is_ordered(internal_frame.frame.reliability) == 1) {
 		internal_frame.frame.ordered_frame_index = get_unsigned_triad_le(stream);
 		internal_frame.frame.order_channel = get_unsigned_byte(stream);
 	}
@@ -110,7 +110,7 @@ void put_internal_frame(internal_frame_t internal_frame, binary_stream_t *stream
 	if (is_sequenced(internal_frame.frame.reliability) == 1) {
 		put_unsigned_triad_le(internal_frame.frame.sequenced_frame_index, stream);
 	}
-	if (is_sequenced_or_ordered(internal_frame.frame.reliability) == 1) {
+	if (is_ordered(internal_frame.frame.reliability) == 1) {
 		put_unsigned_triad_le(internal_frame.frame.ordered_frame_index, stream);
 		put_unsigned_byte(internal_frame.frame.order_channel, stream);
 	}
