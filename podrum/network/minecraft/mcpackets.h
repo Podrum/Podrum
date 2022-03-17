@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_MINECRAFT_MCPACKETS_H
 #define PODRUM_NETWORK_MINECRAFT_MCPACKETS_H
 
+#include <podrum/debug.h>
 #include <cbinarystream/binary_stream.h>
 #include <stdlib.h>
 #include <podrum/network/minecraft/mcmisc.h>

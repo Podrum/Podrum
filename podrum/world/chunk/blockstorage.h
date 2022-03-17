@@ -9,6 +9,7 @@
 #ifndef PODRUM_WORLD_CHUNK_BLOCKSTORAGE_H
 #define PODRUM_WORLD_CHUNK_BLOCKSTORAGE_H
 
+#include <podrum/debug.h>
 #include <stdint.h>
 
 #define BLOCK_STORAGE_EMPTY -1

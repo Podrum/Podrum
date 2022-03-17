@@ -6,23 +6,19 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
-#ifndef PODRUM_QUEUE_H
-#define PODRUM_QUEUE_H
+#ifndef PODRUM_DEBUG_H
+#define PODRUM_DEBUG_H
 
-#include <podrum/debug.h>
-#include <podrum/worker.h>
-#include <stdlib.h>
+#ifdef _WIN32
 
-typedef struct {
-	worker_mutex_t lock;
-	void **items;
-	size_t items_count;
-} queue_t;
+#define USE_LEAK_DETECTOR 0
 
-queue_t new_queue();
+#if USE_LEAK_DETECTOR 1
 
-void *get_queue(queue_t *queue);
+#include <vld.h>
 
-void put_queue(void *data, queue_t *queue);
+#endif
+
+#endif
 
 #endif

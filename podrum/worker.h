@@ -9,6 +9,8 @@
 #ifndef PODRUM_WORKER_H
 #define PODRUM_WORKER_H
 
+#include <podrum/debug.h>
+
 #ifdef _WIN32
 
 #include <windows.h>

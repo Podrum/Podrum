@@ -6,6 +6,7 @@
             http://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
  */
 
+#include <podrum/debug.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -220,7 +221,14 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_REQUEST_CHUNK_RADIUS) {
 				handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, &player_manager, &resources);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_INTERACT) {
-				handle_packet_interact((&(game.streams[i])), connection, server, &player_manager);
+				handle_packet_interact((&(game.streams[i])), connection, server, &player_manager, &resources);
+			} else if ((game.streams[i].buffer[0] & 0xFF) == 0x09) {
+				/* Just for debugging
+				minecraft_player_t *player = get_minecraft_player_address(connection->address, &player_manager);
+				if (player == NULL) continue;
+				if (player->spawned == 0) continue;
+				send_raknet_shutdown(server);
+				*/
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_CONTAINER_CLOSE) {
 				handle_packet_window_close((&(game.streams[i])), connection, server);
 			} else if ((game.streams[i].buffer[0] & 0xFF) == ID_MOVE_PLAYER) {
@@ -253,6 +261,7 @@ int main(int argc, char **argv)
 	raknet_server.connections = (connection_t *) malloc(0);
 	raknet_server.connections_count = 0;
 	raknet_server.guid = 1325386089232893086;
+	raknet_server.is_running = 1;
 	//raknet_server.message = "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
 	raknet_server.epoch = time(NULL) * 1000;
 	raknet_server.on_disconnect_notification_executor = on_dn;
@@ -263,8 +272,11 @@ int main(int argc, char **argv)
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
-	while (1) {
+	while (raknet_server.is_running) {
 		tick_raknet(&raknet_server);
 	}
+	destroy_resources(&resources);
+	free(player_manager.players);
+	free(command_manager.commands);
 	return 0;
 }

@@ -56,6 +56,16 @@ void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t
 	put_queue(stream.buffer, (&(server->threaded_to_main)));
 }
 
+void send_raknet_shutdown(raknet_server_t *server)
+{
+	binary_stream_t stream;
+	stream.buffer = (int8_t *) malloc(1);
+	stream.buffer[0] = INTERNAL_SHUTDOWN;
+	stream.offset = 0;
+	stream.size = 1;
+	put_queue(stream.buffer, (&(server->threaded_to_main)));
+}
+
 double get_raknet_timestamp(raknet_server_t *server)
 {
 	return (time(NULL) * 1000) - server->epoch;
@@ -487,6 +497,30 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	remove_raknet_connection(connection->address, server);
 }
 
+void destroy_raknet_server(raknet_server_t *server)
+{
+	while (server->connections_count > 0) {
+		disconnect_raknet_client(&(server->connections[0]), server);
+	}
+	free(server->connections);
+	size_t i;
+	for (i = 0; i < server->main_to_threaded.items_count; ++i) {
+		free(server->main_to_threaded.items[i]);
+	}
+	for (i = 0; i < server->threaded_to_main.items_count; ++i) {
+		free(server->threaded_to_main.items[i]);
+	}
+	server->main_to_threaded.items_count = 0;
+	server->threaded_to_main.items_count = 0;
+	free(server->main_to_threaded.items);
+	free(server->threaded_to_main.items);
+	worker_destroy_mutex(&(server->main_to_threaded.lock));
+	worker_destroy_mutex(&(server->threaded_to_main.lock));
+	free(server->message);
+	close_socket(server->sock);
+	server->is_running = 0;
+}
+
 uint8_t handle_raknet_internal(raknet_server_t *server)
 {
 	binary_stream_t internal_stream;
@@ -508,6 +542,8 @@ uint8_t handle_raknet_internal(raknet_server_t *server)
 			misc_address_t disconnected_address = get_internal_disconnect_notification(&internal_stream);
 			remove_raknet_connection(disconnected_address, server);
 			free(disconnected_address.address);
+		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_SHUTDOWN) {
+			destroy_raknet_server(server);
 		}
 		free(internal_stream.buffer);
 		return 1;
@@ -564,8 +600,8 @@ void handle_raknet_packet(raknet_server_t *server)
 				handle_frame_set((&(socket_data.stream)), server, connection);
 			}
 		}
+		free(socket_data.stream.buffer);
 	}
-	free(socket_data.stream.buffer);
 }
 
 void tick_raknet(raknet_server_t *server)

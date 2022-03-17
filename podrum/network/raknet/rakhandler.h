@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKHANDLER_H
 #define PODRUM_NETWORK_RAKNET_RAKHANDLER_H
 
+#include <podrum/debug.h>
 #include <podrum/network/raknet/rakpacket.h>
 #include <podrum/network/raknet/rakserver.h>
 

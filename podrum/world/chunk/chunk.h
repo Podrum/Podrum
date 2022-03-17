@@ -9,6 +9,7 @@
 #ifndef PODRUM_WORLD_CHUNK_CHUNK_H
 #define PODRUM_WORLD_CHUNK_CHUNK_H
 
+#include <podrum/debug.h>
 #include <podrum/world/chunk/subchunk.h>
 
 #define CHUNK_EMPTY -3

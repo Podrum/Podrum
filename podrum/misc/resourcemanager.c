@@ -146,23 +146,23 @@ resources_t get_resources()
 	return resources;
 }
 
-void destroy_resources(resources_t resources)
+void destroy_resources(resources_t *resources)
 {
-	destroy_nbt_named(resources.biome_definitions);
-	destroy_nbt_named(resources.entity_identifiers);
+	destroy_nbt_named(resources->biome_definitions);
+	destroy_nbt_named(resources->entity_identifiers);
 	size_t i;
-	for (i = 0; i < resources.item_states.size; ++i) {
-		free(resources.item_states.entries[i].name);
+	for (i = 0; i < resources->item_states.size; ++i) {
+		free(resources->item_states.entries[i].name);
 	}
-	free(resources.item_states.entries);
-	for (i = 0; i < resources.block_states.size; ++i) {
-		free(resources.block_states.entries[i].name);
+	free(resources->item_states.entries);
+	for (i = 0; i < resources->block_states.size; ++i) {
+		free(resources->block_states.entries[i].name);
 	}
-	free(resources.block_states.entries);
-	for (i = 0; i < resources.creative_items.size; ++i) {
-		if (resources.creative_items.entries[i].extra.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
-			destroy_nbt_named(resources.creative_items.entries[i].extra.nbt);
+	free(resources->block_states.entries);
+	for (i = 0; i < resources->creative_items.size; ++i) {
+		if (resources->creative_items.entries[i].extra.with_nbt == ITEM_EXTRA_DATA_WITH_NBT) {
+			destroy_nbt_named(resources->creative_items.entries[i].extra.nbt);
 		}
 	}
-	free(resources.creative_items.entries);
+	free(resources->creative_items.entries);
 }

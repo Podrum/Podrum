@@ -9,6 +9,7 @@
 #ifndef PODRUM_WORLD_CHUNK_SUBCHUNK_H
 #define PODRUM_WORLD_CHUNK_SUBCHUNK_H
 
+#include <podrum/debug.h>
 #include <podrum/world/chunk/blockstorage.h>
 
 #define SUB_CHUNK_VERSION 8

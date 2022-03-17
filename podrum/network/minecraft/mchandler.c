@@ -112,7 +112,7 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	printf("%s is your identity\n", player.identity);
 }
 
-void handle_packet_interact(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager)
+void handle_packet_interact(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
 {
 	packet_interact_t interact = get_packet_interact(stream);
 	if (interact.action_id == INTERACT_OPEN_INVENTORY) {

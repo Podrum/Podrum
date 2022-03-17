@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKSERVER_H
 #define PODRUM_NETWORK_RAKNET_RAKSERVER_H
 
+#include <podrum/debug.h>
 #include <stdint.h>
 #include <stdlib.h>
 
@@ -65,6 +66,7 @@ struct _raknet_server {
 	double epoch;
 	queue_t threaded_to_main;
 	queue_t main_to_threaded;
+	uint8_t is_running;
 };
 
 void set_raknet_option(char *name, char *option, raknet_server_t *server);
@@ -74,6 +76,8 @@ void send_set_raknet_option(char *name, char *option, raknet_server_t *server);
 void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server);
 
 void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server);
+
+void send_raknet_shutdown(raknet_server_t *server);
 
 double get_raknet_timestamp(raknet_server_t *server);
 
@@ -122,6 +126,8 @@ size_t get_raknet_compound_size(uint16_t compound_id, connection_t *connection);
 misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, connection_t *connection);
 
 void disconnect_raknet_client(connection_t *connection, raknet_server_t *server);
+
+void destroy_raknet_server(raknet_server_t *server);
 
 uint8_t handle_raknet_internal(raknet_server_t *server);
 

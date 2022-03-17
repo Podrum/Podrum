@@ -11,6 +11,7 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #pragma comment(lib,"ws2_32.lib")
+#define _WINSOCK_DEPRECATED_NO_WARNINGS
 
 #else
 
@@ -18,6 +19,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 #endif
 
@@ -83,17 +85,16 @@ socket_data_t receive_data(int sock)
 	if (length != -1 && length < result.stream.size) {
 		result.stream.size = length;
 		result.stream.buffer = (int8_t *) realloc(result.stream.buffer, result.stream.size);
-	} else if (length == -1) {
-		result.stream.size = 0;
-		result.stream.buffer = (int8_t *) realloc(result.stream.buffer, 0);
 		result.address.version = 4;
-		result.address.address = "0.0.0.0";
-		result.address.port = 0;
+		result.address.address = inet_ntoa(s_address.sin_addr);
+		result.address.port = htons(s_address.sin_port);
 		return result;
 	}
-	result.address.version = 4;
-	result.address.address = inet_ntoa(s_address.sin_addr);
-	result.address.port = htons(s_address.sin_port);
+	result.stream.size = 0;
+	free(result.stream.buffer);
+	result.address.version = 0;
+	result.address.address = "";
+	result.address.port = 0;
 	return result;
 }
 
@@ -104,4 +105,17 @@ void send_data(int sock, socket_data_t socket_data)
 	s_address.sin_addr.s_addr = inet_addr(socket_data.address.address);
 	s_address.sin_port = htons(socket_data.address.port);
 	sendto(sock, socket_data.stream.buffer, socket_data.stream.size, 0, (struct sockaddr *) &s_address, sizeof(s_address));
+}
+
+void close_socket(int sock)
+{
+	#ifdef _WIN32
+
+	closesocket(sock);
+
+	#else
+
+	close(sock);
+
+	#endif
 }

@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_MINECRAFT_MCPLAYER_H
 #define PODRUM_NETWORK_MINECRAFT_MCPLAYER_H
 
+#include <podrum/debug.h>
 #include <podrum/network/raknet/rakserver.h>
 #include <podrum/network/minecraft/mcplayermanager.h>
 #include <podrum/network/minecraft/mcmapping.h>

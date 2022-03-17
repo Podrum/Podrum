@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKMISC_H
 #define PODRUM_NETWORK_RAKNET_RAKMISC_H
 
+#include <podrum/debug.h>
 #include <stdint.h>
 #include <cbinarystream/binary_stream.h>
 

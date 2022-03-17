@@ -177,7 +177,6 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		server->on_frame_executor(frame, connection, server);
 	}
 	free(frame.stream.buffer);
-	memset(&frame, 0, sizeof(misc_frame_t));
 }
 
 void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connection_t *connection)
@@ -200,6 +199,10 @@ void handle_frame_set(binary_stream_t *stream, raknet_server_t *server, connecti
 			break;
 		}
 		handle_frame(frame_set.frames[i], server, connection);
+	}
+	while (i < frame_set.frames_count) {
+		free(frame_set.frames[i].stream.buffer);
+		++i;
 	}
 	free(frame_set.frames);
 }

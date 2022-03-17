@@ -9,6 +9,7 @@
 #ifndef PODRUM_NETWORK_RAKNET_RAKINTERNAL_H
 #define PODRUM_NETWORK_RAKNET_RAKINTERNAL_H
 
+#include <podrum/debug.h>
 #include <podrum/network/raknet/rakmisc.h>
 
 #define INTERNAL_FRAME 0x00
