@@ -258,7 +258,7 @@ int main(int argc, char **argv)
 	raknet_server.on_disconnect_notification_executor = on_dn;
 	raknet_server.on_frame_executor = on_f;
 	raknet_server.on_new_incoming_connection_executor = on_nic;
-	send_set_raknet_option("name", "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
+	send_set_raknet_option("name", "MCPE;Podrum;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
