@@ -12,7 +12,7 @@ queue_t new_queue()
 {
 	queue_t queue;
 	queue.items_count = 0;
-	queue.items = (void **) malloc(queue.items_count * sizeof(void *));
+	queue.items = (void **) malloc(0);
 	worker_create_mutex(&queue.lock);
 	return queue;
 }

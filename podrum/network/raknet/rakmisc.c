@@ -9,10 +9,12 @@
 #include <podrum/network/raknet/rakmisc.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <string.h>
 
 #ifdef _WIN32
 
 #include <winsock2.h>
+#include <ws2tcpip.h>
 #pragma comment(lib,"ws2_32.lib")
 
 #else
@@ -102,6 +104,18 @@ misc_address_t get_misc_address(binary_stream_t *stream)
 		address.address[size] = 0x00;
 		sprintf(address.address, "%u.%u.%u.%u", part_1, part_2, part_3, part_4);
 		address.port = get_unsigned_short_be(stream);
+	} else if (address.version == 6) {
+		stream->offset += 2;
+		address.port = get_unsigned_short_be(stream);
+		stream->offset += 4;
+		char addr[INET6_ADDRSTRLEN];
+		inet_ntop(AF_INET6, get_bytes(16, stream), addr, INET6_ADDRSTRLEN);
+		binary_stream_t temp_stream;
+		temp_stream.size = 0;
+		temp_stream.buffer = (int8_t *) malloc(0);
+		put_bytes((int8_t *) addr, strlen(addr) + 1, &temp_stream);
+		address.address = (char *) temp_stream.buffer;
+		stream->offset += 4;
 	}
 	return address;
 }
@@ -139,6 +153,14 @@ void put_misc_address(misc_address_t address, binary_stream_t *stream)
 		int packed_address = ~inet_addr(address.address);
 		put_int_le(packed_address, stream);
 		put_unsigned_short_be(address.port, stream);
+	} else if (address.version == 6) {
+		put_unsigned_short_le(AF_INET6, stream);
+		put_unsigned_short_be(address.port, stream);
+		put_int_be(0, stream);
+		int8_t addr[16];
+		inet_pton(AF_INET6, address.address, addr);
+		put_bytes(addr, 16, stream);
+		put_int_be(0, stream);
 	}
 }
 

@@ -30,7 +30,11 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	player.xuid[0] = 0;
 	player.gamemode = 1;
 	player.view_distance = 8;
-	player.address = connection->address;
+	size_t size = strlen(connection->address.address) + 1;
+	player.address.address = malloc(size);
+	memcpy(player.address.address, connection->address.address, size);
+	player.address.port = connection->address.port;
+	player.address.version = connection->address.version;
 	player.x = 0.0;
 	player.y = 9.0;
 	player.z = 0.0;
@@ -135,7 +139,7 @@ void handle_packet_interact(binary_stream_t *stream, connection_t *connection, r
 			break;
 		default:
 			log_warning("Invalid Gamemode");
-			disconnect_raknet_client(connection, server);
+			send_raknet_disconnect_notification(connection->address, server, INTERNAL_THREADED_TO_MAIN);
 		}
 		container_open.window_type = WINDOW_TYPE_INVENTORY;
 		container_open.coordinates_x = (int32_t) player->x;
@@ -190,14 +194,16 @@ void handle_packet_move_player(binary_stream_t *stream, connection_t *connection
 {
 	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 	packet_move_player_t move_player = get_packet_move_player(stream);
-	if (player->spawned == 1) {
-		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
-			send_chunks(resources->block_states, player, connection, server);
+	if (player != NULL) {
+		if (player->spawned == 1) {
+			if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
+				send_chunks(resources->block_states, player, connection, server);
+			}
 		}
+		player->x = move_player.position_x;
+		player->y = move_player.position_y;
+		player->z = move_player.position_z;
+		player->pitch = move_player.pitch;
+		player->yaw = move_player.yaw;
 	}
-	player->x = move_player.position_x;
-	player->y = move_player.position_y;
-	player->z = move_player.position_z;
-	player->pitch = move_player.pitch;
-	player->yaw = move_player.yaw;
 }

@@ -13,10 +13,26 @@
 #include <stdint.h>
 #include <stdlib.h>
 
+#include <podrum/worker.h>
 #include <podrum/network/raknet/rakmisc.h>
 #include <podrum/network/raknet/rakpacket.h>
 #include <podrum/network/raknet/socket.h>
 #include <podrum/queue.h>
+
+#ifdef _WIN32
+
+#include <windows.h>
+
+#else
+
+#include <unistd.h>
+
+#endif
+
+#define INTERNAL_THREADED_TO_MAIN 0
+#define INTERNAL_MAIN_TO_THREADED 1
+
+static int RAKNET_TPS = 1000 / 100;
 
 typedef struct {
 	uint16_t mtu_size;
@@ -67,15 +83,20 @@ struct _raknet_server {
 	queue_t threaded_to_main;
 	queue_t main_to_threaded;
 	uint8_t is_running;
+	worker_t main_worker;
+	size_t threaded_workers_count;
+	worker_t *threaded_workers;
 };
 
 void set_raknet_option(char *name, char *option, raknet_server_t *server);
 
 void send_set_raknet_option(char *name, char *option, raknet_server_t *server);
 
-void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server);
+void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server, uint8_t options);
 
-void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server);
+void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server, uint8_t options);
+
+void send_raknet_new_incoming_connection(misc_address_t address, raknet_server_t *server);
 
 void send_raknet_shutdown(raknet_server_t *server);
 
@@ -125,16 +146,24 @@ size_t get_raknet_compound_size(uint16_t compound_id, connection_t *connection);
 
 misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, connection_t *connection);
 
-void disconnect_raknet_client(connection_t *connection, raknet_server_t *server);
+void disconnect_raknet_client(misc_address_t address, raknet_server_t *server);
 
 void destroy_raknet_server(raknet_server_t *server);
 
-uint8_t handle_raknet_internal(raknet_server_t *server);
+uint8_t handle_raknet_internal(raknet_server_t *server, uint8_t options);
 
 void update_raknet_connections(raknet_server_t *server);
 
 void handle_raknet_packet(raknet_server_t *server);
 
 void tick_raknet(raknet_server_t *server);
+
+RETURN_WORKER_EXECUTOR tick_raknet_task(ARGS_WORKER_EXECUTOR argvp);
+
+RETURN_WORKER_EXECUTOR handle_raknet_main_to_threaded(ARGS_WORKER_EXECUTOR argvp);
+
+raknet_server_t create_raknet_server(size_t threaded_workers_count,  char *address, uint16_t port, uint8_t ip_version, on_frame_executor_t on_frame_executor, on_new_incoming_connection_executor_t on_new_incoming_connection_executor, on_disconnect_notification_executor_t on_disconnect_notification_executor);
+
+void run_raknet_server(raknet_server_t *server);
 
 #endif

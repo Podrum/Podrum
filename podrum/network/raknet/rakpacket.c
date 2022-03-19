@@ -204,8 +204,12 @@ void put_packet_unconnected_pong(packet_unconnected_pong_t packet, binary_stream
 	put_unsigned_long_be(packet.timestamp, stream);
 	put_unsigned_long_be(packet.guid, stream);
 	put_bytes((int8_t *) MAGIC, 16, stream);
-	put_short_be(strlen(packet.message), stream);
-	put_bytes((int8_t *) packet.message, strlen(packet.message), stream);
+	if (packet.message != NULL) {
+		put_short_be(strlen(packet.message), stream);
+		put_bytes((int8_t *) packet.message, strlen(packet.message), stream);
+	} else {
+		put_short_be(0, stream);
+	}
 }
 
 void put_packet_incompatible_protocol_version(packet_incompatible_protocol_version_t packet, binary_stream_t *stream)

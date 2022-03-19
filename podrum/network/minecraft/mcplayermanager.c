@@ -44,6 +44,7 @@ void remove_minecraft_player(misc_address_t address, minecraft_player_manager_t 
 				free(player_manager->players[i].display_name);
 				free(player_manager->players[i].identity);
 				free(player_manager->players[i].xuid);
+				free(player_manager->players[i].address.address);
 			}
 		}
 		free(player_manager->players);

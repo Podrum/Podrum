@@ -33,7 +33,7 @@ void send_set_raknet_option(char *name, char *option, raknet_server_t *server)
 	put_queue(stream.buffer, (&(server->threaded_to_main)));
 }
 
-void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server)
+void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server, uint8_t options)
 {
 	binary_stream_t stream;
 	stream.buffer = (int8_t *) malloc(0);
@@ -43,17 +43,41 @@ void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server
 	internal_frame.frame = frame;
 	internal_frame.address = address;
 	put_internal_frame(internal_frame, &stream);
-	put_queue(stream.buffer, (&(server->threaded_to_main)));
+	switch (options) {
+	case INTERNAL_THREADED_TO_MAIN:
+		put_queue(stream.buffer, (&(server->threaded_to_main)));
+		break;
+	case INTERNAL_MAIN_TO_THREADED:
+		put_queue(stream.buffer, (&(server->main_to_threaded)));
+		break;
+	}
 }
 
-void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server)
+void send_raknet_disconnect_notification(misc_address_t address, raknet_server_t *server, uint8_t options)
 {
 	binary_stream_t stream;
 	stream.buffer = (int8_t *) malloc(0);
 	stream.offset = 0;
 	stream.size = 0;
 	put_internal_disconnect_notification(address, &stream);
-	put_queue(stream.buffer, (&(server->threaded_to_main)));
+	switch (options) {
+	case INTERNAL_THREADED_TO_MAIN:
+		put_queue(stream.buffer, (&(server->threaded_to_main)));
+		break;
+	case INTERNAL_MAIN_TO_THREADED:
+		put_queue(stream.buffer, (&(server->main_to_threaded)));
+		break;
+	}
+}
+
+void send_raknet_new_incoming_connection(misc_address_t address, raknet_server_t *server)
+{
+	binary_stream_t stream;
+	stream.buffer = (int8_t *) malloc(0);
+	stream.offset = 0;
+	stream.size = 0;
+	put_internal_new_incoming_connection(address, &stream);
+	put_queue(stream.buffer, (&(server->main_to_threaded)));
 }
 
 void send_raknet_shutdown(raknet_server_t *server)
@@ -137,7 +161,7 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 					free(server->connections[i].frame_holder[ii].stream.buffer);
 				}
 				free(server->connections[i].frame_holder);
-				free(server->connections[i].queue.frames);
+				//free(server->connections[i].queue.frames);
 				for (ii = 0; ii < server->connections[i].recovery_queue_size; ++ii) {
 					size_t iii;
 					for (iii = 0; iii < server->connections[i].recovery_queue[ii].frames_count; ++iii) {
@@ -217,7 +241,7 @@ packet_frame_set_t pop_raknet_recovery_queue(uint32_t sequence_number, connectio
 		size_t recovery_queue_size = 0;
 		packet_frame_set_t output_frame_set;
 		for (i = 0; i < connection->recovery_queue_size; ++i) {
-			if (connection->recovery_queue->sequence_number != sequence_number) {
+			if (connection->recovery_queue[i].sequence_number != sequence_number) {
 				recovery_queue[recovery_queue_size] = connection->recovery_queue[i];
 				++recovery_queue_size;
 			} else {
@@ -483,9 +507,9 @@ misc_frame_t pop_raknet_compound_entry(uint16_t compound_id, uint32_t index, con
 	return frame;
 }
 
-void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
+void disconnect_raknet_client(misc_address_t address, raknet_server_t *server)
 {
-	server->on_disconnect_notification_executor(connection->address);
+	send_raknet_disconnect_notification(address, server, INTERNAL_MAIN_TO_THREADED);
 	misc_frame_t frame;
 	frame.is_fragmented = 0;
 	frame.reliability = 0;
@@ -493,14 +517,17 @@ void disconnect_raknet_client(connection_t *connection, raknet_server_t *server)
 	frame.stream.size = 1;
 	frame.stream.offset = 0;
 	frame.stream.buffer[0] = ID_DISCONNECT_NOTIFICATION;
-	append_raknet_frame(frame, 1, connection, server);
-	remove_raknet_connection(connection->address, server);
+	connection_t *connection = get_raknet_connection(address, server);
+	if (connection != NULL) {
+		append_raknet_frame(frame, 1, connection, server);
+	}
+	remove_raknet_connection(address, server);
 }
 
 void destroy_raknet_server(raknet_server_t *server)
 {
 	while (server->connections_count > 0) {
-		disconnect_raknet_client(&(server->connections[0]), server);
+		disconnect_raknet_client(server->connections[0].address, server);
 	}
 	free(server->connections);
 	size_t i;
@@ -521,10 +548,19 @@ void destroy_raknet_server(raknet_server_t *server)
 	server->is_running = 0;
 }
 
-uint8_t handle_raknet_internal(raknet_server_t *server)
+uint8_t handle_raknet_internal(raknet_server_t *server, uint8_t options)
 {
 	binary_stream_t internal_stream;
-	internal_stream.buffer = (int8_t *) get_queue(&(server->threaded_to_main));
+	switch (options) {
+	case INTERNAL_THREADED_TO_MAIN:
+		internal_stream.buffer = (int8_t *) get_queue(&(server->threaded_to_main));
+		break;
+	case INTERNAL_MAIN_TO_THREADED:
+		internal_stream.buffer = (int8_t *) get_queue(&(server->main_to_threaded));
+		break;
+	default:
+		internal_stream.buffer = NULL;
+	}
 	internal_stream.offset = 0;
 	if (internal_stream.buffer != NULL) {
 		if ((internal_stream.buffer[0] & 0xff) == INTERNAL_FRAME) {
@@ -532,7 +568,15 @@ uint8_t handle_raknet_internal(raknet_server_t *server)
 			connection_t *connection = get_raknet_connection(internal_frame.address, server);
 			free(internal_frame.address.address);
 			if (connection != NULL) {
-				add_to_raknet_queue(internal_frame.frame, connection, server);
+				switch (options) {
+				case INTERNAL_THREADED_TO_MAIN:
+					add_to_raknet_queue(internal_frame.frame, connection, server);
+					break;
+				case INTERNAL_MAIN_TO_THREADED:
+					server->on_frame_executor(internal_frame.frame, connection, server);
+					free(internal_frame.frame.stream.buffer);
+					break;
+				}
 			}
 		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_SET_OPTION) {
 			internal_set_option_t internal_set_option = get_internal_set_option(&internal_stream);
@@ -540,10 +584,24 @@ uint8_t handle_raknet_internal(raknet_server_t *server)
 			free(internal_set_option.name);
 		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_DISCONNECT_NOTIFICATION) {
 			misc_address_t disconnected_address = get_internal_disconnect_notification(&internal_stream);
-			remove_raknet_connection(disconnected_address, server);
+			switch (options) {
+			case INTERNAL_THREADED_TO_MAIN:
+				disconnect_raknet_client(disconnected_address, server);
+				break;
+			case INTERNAL_MAIN_TO_THREADED:
+				server->on_disconnect_notification_executor(disconnected_address);
+				break;
+			}
 			free(disconnected_address.address);
 		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_SHUTDOWN) {
 			destroy_raknet_server(server);
+		} else if ((internal_stream.buffer[0] & 0xff) == INTERNAL_NEW_INCOMING_CONNECTION) {
+			misc_address_t connected_address = get_internal_new_incoming_connection(&internal_stream);
+			connection_t *connection = get_raknet_connection(connected_address, server);
+			free(connected_address.address);
+			if (connection != NULL) {
+				server->on_new_incoming_connection_executor(connection);
+			}
 		}
 		free(internal_stream.buffer);
 		return 1;
@@ -607,6 +665,75 @@ void handle_raknet_packet(raknet_server_t *server)
 void tick_raknet(raknet_server_t *server)
 {
 	handle_raknet_packet(server);
-	while (handle_raknet_internal(server) == 1);
+	while (handle_raknet_internal(server, INTERNAL_THREADED_TO_MAIN) == 1);
 	update_raknet_connections(server);
+}
+
+RETURN_WORKER_EXECUTOR tick_raknet_task(ARGS_WORKER_EXECUTOR argvp)
+{
+	raknet_server_t *server = argvp;
+	while (server->is_running == 1) {
+		tick_raknet(server);
+		#ifdef _WIN32
+
+		Sleep(RAKNET_TPS);
+
+		#else
+
+		usleep(RAKNET_TPS * 1000);
+
+		#endif
+	}
+	return 0;
+}
+
+RETURN_WORKER_EXECUTOR handle_raknet_main_to_threaded(ARGS_WORKER_EXECUTOR argvp)
+{
+	raknet_server_t *server = argvp;
+	while (server->is_running == 1) {
+		handle_raknet_internal(server, INTERNAL_MAIN_TO_THREADED);
+		#ifdef _WIN32
+
+		Sleep(RAKNET_TPS);
+
+		#else
+
+		usleep(RAKNET_TPS * 1000);
+
+		#endif
+	}
+	return 0;
+}
+
+raknet_server_t create_raknet_server(size_t threaded_workers_count, char *address, uint16_t port, uint8_t ip_version, on_frame_executor_t on_frame_executor, on_new_incoming_connection_executor_t on_new_incoming_connection_executor, on_disconnect_notification_executor_t on_disconnect_notification_executor)
+{
+	raknet_server_t raknet_server;
+	raknet_server.main_to_threaded = new_queue();
+	raknet_server.threaded_to_main = new_queue();
+	raknet_server.address.version = ip_version;
+	raknet_server.address.address = address;
+	raknet_server.address.port = port;
+	raknet_server.sock = create_socket(raknet_server.address);
+	raknet_server.connections = (connection_t *) malloc(0);
+	raknet_server.connections_count = 0;
+	raknet_server.guid = 1325386089232893086;
+	raknet_server.is_running = 0;
+	raknet_server.message = NULL;
+	raknet_server.epoch = time(NULL) * 1000;
+	raknet_server.on_frame_executor = on_frame_executor;
+	raknet_server.on_new_incoming_connection_executor = on_new_incoming_connection_executor;
+	raknet_server.on_disconnect_notification_executor = on_disconnect_notification_executor;
+	raknet_server.threaded_workers_count = threaded_workers_count;
+	raknet_server.threaded_workers = (worker_t *) malloc(raknet_server.threaded_workers_count * sizeof(worker_t));
+	return raknet_server;
+}
+
+void run_raknet_server(raknet_server_t *server)
+{
+	server->is_running = 1;
+	server->main_worker = create_worker(tick_raknet_task, server);
+	size_t i;
+	for (i = 0; i < server->threaded_workers_count; ++i) {
+		server->threaded_workers[i] = create_worker(handle_raknet_main_to_threaded, server);
+	}
 }

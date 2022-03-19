@@ -66,8 +66,8 @@ binary_stream_t handle_connection_request(binary_stream_t *stream, raknet_server
 	connection_request_accepted.address = address;
 	connection_request_accepted.system_index = 0;
 	misc_address_t system_address;
-	system_address.address = "255.255.255.255";
-	system_address.port = 19132;
+	system_address.address = "0.0.0.0";
+	system_address.port = 0;
 	system_address.version = 4;
 	int i;
 	for (i = 0; i < 20; ++i) {
@@ -115,6 +115,7 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 		packet_frame_set_t frame_set = pop_raknet_recovery_queue(acknowledge.sequence_numbers[i], connection);
 		if (frame_set.sequence_number != 0 && frame_set.frames_count != 0 && frame_set.frames != NULL) {
 			frame_set.sequence_number = connection->sender_sequence_number;
+			append_raknet_recovery_queue(frame_set, connection);
 			++connection->sender_sequence_number;
 			socket_data_t output_socket_data;
 			output_socket_data.stream.buffer = (int8_t *) malloc(0);
@@ -124,7 +125,6 @@ void handle_nack(binary_stream_t *stream, raknet_server_t *server, connection_t 
 			output_socket_data.address = connection->address;
 			send_data(server->sock, output_socket_data);
 			free(output_socket_data.stream.buffer);
-			free(frame_set.frames);
 		}
 	}
 	free(acknowledge.sequence_numbers);
@@ -170,11 +170,11 @@ void handle_frame(misc_frame_t frame, raknet_server_t *server, connection_t *con
 		output_frame.stream = handle_connected_ping(((&(frame.stream))), server);
 		add_to_raknet_queue(output_frame, connection, server);
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_DISCONNECT_NOTIFICATION) {
-		disconnect_raknet_client(connection, server);
+		send_raknet_disconnect_notification(connection->address, server, INTERNAL_THREADED_TO_MAIN);
 	} else if ((frame.stream.buffer[0] & 0xff) == ID_NEW_INCOMING_CONNECTION) {
-		server->on_new_incoming_connection_executor(connection);
+		send_raknet_new_incoming_connection(connection->address, server);
 	} else {
-		server->on_frame_executor(frame, connection, server);
+		send_raknet_frame(frame, connection->address, server, INTERNAL_MAIN_TO_THREADED);
 	}
 	free(frame.stream.buffer);
 }

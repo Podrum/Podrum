@@ -30,10 +30,16 @@
 
 #include <windows.h>
 
+#else
+
+#include <unistd.h>
+
 #endif
 
 #define CODE_NAME "Titanium"
 #define API_VERSION "1.0.0-alpha1"
+
+static int PODRUM_TPS = 1000 / 20;
 
 minecraft_player_manager_t player_manager;
 
@@ -254,26 +260,23 @@ int main(int argc, char **argv)
 	resources = get_resources();
 	player_manager.size = 0;
 	player_manager.players = (minecraft_player_t *) malloc(0);
-	raknet_server.address.version = 4;
-	raknet_server.address.address = "0.0.0.0";
-	raknet_server.address.port = 19132;
-	raknet_server.sock = create_socket(raknet_server.address);
-	raknet_server.connections = (connection_t *) malloc(0);
-	raknet_server.connections_count = 0;
-	raknet_server.guid = 1325386089232893086;
-	raknet_server.is_running = 1;
-	//raknet_server.message = "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;";
-	raknet_server.epoch = time(NULL) * 1000;
-	raknet_server.on_disconnect_notification_executor = on_dn;
-	raknet_server.on_frame_executor = on_f;
-	raknet_server.on_new_incoming_connection_executor = on_nic;
+	raknet_server = create_raknet_server(1, "0.0.0.0", 19132, 4, on_f, on_nic, on_dn);
+	run_raknet_server(&raknet_server);
 	send_set_raknet_option("name", "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
 	log_info("Podrum started up!");
 	while (raknet_server.is_running) {
-		tick_raknet(&raknet_server);
+		#ifdef _WIN32
+
+		Sleep(PODRUM_TPS);
+
+		#else
+
+		usleep(PODRUM_TPS * 1000);
+
+		#endif
 	}
 	destroy_resources(&resources);
 	free(player_manager.players);

@@ -24,7 +24,7 @@ void send_minecraft_packet(binary_stream_t *streams, size_t streams_count, conne
 	frame.stream.offset = 0;
 	frame.stream.size = 0;
 	put_packet_game(game, (&(frame.stream)));
-	send_raknet_frame(frame, connection->address, server);
+	send_raknet_frame(frame, connection->address, server, INTERNAL_THREADED_TO_MAIN);
 	free(frame.stream.buffer);
 }
 
