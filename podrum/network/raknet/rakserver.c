@@ -541,6 +541,7 @@ void destroy_raknet_server(raknet_server_t *server)
 	server->threaded_to_main.items_count = 0;
 	free(server->main_to_threaded.items);
 	free(server->threaded_to_main.items);
+	free(server->threaded_workers);
 	worker_destroy_mutex(&(server->main_to_threaded.lock));
 	worker_destroy_mutex(&(server->threaded_to_main.lock));
 	free(server->message);

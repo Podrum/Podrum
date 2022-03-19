@@ -47,14 +47,41 @@ resources_t resources;
 
 raknet_server_t raknet_server;
 
+uint8_t is_running;
+
 void cmd1executor(int argc, char **argv)
 {
 	log_info("Function called!");
 }
 
-RETURN_WORKER_EXECUTOR test(ARGS_WORKER_EXECUTOR argvp)
+RETURN_WORKER_EXECUTOR command_task(ARGS_WORKER_EXECUTOR argvp)
 {
-	printf("Worker Test\n");
+	char *word = malloc(0);
+	size_t size = 0;
+	while (is_running == 1) {
+		char letter;
+		scanf("%c", &letter);
+		if (letter == '\r') continue;
+		if (letter == '\n') {
+			letter = 0;
+		}
+		++size;
+		word = (char *) realloc(word, size);
+		word[size - 1] = letter;
+		if (letter == 0) {
+			if (strcmp(word, "help") == 0) {
+				log_info("help - Displays all available commands");
+				log_info("stop - Stops the server");
+			} else if (strcmp(word, "stop") == 0) {
+				log_info("Stopping server...");
+				is_running = 0;
+			} else if (size > 1) {
+				log_error("Invalid command!");
+			}
+			size = 0;
+			word = realloc(word, 0);
+		}
+	}
 	return 0;
 }
 
@@ -248,6 +275,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
+	is_running = 1;
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -266,8 +294,9 @@ int main(int argc, char **argv)
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;
+	create_worker(command_task, NULL);
 	log_info("Podrum started up!");
-	while (raknet_server.is_running) {
+	while (is_running == 1) {
 		#ifdef _WIN32
 
 		Sleep(PODRUM_TPS);
@@ -278,8 +307,10 @@ int main(int argc, char **argv)
 
 		#endif
 	}
+	send_raknet_shutdown(&raknet_server);
 	destroy_resources(&resources);
 	free(player_manager.players);
 	free(command_manager.commands);
+	log_info("Server stopped.");
 	return 0;
 }
