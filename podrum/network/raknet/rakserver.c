@@ -161,7 +161,7 @@ void remove_raknet_connection(misc_address_t address, raknet_server_t *server)
 					free(server->connections[i].frame_holder[ii].stream.buffer);
 				}
 				free(server->connections[i].frame_holder);
-				//free(server->connections[i].queue.frames);
+				free(server->connections[i].queue.frames);
 				for (ii = 0; ii < server->connections[i].recovery_queue_size; ++ii) {
 					size_t iii;
 					for (iii = 0; iii < server->connections[i].recovery_queue[ii].frames_count; ++iii) {
@@ -526,8 +526,10 @@ void disconnect_raknet_client(misc_address_t address, raknet_server_t *server)
 
 void destroy_raknet_server(raknet_server_t *server)
 {
+	server->is_running = 0;
 	while (server->connections_count > 0) {
-		disconnect_raknet_client(server->connections[0].address, server);
+		server->on_disconnect_notification_executor(server->connections[0].address);
+		remove_raknet_connection(server->connections[0].address, server);
 	}
 	free(server->connections);
 	size_t i;
@@ -546,7 +548,6 @@ void destroy_raknet_server(raknet_server_t *server)
 	worker_destroy_mutex(&(server->threaded_to_main.lock));
 	free(server->message);
 	close_socket(server->sock);
-	server->is_running = 0;
 }
 
 uint8_t handle_raknet_internal(raknet_server_t *server, uint8_t options)

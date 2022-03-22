@@ -308,6 +308,7 @@ int main(int argc, char **argv)
 		#endif
 	}
 	send_raknet_shutdown(&raknet_server);
+	join_worker(raknet_server.main_worker);
 	destroy_resources(&resources);
 	free(player_manager.players);
 	free(command_manager.commands);
