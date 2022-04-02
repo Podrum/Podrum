@@ -70,6 +70,9 @@ int create_socket(misc_address_t address)
 	if (bind(sock, (struct sockaddr *) &s_address, sizeof(s_address)) < 0) {
 		return -1;
 	}
+	int enable = 1;
+	setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *) &enable, sizeof(enable));
+	setsockopt(sock, SOL_SOCKET, SO_BROADCAST, (char *) &enable, sizeof(enable));
 	return sock;
 }
 

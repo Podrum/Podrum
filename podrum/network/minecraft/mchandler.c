@@ -116,11 +116,10 @@ void handle_packet_login(binary_stream_t *stream, connection_t *connection, rakn
 	printf("%s is your identity\n", player.identity);
 }
 
-void handle_packet_interact(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
+void handle_packet_interact(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_t *player, resources_t *resources)
 {
 	packet_interact_t interact = get_packet_interact(stream);
 	if (interact.action_id == INTERACT_OPEN_INVENTORY) {
-		minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 		binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
 		streams[0].buffer = (int8_t *) malloc(0);
 		streams[0].size = 0;
@@ -169,9 +168,8 @@ void handle_packet_window_close(binary_stream_t *stream, connection_t *connectio
 	free(streams);
 }
 
-void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
+void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_t *player, resources_t *resources)
 {
-	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 	if (player->spawned == 1) return;
 	binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
 	streams[0].buffer = (int8_t *) malloc(0);
@@ -190,20 +188,17 @@ void handle_packet_request_chunk_radius(binary_stream_t *stream, connection_t *c
 	player->spawned = 1;
 }
 
-void handle_packet_move_player(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_manager_t *player_manager, resources_t *resources)
+void handle_packet_move_player(binary_stream_t *stream, connection_t *connection, raknet_server_t *server, minecraft_player_t *player, resources_t *resources)
 {
-	minecraft_player_t *player = get_minecraft_player_address(connection->address, player_manager);
 	packet_move_player_t move_player = get_packet_move_player(stream);
-	if (player != NULL) {
-		if (player->spawned == 1) {
-			if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
-				send_chunks(resources->block_states, player, connection, server);
-			}
+	if (player->spawned == 1) {
+		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
+			send_chunks(resources->block_states, player, connection, server);
 		}
-		player->x = move_player.position_x;
-		player->y = move_player.position_y;
-		player->z = move_player.position_z;
-		player->pitch = move_player.pitch;
-		player->yaw = move_player.yaw;
 	}
+	player->x = move_player.position_x;
+	player->y = move_player.position_y;
+	player->z = move_player.position_z;
+	player->pitch = move_player.pitch;
+	player->yaw = move_player.yaw;
 }

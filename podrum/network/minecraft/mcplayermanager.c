@@ -55,10 +55,12 @@ void remove_minecraft_player(misc_address_t address, minecraft_player_manager_t 
 
 minecraft_player_t *get_minecraft_player_address(misc_address_t address, minecraft_player_manager_t *player_manager)
 {
-	size_t i;
-	for (i = 0; i < player_manager->size; ++i) {
-		if ((player_manager->players[i].address.port == address.port) && (strcmp(player_manager->players[i].address.address, address.address) == 0)) {
-			return (&(player_manager->players[i]));
+	if (address.address != NULL) {
+		size_t i;
+		for (i = 0; i < player_manager->size; ++i) {
+			if ((player_manager->players[i].address.port == address.port) && (strcmp(player_manager->players[i].address.address, address.address) == 0)) {
+				return (&(player_manager->players[i]));
+			}
 		}
 	}
 	return NULL;
@@ -77,10 +79,12 @@ uint8_t has_minecraft_player_display_name(char *display_name, minecraft_player_m
 
 minecraft_player_t *get_minecraft_player_display_name(char *display_name, minecraft_player_manager_t *player_manager)
 {
-	size_t i;
-	for (i = 0; i < player_manager->size; ++i) {
-		if (strcmp(player_manager->players[i].display_name, display_name) == 0) {
-			return (&(player_manager->players[i]));
+	if (display_name != NULL) {
+		size_t i;
+		for (i = 0; i < player_manager->size; ++i) {
+			if (strcmp(player_manager->players[i].display_name, display_name) == 0) {
+				return (&(player_manager->players[i]));
+			}
 		}
 	}
 	return NULL;

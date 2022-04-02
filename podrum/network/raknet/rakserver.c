@@ -35,21 +35,23 @@ void send_set_raknet_option(char *name, char *option, raknet_server_t *server)
 
 void send_raknet_frame(misc_frame_t frame, misc_address_t address, raknet_server_t *server, uint8_t options)
 {
-	binary_stream_t stream;
-	stream.buffer = (int8_t *) malloc(0);
-	stream.offset = 0;
-	stream.size = 0;
-	internal_frame_t internal_frame;
-	internal_frame.frame = frame;
-	internal_frame.address = address;
-	put_internal_frame(internal_frame, &stream);
-	switch (options) {
-	case INTERNAL_THREADED_TO_MAIN:
-		put_queue(stream.buffer, (&(server->threaded_to_main)));
-		break;
-	case INTERNAL_MAIN_TO_THREADED:
-		put_queue(stream.buffer, (&(server->main_to_threaded)));
-		break;
+	if (has_raknet_connection(address, server) == 1) {
+		binary_stream_t stream;
+		stream.buffer = (int8_t *) malloc(0);
+		stream.offset = 0;
+		stream.size = 0;
+		internal_frame_t internal_frame;
+		internal_frame.frame = frame;
+		internal_frame.address = address;
+		put_internal_frame(internal_frame, &stream);
+		switch (options) {
+		case INTERNAL_THREADED_TO_MAIN:
+			put_queue(stream.buffer, (&(server->threaded_to_main)));
+			break;
+		case INTERNAL_MAIN_TO_THREADED:
+			put_queue(stream.buffer, (&(server->main_to_threaded)));
+			break;
+		}
 	}
 }
 
@@ -97,10 +99,12 @@ double get_raknet_timestamp(raknet_server_t *server)
 
 uint8_t has_raknet_connection(misc_address_t address, raknet_server_t *server)
 {
-	size_t i;
-	for (i = 0; i < server->connections_count; ++i) {
-		if ((server->connections[i].address.port == address.port) && (strcmp(server->connections[i].address.address, address.address) == 0)) {
-			return 1;
+	if (address.address != NULL) {
+		size_t i;
+		for (i = 0; i < server->connections_count; ++i) {
+			if ((server->connections[i].address.port == address.port) && (strcmp(server->connections[i].address.address, address.address) == 0)) {
+				return 1;
+			}
 		}
 	}
 	return 0;
