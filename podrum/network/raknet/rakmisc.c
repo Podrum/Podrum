@@ -62,7 +62,7 @@ misc_frame_t get_misc_frame(binary_stream_t *stream)
 {
 	misc_frame_t frame;
 	uint8_t flags = get_unsigned_byte(stream);
-	frame.reliability = (flags & 0xf4) >> 5;
+	frame.reliability = (flags & 0xe0) >> 5;
 	frame.is_fragmented = (flags & 0x10) > 0;
 	frame.stream.offset = 0;
 	frame.stream.size = get_unsigned_short_be(stream) >> 3;
