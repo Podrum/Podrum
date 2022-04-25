@@ -113,7 +113,7 @@ typedef struct {
 	float player_z;
 	float pitch;
 	float yaw;
-	int32_t seed;
+	int64_t seed;
 	int16_t biome_type;
 	char *biome_name;
 	int32_t dimension;
