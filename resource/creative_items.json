@@ -1508,82 +1508,82 @@
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 0
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 8
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 7
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 15
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 12
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 14
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 1
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 4
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 5
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 13
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 9
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 3
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 11
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 10
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 2
     },
     {
         "name": "minecraft:concrete_powder",
-        "block_state_name": "minecraft:concretePowder",
+        "block_state_name": "minecraft:concrete_powder",
         "block_state_metadata": 6
     },
     {
@@ -4705,8 +4705,8 @@
         "block_state_metadata": 0
     },
     {
-        "name": "minecraft:sealantern",
-        "block_state_name": "minecraft:seaLantern",
+        "name": "minecraft:sea_lantern",
+        "block_state_name": "minecraft:sea_lantern",
         "block_state_metadata": 0
     },
     {
