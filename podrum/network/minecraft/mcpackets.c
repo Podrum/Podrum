@@ -319,7 +319,7 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 	put_float_le(packet.player_z, stream);
 	put_float_le(packet.pitch, stream);
 	put_float_le(packet.yaw, stream);
-	put_signed_var_int(packet.seed, stream);
+	put_long_le(packet.seed, stream);
 	put_short_le(packet.biome_type, stream);
 	put_misc_string_var_int(packet.biome_name, stream);
 	put_signed_var_int(packet.dimension, stream);
