@@ -15,8 +15,8 @@
 #include <podrum/network/minecraft/mcmisc.h>
 #include <cnbt/nbt.h>
 
-#define GAME_VERSION "1.18.10"
-#define GAME_PROTOCOL_VERSION 486
+#define GAME_VERSION "1.18.30"
+#define GAME_PROTOCOL_VERSION 503
 #define GAME_ENGINE "Podrum"
 
 #define ID_LOGIN 0x01
