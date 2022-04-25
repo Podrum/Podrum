@@ -9,6 +9,7 @@
 #include <podrum/debug.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 #include <string.h>
 #include <time.h>
 #include <podrum/misc/logger.h>
@@ -47,7 +48,7 @@ resources_t resources;
 
 raknet_server_t raknet_server;
 
-uint8_t is_running;
+bool is_running = false;
 
 void cmd1executor(int argc, char **argv)
 {
@@ -58,7 +59,7 @@ RETURN_WORKER_EXECUTOR command_task(ARGS_WORKER_EXECUTOR argvp)
 {
 	char *word = malloc(0);
 	size_t size = 0;
-	while (is_running == 1) {
+	while (is_running) {
 		char letter;
 		scanf("%c", &letter);
 		if (letter == '\r') continue;
@@ -74,7 +75,7 @@ RETURN_WORKER_EXECUTOR command_task(ARGS_WORKER_EXECUTOR argvp)
 				log_info("stop - Stops the server");
 			} else if (strcmp(word, "stop") == 0) {
 				log_info("Stopping server...");
-				is_running = 0;
+				is_running = false;
 			} else if (size > 1) {
 				log_error("Invalid command!");
 			}
@@ -281,7 +282,7 @@ void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server)
 
 int main(int argc, char **argv)
 {
-	is_running = 1;
+	is_running = true;
 	#ifdef _WIN32
 
 	HANDLE handle = GetStdHandle(STD_OUTPUT_HANDLE);
@@ -302,7 +303,7 @@ int main(int argc, char **argv)
 	command_manager.commands_count = 0;
 	create_worker(command_task, NULL);
 	log_info("Podrum started up!");
-	while (is_running == 1) {
+	while (is_running) {
 		#ifdef _WIN32
 
 		Sleep(PODRUM_TPS);
