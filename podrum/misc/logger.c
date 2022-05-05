@@ -60,36 +60,3 @@ void log_debug(char *message)
 {
 	log_generic(message, "DEBUG", TEXTFORMAT_GRAY);
 }
-
-void log_packet(char *message)
-{
-	time_t current_time;
-	struct tm *time_info;
-	char time_string[9];
-	time(&current_time);
-	time_info = localtime(&current_time);
-	strftime(time_string, sizeof(time_string), "%H:%M:%S", time_info);
-	printf("%s[%s %s]%s %s%s\n", TEXTFORMAT_GRAY, time_string, "PACKET", TEXTFORMAT_RESET, message, TEXTFORMAT_RESET);
-}
-
-void log_packet_send(int packet_id)
-{
-	char message[11];
-	if ((packet_id & 0xFF) <= 16) {
-		snprintf(message, sizeof(message), "Send 0x0%X", packet_id);
-	} else {
-		snprintf(message, sizeof(message), "Send 0x%X", packet_id);
-	}
-	log_packet(message);
-}
-
-void log_packet_recieve(int packet_id)
-{
-	char message[13];
-	if ((packet_id & 0xFF) <= 16) {
-		snprintf(message, sizeof(message), "Recieve 0x0%X", packet_id);
-	} else {
-		snprintf(message, sizeof(message), "Recieve 0x%X", packet_id);
-	}
-	log_packet(message);
-}

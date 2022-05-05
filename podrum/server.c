@@ -8,7 +8,6 @@
 
 #include <podrum/debug.h>
 #include <stdio.h>
-#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
@@ -106,184 +105,178 @@ void on_dn(misc_address_t address) {
 	/* exit(0); */
 }
 
-bool is_game_packet(misc_frame_t frame) {
-	return (frame.stream.buffer[0] & 0xFF) == ID_GAME;
-}
-
 void on_f(misc_frame_t frame, connection_t *connection, raknet_server_t *server) {
-	if (!is_game_packet(frame)) return;
-
-	packet_game_t game = get_packet_game(((&(frame.stream))));
-	size_t i;
-	for (i = 0; i < game.streams_count; ++i) {
-		byte mc_packet_id = game.streams[i].buffer[0] & 0xff;
-		
-		log_packet_recieve(mc_packet_id);
-		
-		if (mc_packet_id == ID_LOGIN) {
-			handle_packet_login((&(game.streams[i])), connection, server, &player_manager);
-		} else {
-			minecraft_player_t *player = get_minecraft_player_address(connection->address, &player_manager);
-			if (player == NULL) break;
-
-			if (mc_packet_id == ID_PACKET_VIOLATION_WARNING) {
-				int ii;
-				for (ii = 0; ii < game.streams[i].size; ++ii) {
-					printf("\\x%X", game.streams[i].buffer[ii] & 0xFF);
-				}
-				printf("\n");
-			} else if (mc_packet_id == ID_RESOURCE_PACK_CLIENT_RESPONSE) {
-				packet_resource_pack_client_response_t resource_pack_client_response = get_packet_resource_pack_client_response(((&(game.streams[i]))));
-				if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_NONE || resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS) {
-					size_t streams_count = 1;
-					binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
-					streams[0].buffer = (int8_t *) malloc(0);
-					streams[0].size = 0;
-					streams[0].offset = 0;
-					packet_resource_pack_stack_t resource_pack_stack;
-					resource_pack_stack.must_accept = 0;
-					resource_pack_stack.behavior_packs.size = 0;
-					resource_pack_stack.resource_packs.size = 0;
-					resource_pack_stack.game_version = GAME_VERSION;
-					resource_pack_stack.experiments.size = 0;
-					resource_pack_stack.experiments_previously_used = 0;
-					put_packet_resource_pack_stack(resource_pack_stack, (&(streams[0])));
-					send_minecraft_packet(streams, streams_count, connection, server);
-					free(streams[0].buffer);
-					free(streams);
-				} else if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED) {
-					size_t streams_count = 4;
-					binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
-					streams[0].buffer = (int8_t *) malloc(0);
-					streams[0].size = 0;
-					streams[0].offset = 0;
-					streams[1].buffer = (int8_t *) malloc(0);
-					streams[1].size = 0;
-					streams[1].offset = 0;
-					streams[2].buffer = (int8_t *) malloc(0);
-					streams[2].size = 0;
-					streams[2].offset = 0;
-					streams[3].buffer = (int8_t *) malloc(0);
-					streams[3].size = 0;
-					streams[3].offset = 0;
-					packet_start_game_t start_game;
-					start_game.entity_id = 0;
-					start_game.runtime_entity_id = 0;
-					start_game.player_gamemode = GAMEMODE_CREATIVE;
-					start_game.player_position.x = 0.0;
-					start_game.player_position.y = 9.0;
-					start_game.player_position.z = 0.0;
-					start_game.pitch = 0.0;
-					start_game.yaw = 0.0;
-					start_game.seed = 0;
-					start_game.biome_type = 0;
-					start_game.biome_name = "";
-					start_game.dimension = 0;
-					start_game.generator = 1;
-					start_game.world_gamemode = 1;
-					start_game.difficulty = 0;
-					start_game.spawn_position.x = 0;
-					start_game.spawn_position.y = 5;
-					start_game.spawn_position.z = 0;
-					start_game.achievements_disabled = 0;
-					start_game.day_cycle_stop_time = 0;
-					start_game.edu_offer = 0;
-					start_game.edu_features_enabled = 0;
-					start_game.edu_product_uuid = "";
-					start_game.rain_level = 0.0;
-					start_game.lightning_level = 0.0;
-					start_game.has_confirmed_platform_locked_content = 0;
-					start_game.is_multiplayer = 1;
-					start_game.broadcast_to_lan = 1;
-					start_game.xbox_live_broadcast_mode = 4;
-					start_game.platform_broadcast_mode = 4;
-					start_game.enable_commands = 1;
-					start_game.are_texture_packs_required = 0;
-					start_game.gamerules.size = 0;
-					start_game.experiments.size = 0;
-					start_game.experiments_previously_used = 0;
-					start_game.bonus_chest = 0;
-					start_game.map_enabled = 0;
-					start_game.permission_level = 1;
-					start_game.server_chunk_tick_range = 0;
-					start_game.has_locked_behavior_pack = 0;
-					start_game.has_locked_texture_pack = 0;
-					start_game.is_from_locked_world_template = 0;
-					start_game.msa_gamertags_only = 0;
-					start_game.is_from_world_template = 0;
-					start_game.is_world_template_option_locked = 0;
-					start_game.only_spawn_v1_villagers = 0;
-					start_game.game_version = GAME_VERSION;
-					start_game.limited_world_width = 0;
-					start_game.limited_world_length = 0;
-					start_game.is_new_nether = 1;
-					start_game.edu_resource_uri.button_name = "";
-					start_game.edu_resource_uri.link_uri = "";
-					start_game.experimental_gameplay_override = 0;
-					start_game.level_id = "";
-					start_game.world_name = "";
-					start_game.premium_world_template_id = "";
-					start_game.is_trial = 0;
-					start_game.movement_authority = 0;
-					start_game.rewind_history_size = 0;
-					start_game.server_authoritative_block_breaking = 0;
-					start_game.current_tick = 0;
-					start_game.enchantment_seed = 0;
-					start_game.block_properties.size = 0;
-					start_game.item_states = resources.item_states;
-					start_game.multiplayer_correlation_id = "";
-					start_game.server_authoritative_inventory = 0;
-					start_game.engine = GAME_ENGINE;
-					start_game.block_pallete_checksum = 0;
-					put_packet_start_game(start_game, (&(streams[0])));
-					packet_creative_content_t creative_content;
-					creative_content.size = resources.creative_items.size;
-					creative_content.entry_ids = (uint32_t *) malloc(creative_content.size * sizeof(uint32_t));
-					size_t ii;
-					for (ii = 0; ii < creative_content.size; ++ii) {
-						creative_content.entry_ids[i] = i + 1;
-					}
-					creative_content.items = resources.creative_items.entries;
-					put_packet_creative_content(creative_content, (&(streams[1])));
-					free(creative_content.entry_ids);
-					packet_biome_definition_list_t biome_definition_list;
-					biome_definition_list.nbt = resources.biome_definitions;
-					put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
-					packet_available_entity_identifiers_t available_entity_identifiers;
-					available_entity_identifiers.nbt = resources.entity_identifiers;
-					put_packet_available_entity_identifiers(available_entity_identifiers, (&(streams[3])));
-					send_minecraft_packet(streams, streams_count, connection, server);
-					free(streams[0].buffer);
-					free(streams[1].buffer);
-					free(streams[2].buffer);
-					free(streams[3].buffer);
-					free(streams);
-				}
-				int16_t ii;
-				for (ii = 0; ii < resource_pack_client_response.resource_pack_ids.size; ++ii) {
-					free(resource_pack_client_response.resource_pack_ids.ids[i]);
-				}
-				free(resource_pack_client_response.resource_pack_ids.ids);
-			} else if (mc_packet_id == ID_REQUEST_CHUNK_RADIUS) {
-				handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, player, &resources);
-			} else if (mc_packet_id == ID_INTERACT) {
-				handle_packet_interact((&(game.streams[i])), connection, server, player, &resources);
-			} else if (mc_packet_id == ID_TEXT) {
-				/* Just for debugging
+	if ((frame.stream.buffer[0] & 0xFF) == ID_GAME) {
+		packet_game_t game = get_packet_game(((&(frame.stream))));
+		size_t i;
+		for (i = 0; i < game.streams_count; ++i) {
+			/* printf("MINECRAFT: 0x%X\n", game.streams[i].buffer[0] & 0xff); */
+			if ((game.streams[i].buffer[0] & 0xFF) == ID_LOGIN) {
+				handle_packet_login((&(game.streams[i])), connection, server, &player_manager);
+			} else {
 				minecraft_player_t *player = get_minecraft_player_address(connection->address, &player_manager);
-				if (player == NULL) continue;
-				if (player->spawned == 0) continue;
-				send_raknet_shutdown(server);
-				*/
-			} else if (mc_packet_id == ID_CONTAINER_CLOSE) {
-				handle_packet_window_close((&(game.streams[i])), connection, server);
-			} else if (mc_packet_id == ID_MOVE_PLAYER) {
-				handle_packet_move_player((&(game.streams[i])), connection, server, player, &resources);
+				if (player == NULL) {
+					break;
+				}
+				if ((game.streams[i].buffer[0] & 0xFF) == 0x9C) {
+					int ii;
+					for (ii = 0; ii < game.streams[i].size; ++ii) {
+						printf("\\x%X", game.streams[i].buffer[ii] & 0xFF);
+					}
+					printf("\n");
+				} else if ((game.streams[i].buffer[0] & 0xFF) == ID_RESOURCE_PACK_CLIENT_RESPONSE) {
+					packet_resource_pack_client_response_t resource_pack_client_response = get_packet_resource_pack_client_response(((&(game.streams[i]))));
+					if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_NONE || resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_HAVE_ALL_PACKS) {
+						size_t streams_count = 1;
+						binary_stream_t *streams = (binary_stream_t *) malloc(sizeof(binary_stream_t));
+						streams[0].buffer = (int8_t *) malloc(0);
+						streams[0].size = 0;
+						streams[0].offset = 0;
+						packet_resource_pack_stack_t resource_pack_stack;
+						resource_pack_stack.must_accept = 0;
+						resource_pack_stack.behavior_packs.size = 0;
+						resource_pack_stack.resource_packs.size = 0;
+						resource_pack_stack.game_version = GAME_VERSION;
+						resource_pack_stack.experiments.size = 0;
+						resource_pack_stack.experiments_previously_used = 0;
+						put_packet_resource_pack_stack(resource_pack_stack, (&(streams[0])));
+						send_minecraft_packet(streams, streams_count, connection, server);
+						free(streams[0].buffer);
+						free(streams);
+					} else if (resource_pack_client_response.response_status == RESOURCE_PACK_CLIENT_RESPONSE_COMPLETED) {
+						size_t streams_count = 4;
+						binary_stream_t *streams = (binary_stream_t *) malloc(streams_count * sizeof(binary_stream_t));
+						streams[0].buffer = (int8_t *) malloc(0);
+						streams[0].size = 0;
+						streams[0].offset = 0;
+						streams[1].buffer = (int8_t *) malloc(0);
+						streams[1].size = 0;
+						streams[1].offset = 0;
+						streams[2].buffer = (int8_t *) malloc(0);
+						streams[2].size = 0;
+						streams[2].offset = 0;
+						streams[3].buffer = (int8_t *) malloc(0);
+						streams[3].size = 0;
+						streams[3].offset = 0;
+						packet_start_game_t start_game;
+						start_game.entity_id = 0;
+						start_game.runtime_entity_id = 0;
+						start_game.player_gamemode = 1;
+						start_game.player_x = 0.0;
+						start_game.player_y = 9.0;
+						start_game.player_z = 0.0;
+						start_game.pitch = 0.0;
+						start_game.yaw = 0.0;
+						start_game.seed = 0;
+						start_game.biome_type = 0;
+						start_game.biome_name = "";
+						start_game.dimension = 0;
+						start_game.generator = 1;
+						start_game.world_gamemode = 1;
+						start_game.difficulty = 0;
+						start_game.spawn_x = 0;
+						start_game.spawn_y = 9;
+						start_game.spawn_z = 0;
+						start_game.achievements_disabled = 0;
+						start_game.day_cycle_stop_time = 0;
+						start_game.edu_offer = 0;
+						start_game.edu_features_enabled = 0;
+						start_game.edu_product_uuid = "";
+						start_game.rain_level = 0.0;
+						start_game.lightning_level = 0.0;
+						start_game.has_confirmed_platform_locked_content = 0;
+						start_game.is_multiplayer = 1;
+						start_game.broadcast_to_lan = 1;
+						start_game.xbox_live_broadcast_mode = 4;
+						start_game.platform_broadcast_mode = 4;
+						start_game.enable_commands = 1;
+						start_game.are_texture_packs_required = 0;
+						start_game.gamerules.size = 0;
+						start_game.experiments.size = 0;
+						start_game.experiments_previously_used = 0;
+						start_game.bonus_chest = 0;
+						start_game.map_enabled = 0;
+						start_game.permission_level = 1;
+						start_game.server_chunk_tick_range = 0;
+						start_game.has_locked_behavior_pack = 0;
+						start_game.has_locked_texture_pack = 0;
+						start_game.is_from_locked_world_template = 0;
+						start_game.msa_gamertags_only = 0;
+						start_game.is_from_world_template = 0;
+						start_game.is_world_template_option_locked = 0;
+						start_game.only_spawn_v1_villagers = 0;
+						start_game.game_version = GAME_VERSION;
+						start_game.limited_world_width = 0;
+						start_game.limited_world_length = 0;
+						start_game.is_new_nether = 1;
+						start_game.edu_resource_uri.button_name = "";
+						start_game.edu_resource_uri.link_uri = "";
+						start_game.experimental_gameplay_override = 0;
+						start_game.level_id = "";
+						start_game.world_name = "";
+						start_game.premium_world_template_id = "";
+						start_game.is_trial = 0;
+						start_game.movement_authority = 0;
+						start_game.rewind_history_size = 0;
+						start_game.server_authoritative_block_breaking = 0;
+						start_game.current_tick = 0;
+						start_game.enchantment_seed = 0;
+						start_game.block_properties.size = 0;
+						start_game.item_states = resources.item_states;
+						start_game.multiplayer_correlation_id = "";
+						start_game.server_authoritative_inventory = 0;
+						start_game.engine = GAME_ENGINE;
+						start_game.block_pallete_checksum = 0;
+						put_packet_start_game(start_game, (&(streams[0])));
+						packet_creative_content_t creative_content;
+						creative_content.size = resources.creative_items.size;
+						creative_content.entry_ids = (uint32_t *) malloc(creative_content.size * sizeof(uint32_t));
+						size_t ii;
+							for (ii = 0; ii < creative_content.size; ++ii) {
+							creative_content.entry_ids[i] = i + 1;
+						}
+						creative_content.items = resources.creative_items.entries;
+						put_packet_creative_content(creative_content, (&(streams[1])));
+						free(creative_content.entry_ids);
+						packet_biome_definition_list_t biome_definition_list;
+						biome_definition_list.nbt = resources.biome_definitions;
+						put_packet_biome_definition_list(biome_definition_list, (&(streams[2])));
+						packet_available_entity_identifiers_t available_entity_identifiers;
+						available_entity_identifiers.nbt = resources.entity_identifiers;
+						put_packet_available_entity_identifiers(available_entity_identifiers, (&(streams[3])));
+						send_minecraft_packet(streams, streams_count, connection, server);
+						free(streams[0].buffer);
+						free(streams[1].buffer);
+						free(streams[2].buffer);
+						free(streams[3].buffer);
+						free(streams);
+					}
+					int16_t ii;
+					for (ii = 0; ii < resource_pack_client_response.resource_pack_ids.size; ++ii) {
+						free(resource_pack_client_response.resource_pack_ids.ids[i]);
+					}
+					free(resource_pack_client_response.resource_pack_ids.ids);
+				} else if ((game.streams[i].buffer[0] & 0xFF) == ID_REQUEST_CHUNK_RADIUS) {
+					handle_packet_request_chunk_radius((&(game.streams[i])), connection, server, player, &resources);
+				} else if ((game.streams[i].buffer[0] & 0xFF) == ID_INTERACT) {
+					handle_packet_interact((&(game.streams[i])), connection, server, player, &resources);
+				} else if ((game.streams[i].buffer[0] & 0xFF) == 0x09) {
+					/* Just for debugging
+					minecraft_player_t *player = get_minecraft_player_address(connection->address, &player_manager);
+					if (player == NULL) continue;
+					if (player->spawned == 0) continue;
+					send_raknet_shutdown(server);
+					*/
+				} else if ((game.streams[i].buffer[0] & 0xFF) == ID_CONTAINER_CLOSE) {
+					handle_packet_window_close((&(game.streams[i])), connection, server);
+				} else if ((game.streams[i].buffer[0] & 0xFF) == ID_MOVE_PLAYER) {
+					handle_packet_move_player((&(game.streams[i])), connection, server, player, &resources);
+				}
 			}
+			free(game.streams[i].buffer);
 		}
-		free(game.streams[i].buffer);
+		free(game.streams);
 	}
-	free(game.streams);
 }
 
 int main(int argc, char **argv)
@@ -303,7 +296,7 @@ int main(int argc, char **argv)
 	player_manager.players = (minecraft_player_t *) malloc(0);
 	raknet_server = create_raknet_server(1, "0.0.0.0", 19132, 4, on_f, on_nic, on_dn);
 	run_raknet_server(&raknet_server);
-	send_set_raknet_option("name", "MCPE;Dedicated Server;503;1.18.31;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
+	send_set_raknet_option("name", "MCPE;Dedicated Server;486;1.18.11;0;10;13253860892328930865;Bedrock level;Survival;1;19132;19133;", &raknet_server);
 	command_manager_t command_manager;
 	command_manager.commands = (command_t *) malloc(0);
 	command_manager.commands_count = 0;

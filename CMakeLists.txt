@@ -2,9 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 project(PodrumR3)
 
 set(CMAKE_C_STANDARD 11)
-set(USE_LEAK_DETECTOR 1)
-
-set(_CRT_SECURE_NO_WARNINGS)
+set(USE_LEAK_DETECTOR 0)
 
 file(GLOB CBINARYSTREAM cbinarystream/*.c)
 file(GLOB CNBT cnbt/*.c)
