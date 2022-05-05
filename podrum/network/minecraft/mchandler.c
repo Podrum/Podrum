@@ -141,9 +141,9 @@ void handle_packet_interact(binary_stream_t *stream, connection_t *connection, r
 			send_raknet_disconnect_notification(connection->address, server, INTERNAL_THREADED_TO_MAIN);
 		}
 		container_open.window_type = WINDOW_TYPE_INVENTORY;
-		container_open.coordinates_x = (int32_t) player->x;
-		container_open.coordinates_y = (uint32_t) (((int32_t) player->y) & 0xffffffff);
-		container_open.coordinates_z = (int32_t) player->z;
+		container_open.block_position.x = (int32_t) player->x;
+		container_open.block_position.y = (uint32_t) (((int32_t) player->y) & 0xffffffff);
+		container_open.block_position.z = (int32_t) player->z;
 		container_open.runtime_entity_id = player->entity_id;
 		put_packet_container_open(container_open, (&(streams[0])));
 		send_minecraft_packet(streams, 1, connection, server);

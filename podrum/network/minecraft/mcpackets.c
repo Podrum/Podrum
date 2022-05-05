@@ -135,11 +135,11 @@ packet_interact_t get_packet_interact(binary_stream_t *stream)
 	get_var_int(stream); /* Packet ID */
 	packet_interact_t interact;
 	interact.action_id = get_unsigned_byte(stream);
-	interact.target_entity_id = get_var_long(stream);
+	interact.target_runtime_entity_id = get_var_long(stream);
 	if (interact.action_id == INTERACT_LEAVE_VEHICLE || interact.action_id == INTERACT_MOUSE_OVER_ENTITY) {
-		interact.position_x = get_float_le(stream);
-		interact.position_y = get_float_le(stream);
-		interact.position_z = get_float_le(stream);
+		interact.position.x = get_float_le(stream);
+		interact.position.y = get_float_le(stream);
+		interact.position.z = get_float_le(stream);
 	}
 	return interact;
 }
@@ -150,9 +150,9 @@ packet_container_open_t get_packet_container_open(binary_stream_t *stream)
 	packet_container_open_t container_open;
 	container_open.window_id = get_byte(stream);
 	container_open.window_type = get_byte(stream);
-	container_open.coordinates_x = get_signed_var_int(stream);
-	container_open.coordinates_y = get_var_int(stream);
-	container_open.coordinates_z = get_signed_var_int(stream);
+	container_open.block_position.x = get_signed_var_int(stream);
+	container_open.block_position.y = get_var_int(stream);
+	container_open.block_position.z = get_signed_var_int(stream);
 	container_open.runtime_entity_id = get_signed_var_long(stream);
 	return container_open;
 }
@@ -407,11 +407,11 @@ void put_packet_interact(packet_interact_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_INTERACT, stream);
 	put_unsigned_byte(packet.action_id, stream);
-	put_var_long(packet.target_entity_id, stream);
+	put_var_long(packet.target_runtime_entity_id, stream);
 	if (packet.action_id == INTERACT_LEAVE_VEHICLE || packet.action_id == INTERACT_MOUSE_OVER_ENTITY) {
-		put_float_le(packet.position_x, stream);
-		put_float_le(packet.position_y, stream);
-		put_float_le(packet.position_z, stream);
+		put_float_le(packet.position.x, stream);
+		put_float_le(packet.position.y, stream);
+		put_float_le(packet.position.z, stream);
 	}
 }
 
@@ -420,9 +420,9 @@ void put_packet_container_open(packet_container_open_t packet, binary_stream_t *
 	put_var_int(ID_CONTAINER_OPEN, stream);
 	put_byte(packet.window_id, stream);
 	put_byte(packet.window_type, stream);
-	put_signed_var_int(packet.coordinates_x, stream);
-	put_var_int(packet.coordinates_y, stream);
-	put_signed_var_int(packet.coordinates_z, stream);
+	put_signed_var_int(packet.block_position.x, stream);
+	put_var_int(packet.block_position.y, stream);
+	put_signed_var_int(packet.block_position.z, stream);
 	put_signed_var_long(packet.runtime_entity_id, stream);
 }
 void put_packet_container_close(packet_container_close_t packet, binary_stream_t *stream)
