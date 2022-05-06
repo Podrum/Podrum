@@ -141,9 +141,9 @@ void handle_packet_interact(binary_stream_t *stream, connection_t *connection, r
 			send_raknet_disconnect_notification(connection->address, server, INTERNAL_THREADED_TO_MAIN);
 		}
 		container_open.window_type = WINDOW_TYPE_INVENTORY;
-		container_open.coordinates_x = (int32_t) player->x;
-		container_open.coordinates_y = (uint32_t) (((int32_t) player->y) & 0xffffffff);
-		container_open.coordinates_z = (int32_t) player->z;
+		container_open.block_position.x = (int32_t) player->x;
+		container_open.block_position.y = (uint32_t) (((int32_t) player->y) & 0xffffffff);
+		container_open.block_position.z = (int32_t) player->z;
 		container_open.runtime_entity_id = player->entity_id;
 		put_packet_container_open(container_open, (&(streams[0])));
 		send_minecraft_packet(streams, 1, connection, server);
@@ -192,13 +192,13 @@ void handle_packet_move_player(binary_stream_t *stream, connection_t *connection
 {
 	packet_move_player_t move_player = get_packet_move_player(stream);
 	if (player->spawned == 1) {
-		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
+		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position.x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position.z) / 16)) {
 			send_chunks(resources->block_states, player, connection, server);
 		}
 	}
-	player->x = move_player.position_x;
-	player->y = move_player.position_y;
-	player->z = move_player.position_z;
+	player->x = move_player.position.x;
+	player->y = move_player.position.y;
+	player->z = move_player.position.z;
 	player->pitch = move_player.pitch;
 	player->yaw = move_player.yaw;
 }

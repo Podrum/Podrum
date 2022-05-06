@@ -27,4 +27,10 @@ void log_critical(char *message);
 
 void log_debug(char *message);
 
+void log_packet(char *message);
+
+void log_packet_send(int packet_id);
+
+void log_packet_recieve(int packet_id);
+
 #endif

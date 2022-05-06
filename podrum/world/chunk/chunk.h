@@ -9,6 +9,7 @@
 #ifndef PODRUM_WORLD_CHUNK_CHUNK_H
 #define PODRUM_WORLD_CHUNK_CHUNK_H
 
+#include <stdbool.h>
 #include <podrum/debug.h>
 #include <podrum/world/chunk/subchunk.h>
 
@@ -18,9 +19,14 @@
 typedef struct {
 	int32_t x;
 	int32_t z;
+  bool is_changed;
 	sub_chunk_t *sub_chunks;
 	block_storage_t *biomes;
 } chunk_t;
+
+typedef struct {
+  chunk_t *chunks;
+} chunk_storage_t;
 
 chunk_t new_chunk(int32_t x, int32_t z, int32_t air_runtime_id);
 
