@@ -192,13 +192,13 @@ void handle_packet_move_player(binary_stream_t *stream, connection_t *connection
 {
 	packet_move_player_t move_player = get_packet_move_player(stream);
 	if (player->spawned == 1) {
-		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position_x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position_z) / 16)) {
+		if (floor(floor(player->x) / 16.0) != floor(floor(move_player.position.x) / 16.0) || floor(floor(player->z) / 16.0) != floor(floor(move_player.position.z) / 16)) {
 			send_chunks(resources->block_states, player, connection, server);
 		}
 	}
-	player->x = move_player.position_x;
-	player->y = move_player.position_y;
-	player->z = move_player.position_z;
+	player->x = move_player.position.x;
+	player->y = move_player.position.y;
+	player->z = move_player.position.z;
 	player->pitch = move_player.pitch;
 	player->yaw = move_player.yaw;
 }

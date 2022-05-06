@@ -110,6 +110,12 @@ typedef struct {
 } vec2f_t;
 
 typedef struct {
+	uint32_t x;
+	uint32_t y;
+	uint32_t z;
+} vec3u_t;
+
+typedef struct {
 	float x;
 	float y;
 	float z;
@@ -157,6 +163,31 @@ typedef struct {
 	bool has_scripts;
 	bool rtx_enabled;
 } misc_texture_pack_info_t;
+
+typedef struct {
+	char *palette_name;
+	bool ignore_entities;
+	bool ignore_blocks;
+	misc_block_coordinates_t size;
+	misc_block_coordinates_t offset;
+	int64_t last_editing_player_unique_id ;
+	uint8_t rotation;
+	uint8_t mirror;
+	uint8_t animation_mode;
+	float animation_duration;
+	float integrity;
+	uint32_t seed;
+	vec3f_t pivot;
+} misc_structure_block_settings_t;
+
+typedef struct {
+	int64_t scoreboard_id;
+	char *objective_name;
+	int32_t score;
+	int8_t entry_type;
+	int64_t entity_unique_id;
+	char *custom_name;
+} misc_scoreboard_entry_t;
 
 typedef struct {
 	misc_texture_pack_info_t *infos;
@@ -502,6 +533,76 @@ typedef struct {
 	uint32_t count;
 	misc_player_record_t *records;
 } misc_player_records_t;
+
+typedef struct {
+	uint8_t type;
+	uint32_t value;
+} misc_enum_value_t;
+
+typedef struct {
+	char *name;
+	uint32_t values_count;
+	misc_enum_value_t *values;
+} misc_enum_t;
+
+typedef struct {
+	char *name;
+	uint16_t value_type;
+	uint16_t enum_type;
+	bool optional;
+	uint8_t options;
+} misc_command_data_overload_parameter_t;
+
+typedef struct {
+	misc_command_data_overload_parameter_t *parameters;
+} misc_command_data_overload_t;
+
+typedef struct {
+	char *name;
+	uint32_t values_count;
+	char **values;
+} misc_dynamic_enum_t;
+
+typedef struct {
+	int32_t value_index;
+	int32_t enum_index;
+	uint32_t constrains_count;
+	uint8_t *constrains;
+	char **values;
+} misc_enum_constraints_t;
+
+typedef struct {
+	char *name;
+	char *description;
+	uint16_t flags;
+	uint8_t permission_level;
+	int32_t alias;
+	uint32_t overloads_count;
+	misc_command_data_overload_t *overloads;
+} misc_command_data_t;
+
+typedef struct {
+	uint32_t type;
+	char *uuid;
+	char *request_id;
+	int64_t player_entity_id;
+} misc_command_origin_t;
+
+typedef struct {
+	bool success;
+	char *message_id;
+	uint32_t parameters_count;
+	char **parameters;
+} misc_command_output_t;
+
+typedef struct {
+	int64_t scoreboard_id;
+	int64_t entity_unique_id;
+} misc_scoreboard_identity_entry_t;
+
+typedef struct {
+	binary_stream_t data;
+} misc_nbt_loop_t;
 
 char *get_misc_string_var_int(binary_stream_t *stream);
 

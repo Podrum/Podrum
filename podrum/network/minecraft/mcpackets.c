@@ -171,9 +171,9 @@ packet_move_player_t get_packet_move_player(binary_stream_t *stream)
 	get_var_int(stream); /* Packet ID */
 	packet_move_player_t move_player;
 	move_player.runtime_id = get_var_int(stream);
-	move_player.position_x = get_float_le(stream);
-	move_player.position_y = get_float_le(stream);
-	move_player.position_z = get_float_le(stream);
+	move_player.position.x = get_float_le(stream);
+	move_player.position.y = get_float_le(stream);
+	move_player.position.z = get_float_le(stream);
 	move_player.pitch = get_float_le(stream);
 	move_player.yaw = get_float_le(stream);
 	move_player.head_yaw = get_float_le(stream);
@@ -181,8 +181,8 @@ packet_move_player_t get_packet_move_player(binary_stream_t *stream)
 	move_player.on_ground = get_unsigned_byte(stream);
 	move_player.ridden_runtime_id = get_var_int(stream);
 	if (move_player.mode == MOVE_PLAYER_MODE_TELEPORT) {
-		move_player.teleport_cause = get_int_le(stream);
-		move_player.teleport_source_entity_type = get_int_le(stream);
+		move_player.teleport.cause = get_int_le(stream);
+		move_player.teleport.source_entity_type = get_int_le(stream);
 	}
 	move_player.tick = get_var_long(stream);
 	return move_player;
@@ -192,9 +192,9 @@ packet_network_chunk_publisher_update_t get_packet_network_chunk_publisher_updat
 {
 	get_var_int(stream); /* Packet ID */
 	packet_network_chunk_publisher_update_t network_chunk_publisher_update;
-	network_chunk_publisher_update.x = get_signed_var_int(stream);
-	network_chunk_publisher_update.y = get_var_int(stream);
-	network_chunk_publisher_update.z = get_signed_var_int(stream);
+	network_chunk_publisher_update.position.x = get_signed_var_int(stream);
+	network_chunk_publisher_update.position.y = get_var_int(stream);
+	network_chunk_publisher_update.position.z = get_signed_var_int(stream);
 	network_chunk_publisher_update.radius = get_var_int(stream);
 	return network_chunk_publisher_update;
 }
@@ -314,9 +314,9 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 	put_signed_var_long(packet.entity_id, stream);
 	put_var_long(packet.runtime_entity_id, stream);
 	put_signed_var_int(packet.player_gamemode, stream);
-	put_float_le(packet.player_x, stream);
-	put_float_le(packet.player_y, stream);
-	put_float_le(packet.player_z, stream);
+	put_float_le(packet.player_position.x, stream);
+	put_float_le(packet.player_position.y, stream);
+	put_float_le(packet.player_position.z, stream);
 	put_float_le(packet.pitch, stream);
 	put_float_le(packet.yaw, stream);
 	put_long_le(packet.seed, stream);
@@ -326,9 +326,9 @@ void put_packet_start_game(packet_start_game_t packet, binary_stream_t *stream)
 	put_signed_var_int(packet.generator, stream);
 	put_signed_var_int(packet.world_gamemode, stream);
 	put_signed_var_int(packet.difficulty, stream);
-	put_signed_var_int(packet.spawn_x, stream);
-	put_var_int(packet.spawn_y, stream);
-	put_signed_var_int(packet.spawn_z, stream);
+	put_signed_var_int(packet.spawn_position.x, stream);
+	put_var_int(packet.spawn_position.y, stream);
+	put_signed_var_int(packet.spawn_position.z, stream);
 	put_unsigned_byte(packet.achievements_disabled, stream);
 	put_signed_var_int(packet.day_cycle_stop_time, stream);
 	put_signed_var_int(packet.edu_offer, stream);
@@ -436,9 +436,9 @@ void put_packet_move_player(packet_move_player_t packet, binary_stream_t *stream
 {
 	put_var_int(ID_MOVE_PLAYER, stream);
 	put_var_int(packet.runtime_id, stream);
-	put_float_le(packet.position_x, stream);
-	put_float_le(packet.position_y, stream);
-	put_float_le(packet.position_z, stream);
+	put_float_le(packet.position.x, stream);
+	put_float_le(packet.position.y, stream);
+	put_float_le(packet.position.z, stream);
 	put_float_le(packet.pitch, stream);
 	put_float_le(packet.yaw, stream);
 	put_float_le(packet.head_yaw, stream);
@@ -446,8 +446,8 @@ void put_packet_move_player(packet_move_player_t packet, binary_stream_t *stream
 	put_unsigned_byte(packet.on_ground, stream);
 	put_var_int(packet.ridden_runtime_id, stream);
 	if (packet.mode == MOVE_PLAYER_MODE_TELEPORT) {
-		put_int_le(packet.teleport_cause, stream);
-		put_int_le(packet.teleport_source_entity_type, stream);
+		put_int_le(packet.teleport.cause, stream);
+		put_int_le(packet.teleport.source_entity_type, stream);
 	}
 	put_var_long(packet.tick, stream);
 }
@@ -455,9 +455,9 @@ void put_packet_move_player(packet_move_player_t packet, binary_stream_t *stream
 void put_packet_network_chunk_publisher_update(packet_network_chunk_publisher_update_t packet, binary_stream_t *stream)
 {
 	put_var_int(ID_NETWORK_CHUNK_PUBLISHER_UPDATE, stream);
-	put_signed_var_int(packet.x, stream);
-	put_var_int(packet.y, stream);
-	put_signed_var_int(packet.z, stream);
+	put_signed_var_int(packet.position.x, stream);
+	put_var_int(packet.position.y, stream);
+	put_signed_var_int(packet.position.z, stream);
 	put_var_int(packet.radius, stream);
 }
 

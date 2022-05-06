@@ -39,9 +39,9 @@ void send_network_chunk_publisher_update(minecraft_player_t *player, connection_
 	streams[0].size = 0;
 	streams[0].offset = 0;
 	packet_network_chunk_publisher_update_t network_chunk_publisher_update;
-	network_chunk_publisher_update.x = (int32_t) floor(player->x);
-	network_chunk_publisher_update.y = (int32_t) (((int32_t) floor(player->y)) & 0xffffffff);
-	network_chunk_publisher_update.z = (int32_t) floor(player->z);
+	network_chunk_publisher_update.position.x = (int32_t) floor(player->x);
+	network_chunk_publisher_update.position.y = (int32_t) (((int32_t) floor(player->y)) & 0xffffffff);
+	network_chunk_publisher_update.position.z = (int32_t) floor(player->z);
 	network_chunk_publisher_update.radius = player->view_distance << 4;
 	put_packet_network_chunk_publisher_update(network_chunk_publisher_update, (&(streams[0])));
 	send_minecraft_packet(streams, 1, connection, server);
